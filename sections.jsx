@@ -844,14 +844,14 @@ function Offer({ t }){
                 ))}
               </div>
               <div className="value-total">
-                <span className="value-total-label">Valor de lançamento</span>
-                <s className="value-total-num">{t.currency} {t.priceFull},00</s>
+                <span className="value-total-label">Tudo isso custaria</span>
+                <span className="value-total-num">R$ 1.285,00</span>
               </div>
             </div>
 
             {/* RIGHT: price box */}
             <div className="offer-price">
-              <div className="offer-price-old">de {t.currency} {t.priceFull},00</div>
+              <div className="offer-price-launch-label">Mas você leva tudo pelo<br/>valor de lançamento de:</div>
               <div className="offer-price-installment">
                 <span className="price-times">6x</span>
                 <div className="price-main">

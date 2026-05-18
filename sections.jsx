@@ -845,7 +845,7 @@ function Offer({ t }){
               </div>
               <div className="value-total">
                 <span className="value-total-label">Tudo isso custaria</span>
-                <span className="value-total-num">R$ 1.285,00</span>
+                <span className="value-total-num">R$ 997,00</span>
               </div>
             </div>
 

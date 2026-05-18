@@ -1431,6 +1431,9 @@ button{ font: inherit; cursor: pointer; }
   font-weight: 700;
   color: var(--brand-gold, #F0B429);
   letter-spacing: -.02em;
+  text-decoration: line-through;
+  text-decoration-color: rgba(232,64,0,.7);
+  text-decoration-thickness: 2px;
 }
 
 .offer-list{

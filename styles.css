@@ -679,6 +679,14 @@ button{ font: inherit; cursor: pointer; }
 .problem-conclusion strong{ font-weight: 900; color: var(--accent); }
 
 /* ── Noise strip — ruído acumulado ── */
+.noise-strip-label{
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 16px;
+}
 .noise-strip{
   display: grid;
   grid-template-columns: repeat(3, auto);

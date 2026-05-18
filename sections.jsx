@@ -269,6 +269,7 @@ function Problem({ t }){
         </div>
 
         {/* Ruído acumulado */}
+        <div className="noise-strip-label reveal">O que você já tentou</div>
         <div className="noise-strip reveal">
           {noiseCards.map((c, i) => (
             <div key={i} className="noise-card">

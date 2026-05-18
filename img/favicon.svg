@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- background -->
+  <rect width="64" height="64" rx="14" fill="#050D1F"/>
+  <!-- outer hex -->
+  <polygon points="32,4 56,18 56,46 32,60 8,46 8,18"
+    fill="none" stroke="url(#sg)" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- inner hex -->
+  <polygon points="32,14 48,23 48,41 32,50 16,41 16,23"
+    fill="#050D1F" stroke="#0033AA" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- spokes: center to vertices -->
+  <line x1="32" y1="32" x2="32" y2="14"  stroke="#0055FF" stroke-width="1" opacity=".7"/>
+  <line x1="32" y1="32" x2="48" y2="23"  stroke="#0055FF" stroke-width="1" opacity=".7"/>
+  <line x1="32" y1="32" x2="48" y2="41"  stroke="#0055FF" stroke-width="1" opacity=".7"/>
+  <line x1="32" y1="32" x2="32" y2="50"  stroke="#F0B429" stroke-width="1" opacity=".9"/>
+  <line x1="32" y1="32" x2="16" y2="41"  stroke="#0055FF" stroke-width="1" opacity=".7"/>
+  <line x1="32" y1="32" x2="16" y2="23"  stroke="#0055FF" stroke-width="1" opacity=".7"/>
+  <!-- vertex nodes -->
+  <circle cx="32" cy="14" r="2.5" fill="#0055FF"/>
+  <circle cx="48" cy="23" r="2"   fill="#3399FF"/>
+  <circle cx="48" cy="41" r="2.5" fill="#0055FF"/>
+  <circle cx="32" cy="50" r="2.5" fill="#F0B429"/>
+  <circle cx="16" cy="41" r="2.5" fill="#0055FF"/>
+  <circle cx="16" cy="23" r="2"   fill="#3399FF"/>
+  <!-- center nucleus -->
+  <circle cx="32" cy="32" r="5.5" fill="url(#gc)"/>
+  <!-- gradients -->
+  <defs>
+    <linearGradient id="sg" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0055FF"/>
+      <stop offset="100%" stop-color="#F0B429"/>
+    </linearGradient>
+    <radialGradient id="gc" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFD700"/>
+      <stop offset="100%" stop-color="#C8960A"/>
+    </radialGradient>
+  </defs>
+</svg>

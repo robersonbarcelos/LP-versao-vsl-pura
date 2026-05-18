@@ -2345,7 +2345,7 @@ body.cursor-on a, body.cursor-on button{ cursor: none; }
   color: var(--accent); opacity: .75; margin-bottom: 16px;
 }
 .diego-speech { display: flex; flex-direction: column; gap: 12px; }
-.diego-speech p { font-size: 15px; color: var(--ink-2); line-height: 1.6; }
+.diego-speech p { font-size: 15px; color: var(--ink-2); line-height: 1.6; margin: 0; }
 .diego-speech p strong { color: var(--ink); font-weight: 600; }
 
 /* Badges do proof */
@@ -2366,11 +2366,12 @@ body.cursor-on a, body.cursor-on button{ cursor: none; }
   border-radius: 20px;
   background: var(--bg-2);
   overflow: hidden;
-  display: grid;
-  grid-template-rows: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
 }
 .agent-photo-box {
-  height: auto;
+  height: 260px;
+  flex-shrink: 0;
   background: #0d1320;
   position: relative; overflow: hidden;
   display: flex; align-items: center; justify-content: center;

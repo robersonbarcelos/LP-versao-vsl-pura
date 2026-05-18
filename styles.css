@@ -468,7 +468,7 @@ button{ font: inherit; cursor: pointer; }
   opacity: .55;
 }
 @media (max-width: 920px){
-  .hero-foto-c { aspect-ratio: 3/2; }
+  .hero-foto-c { display: none; }
 }
 
 /* Hero side visual — chat com agente */

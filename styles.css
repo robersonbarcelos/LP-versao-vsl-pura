@@ -463,9 +463,9 @@ button{ font: inherit; cursor: pointer; }
 }
 .hero-foto-c::after {
   content: '';
-  position: absolute; top: 16%; bottom: 16%; left: 0; width: 1px; z-index: 2;
-  background: linear-gradient(to bottom, transparent, var(--accent) 35%, var(--accent) 65%, transparent);
-  opacity: .55;
+  position: absolute; top: 10%; bottom: 10%; left: 0; width: 2px; z-index: 2;
+  background: linear-gradient(to bottom, transparent, var(--accent) 30%, var(--accent) 70%, transparent);
+  opacity: .85;
 }
 @media (max-width: 920px){
   .hero-foto-c { aspect-ratio: 3/2; }

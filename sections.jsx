@@ -851,7 +851,7 @@ function Offer({ t }){
 
             {/* RIGHT: price box */}
             <div className="offer-price">
-              <div className="offer-price-launch-label">Mas você leva tudo pelo<br/>valor de lançamento de:</div>
+              <div className="offer-price-launch-label">Mas hoje você paga apenas:</div>
               <div className="offer-price-installment">
                 <span className="price-times">6x</span>
                 <div className="price-main">

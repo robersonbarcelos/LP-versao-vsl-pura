@@ -95,12 +95,9 @@ function Nav({ t }){
 /* ───────────── HERO ───────────── */
 function Hero({ t }){
   return (
-    <section id="top" className="hero hero-foto-wrap">
+    <section id="top" className="hero">
       <div className="hero-orb a" data-parallax={t.parallax ? "0.06" : ""}/>
       <div className="hero-orb b" data-parallax={t.parallax ? "-0.04" : ""}/>
-      <div className="hero-foto-abs">
-        <img src="img/diego-8.png" alt="Diego com agentes de IA"/>
-      </div>
       <div className="container">
         <div className="hero-grid">
           <div>
@@ -118,7 +115,9 @@ function Hero({ t }){
               <span className="hero-actions-meta">Acesso vitalício · 7 dias de garantia</span>
             </div>
           </div>
-          <div/>
+          <div className="hero-foto-c">
+            <img src="img/diego-11.png" alt="Diego Spanevello"/>
+          </div>
         </div>
         <HeroPillars />
       </div>

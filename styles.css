@@ -449,28 +449,26 @@ button{ font: inherit; cursor: pointer; }
 .hero-orb.b{ width: 360px; height: 360px; background: color-mix(in oklab, var(--accent) 50%, #5b21b6); bottom: -100px; left: -100px; opacity: .20; }
 
 /* Hero foto — imagem absoluta na metade direita */
-.hero-foto-wrap{ overflow: hidden; }
-.hero-foto-abs{
-  position: absolute;
-  top: 0; right: 0; bottom: 0;
-  width: 65%;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
+/* Hero — Tratamento C: foto no grid, radial mask, fio laranja */
+.hero-foto-c {
+  position: relative;
+  aspect-ratio: 4/5;
 }
-.hero-foto-abs img{
+.hero-foto-c img {
   width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: center center;
+  object-fit: cover; object-position: center top;
   display: block;
-  transform: scale(0.58);
-  transform-origin: center center;
-  -webkit-mask-image: radial-gradient(ellipse 90% 85% at 50% 50%, black 0%, black 18%, transparent 58%);
-  mask-image:         radial-gradient(ellipse 90% 85% at 50% 50%, black 0%, black 18%, transparent 58%);
+  -webkit-mask-image: radial-gradient(ellipse 78% 84% at 58% 48%, black 28%, transparent 78%);
+  mask-image:         radial-gradient(ellipse 78% 84% at 58% 48%, black 28%, transparent 78%);
+}
+.hero-foto-c::after {
+  content: '';
+  position: absolute; top: 16%; bottom: 16%; left: 0; width: 1px; z-index: 2;
+  background: linear-gradient(to bottom, transparent, var(--accent) 35%, var(--accent) 65%, transparent);
+  opacity: .55;
 }
 @media (max-width: 920px){
-  .hero-foto-abs{ width: 100%; opacity: .25; }
-  .hero-foto-abs img{ transform: scale(0.9); }
+  .hero-foto-c { aspect-ratio: 3/2; }
 }
 
 /* Hero side visual — chat com agente */

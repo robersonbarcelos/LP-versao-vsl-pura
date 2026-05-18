@@ -468,7 +468,7 @@ button{ font: inherit; cursor: pointer; }
   opacity: .55;
 }
 @media (max-width: 920px){
-  .hero-foto-c { display: none; }
+  .hero-foto-c { aspect-ratio: 3/2; }
 }
 
 /* Hero side visual — chat com agente */
@@ -2378,7 +2378,7 @@ body.cursor-on a, body.cursor-on button{ cursor: none; }
   flex-direction: column;
 }
 .agent-photo-box {
-  height: 260px;
+  aspect-ratio: 1/1;
   flex-shrink: 0;
   background: #0d1320;
   position: relative; overflow: hidden;
@@ -2392,7 +2392,7 @@ body.cursor-on a, body.cursor-on button{ cursor: none; }
 }
 .agent-photo-img {
   width: 100%; height: 100%;
-  object-fit: cover; object-position: center top;
+  object-fit: contain; object-position: center center;
   display: block;
 }
 .agent-photo-fallback {

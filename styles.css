@@ -472,11 +472,10 @@ button{ font: inherit; cursor: pointer; }
     aspect-ratio: 4/3;
   }
   .hero-foto-c img {
-    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
-    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
-    object-position: center center;
+    object-position: center top;
+    -webkit-mask-image: radial-gradient(ellipse 92% 88% at 50% 48%, black 20%, transparent 72%);
+    mask-image:         radial-gradient(ellipse 92% 88% at 50% 48%, black 20%, transparent 72%);
   }
-  .hero-foto-c::after { display: none; }
 }
 
 /* Hero side visual — chat com agente */
@@ -2524,7 +2523,7 @@ body.cursor-on a, body.cursor-on button{ cursor: none; }
   width: max-content;
   animation: marquee-scroll 32s linear infinite;
 }
-.carousel-track:hover { animation-play-state: paused; }
+@media (hover: hover){ .carousel-track:hover { animation-play-state: paused; } }
 @keyframes marquee-scroll {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }

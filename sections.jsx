@@ -719,7 +719,17 @@ function Testimonials({ t }){
       </div>
 
       <div className="carousel-wrap">
-        <div className="carousel-track">
+        <div className="carousel-track"
+          onTouchStart={(e)=>{
+            const t = e.currentTarget;
+            t.style.animationPlayState = 'paused';
+            clearTimeout(t._resumeTimer);
+          }}
+          onTouchEnd={(e)=>{
+            const t = e.currentTarget;
+            t._resumeTimer = setTimeout(()=>{ t.style.animationPlayState = 'running'; }, 3000);
+          }}
+        >
           {repeated.map((s, i) => (
             <div key={i} className="testi-card">
               <div className="testi-hdr">

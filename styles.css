@@ -373,13 +373,16 @@ button{ font: inherit; cursor: pointer; }
   padding: clamp(60px, 8vw, 120px) 0 var(--pad-section);
   overflow: hidden;
 }
+.hero-container{ position: relative; z-index: 2; }
 .hero-grid{
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
-  gap: clamp(40px, 6vw, 80px);
-  align-items: center;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start;
+  position: relative;
+  z-index: 2;
 }
-@media (max-width: 920px){ .hero-grid{ grid-template-columns: 1fr; } }
+.hero-content{ max-width: 560px; }
 
 .hero-title{
   font-size: clamp(40px, 7vw, 96px);
@@ -450,32 +453,57 @@ button{ font: inherit; cursor: pointer; }
 
 /* Hero foto — imagem absoluta na metade direita */
 /* Hero — Tratamento C: foto no grid, radial mask, fio laranja */
+/* Hero foto — absoluta no lado direito, altura = viewport disponível */
 .hero-foto-c {
   position: relative;
-  aspect-ratio: 4/5;
+  height: clamp(420px, 60vh, 660px);
+  width: 100%;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: var(--r);
+  margin-top: 54px;
+}
+.hero-foto-c::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    var(--bg) 0%,
+    transparent 12%,
+    transparent 85%,
+    var(--bg) 100%
+  );
 }
 .hero-foto-c img {
   width: 100%; height: 100%;
-  object-fit: cover; object-position: center top;
+  object-fit: cover;
+  object-position: center center;
   display: block;
-  -webkit-mask-image: radial-gradient(ellipse 78% 84% at 58% 48%, black 28%, transparent 78%);
-  mask-image:         radial-gradient(ellipse 78% 84% at 58% 48%, black 28%, transparent 78%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 14%, black 100%);
+  mask-image:         linear-gradient(to right, transparent 0%, black 14%, black 100%);
 }
 .hero-foto-c::after {
   content: '';
-  position: absolute; top: 10%; bottom: 10%; left: 0; width: 2px; z-index: 2;
+  position: absolute; top: 12%; bottom: 12%; left: 0; width: 2px; z-index: 3;
   background: linear-gradient(to bottom, transparent, var(--accent) 30%, var(--accent) 70%, transparent);
-  opacity: .85;
+  opacity: .7;
 }
 @media (max-width: 920px){
+  .hero-grid{ grid-template-columns: 1fr; }
   .hero-foto-c {
-    aspect-ratio: 4/3;
+    height: 300px;
+    margin-top: 8px;
   }
   .hero-foto-c img {
-    object-position: center top;
-    -webkit-mask-image: radial-gradient(ellipse 92% 88% at 50% 48%, black 20%, transparent 72%);
-    mask-image:         radial-gradient(ellipse 92% 88% at 50% 48%, black 20%, transparent 72%);
+    object-position: center 30%;
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image:         linear-gradient(to bottom, black 60%, transparent 100%);
   }
+  .hero-foto-c::after { display: none; }
 }
 
 /* Hero side visual — chat com agente */

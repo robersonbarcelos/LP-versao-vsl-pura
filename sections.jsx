@@ -157,9 +157,9 @@ function Hero({ t }){
     <section id="top" className="hero">
       <div className="hero-orb a" data-parallax={t.parallax ? "0.06" : ""}/>
       <div className="hero-orb b" data-parallax={t.parallax ? "-0.04" : ""}/>
-      <div className="container">
+      <div className="container hero-container">
         <div className="hero-grid">
-          <div>
+          <div className="hero-content">
             <span className="eyebrow">{t.brandTag}</span>
             <h1 className="h-display hero-title reveal">{renderEmph(t.heroTitle)}</h1>
             <p className="lead reveal" style={{'--reveal-delay':'60ms'}}>{t.heroSub}</p>
@@ -175,7 +175,7 @@ function Hero({ t }){
             </div>
           </div>
           <div className="hero-foto-c">
-            <img src="img/diego-11.png" alt="Diego Spanevello"/>
+            <img src="img/DIEGOHERO02.png" alt="Diego Spanevello"/>
           </div>
         </div>
         <HeroPillars />
@@ -663,7 +663,7 @@ function Testimonials({ t }){
     { initials:'AR', name:'Arcanjo', role:'Tráfego pago · Low ticket', img:'img/arcanjo.jpg',
       quote:'Eu comecei do zero, sem saber estruturar campanhas. O curso me mostrou um caminho claro. **Hoje uso IA para criar criativos, analisar produtos e montar uma operação organizada para vender no digital.**',
       result:'Operação organizada do zero' },
-    { initials:'NH', name:'Natanael H.', role:'Freelancer IA e Investidor Cripto', img:'img/natanel.jpg',
+    { initials:'NH', name:'Natanael H.', role:'Freelancer IA e Investidor Cripto', img:'img/natanael.jpg',
       quote:'Minha curva de aprendizado foi gigantesca. O uso de agente de IA nas minhas vendas e serviços **se tornou indispensável**, no meu negócio e também nos meus investimentos.',
       result:'IA aplicada em vendas e investimentos' },
     { initials:'LM', name:'Lukas Minervini', role:'Lançador de Produtos Digitais', img:'img/avatar.jpg',

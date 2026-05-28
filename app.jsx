@@ -27,12 +27,14 @@ function App(){
       {t.showAnnouncement && <Announcement t={t}/>}
       {t.showNav && <Nav t={t}/>}
       {t.showHero && <Hero t={t}/>}
+      <StatsBar/>
       {t.showVideo && <Video t={t}/>}
       {t.showProblem && <Problem t={t}/>}
       {t.showChallenges && <Challenges t={t}/>}
       {t.showAgitation && <Agitation t={t}/>}
       {t.showModules && <Modules t={t}/>}
       {t.showResults && <Results t={t}/>}
+      {t.showResults && t.showTestimonials && <ProofBridge/>}
       {t.showTestimonials && <Testimonials t={t}/>}
       {t.showMarquee && <Marquee t={t}/>}
       {t.showFounders && <Founders t={t}/>}

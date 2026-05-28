@@ -870,6 +870,13 @@ button{ font: inherit; cursor: pointer; }
   letter-spacing: -.02em;
 }
 .after-text em{ color: var(--accent); font-style: italic; }
+.after-desc{
+  margin-top: 10px;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
 
 /* Close card da comparison */
 .comp-close{
@@ -986,6 +993,29 @@ button{ font: inherit; cursor: pointer; }
   align-items: start;
 }
 .modules-accordion{ display: none; } /* hidden on desktop */
+
+/* ── Modules CTA band ── */
+.modules-cta-band{
+  margin-top: 56px;
+  background: var(--accent);
+  border-radius: var(--r-lg);
+  padding: 36px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.modules-cta-text{
+  font-family: var(--f-display);
+  font-size: clamp(17px, 2vw, 22px);
+  font-weight: 700;
+  color: var(--accent-ink);
+  line-height: 1.4;
+  max-width: 520px;
+}
+@media (max-width: 640px){
+  .modules-cta-band{ flex-direction: column; text-align: center; padding: 28px 20px; }
+}
 
 /* LEFT: tabs */
 .modules-tabs{
@@ -1439,7 +1469,7 @@ button{ font: inherit; cursor: pointer; }
   color: var(--brand-gold, #F0B429);
   letter-spacing: -.02em;
   text-decoration: line-through;
-  text-decoration-color: rgba(232,64,0,.7);
+  text-decoration-color: rgba(255,255,255,0.8);
   text-decoration-thickness: 2px;
 }
 
@@ -2114,6 +2144,36 @@ body.cursor-on a, body.cursor-on button{ cursor: none; }
 .results-footer p strong{ color: var(--ink); }
 @media (max-width: 720px){ .results-footer{ flex-direction: column; } }
 
+/* ── Proof bridge quote — linha seca ── */
+.proof-bridge{
+  background: transparent;
+  padding: clamp(64px, 9vw, 112px) var(--container-pad, 24px);
+  text-align: center;
+}
+.proof-bridge-rule{
+  width: 48px;
+  height: 1px;
+  background: var(--line);
+  margin: 0 auto 40px;
+}
+.proof-bridge-quote{
+  font-family: var(--f-display);
+  font-size: clamp(24px, 3.2vw, 42px);
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.35;
+  max-width: 780px;
+  margin: 0 auto 20px;
+  font-weight: 400;
+}
+.proof-bridge-attr{
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
 /* ──────────────────────────────────────────────────────────────────────────
    TESTIMONIALS — Diego narrative block
    ─────────────────────────────────────────────────────────────────────── */
@@ -2474,6 +2534,70 @@ body.cursor-on a, body.cursor-on button{ cursor: none; }
 }
 
 /* Quote Diego */
+/* ── Stats bar (animated counter) ── */
+.stats-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+  background: var(--bg);
+  padding: 48px 0 56px;
+}
+.stats-bar-eyebrow {
+  width: 100%;
+  text-align: center;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 32px;
+}
+.stats-bar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  max-width: 220px;
+}
+.stat-num {
+  font-family: var(--f-display);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  display: block;
+}
+.stat-suffix {
+  font-size: 0.75em;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+.stats-bar-label {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  line-height: 1.5;
+  display: block;
+  white-space: pre-line;
+}
+@media (max-width: 600px){
+  .stats-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 36px 24px 44px;
+    gap: 32px 0;
+  }
+  .stats-bar-item { max-width: none; }
+}
+
 .diego-quote {
   margin-bottom: 72px;
   padding: 28px 36px;

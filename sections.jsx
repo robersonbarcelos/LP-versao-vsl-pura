@@ -14,11 +14,70 @@ function withStrong(text){
   return { __html: (text || '').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>') };
 }
 
+/* ───────────── COUNT-UP HOOK + STATS BAR ───────────── */
+function useCountUp(target, duration, started){
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!started) return;
+    let t0 = null;
+    function step(ts){
+      if (!t0) t0 = ts;
+      const p = Math.min((ts - t0) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3); // ease-out cubic
+      setVal(Math.round(eased * target));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }, [started, target, duration]);
+  return val;
+}
+
+function StatNum({ target, duration, suffix, format, started }){
+  const n = useCountUp(target, duration, started);
+  const display = format === 'br' ? n.toLocaleString('pt-BR') : String(n);
+  return (
+    <span className="stat-num">
+      {display}<span className="stat-suffix">{suffix}</span>
+    </span>
+  );
+}
+
+function StatsBar(){
+  const ref = useRef(null);
+  const [started, setStarted] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting){ setStarted(true); io.disconnect(); }
+    }, { threshold: 0.35 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  const stats = [
+    { target: 6000, suffix: '+',  format: 'br',    label: 'Alunos\nFormados',             duration: 1200 },
+    { target: 17,   suffix: 'K',  format: 'plain', label: 'YouTube\nInscritos',           duration: 1350 },
+    { target: 40,   suffix: 'K',  format: 'plain', label: 'Instagram\nSeguidores',        duration: 1500 },
+    { target: 1,    suffix: 'K+', format: 'plain', label: 'Membros\nIntuscripto Club',    duration: 1650 },
+  ];
+  return (
+    <div className="stats-bar" ref={ref}>
+      <div className="stats-bar-eyebrow">Intus Hub em números</div>
+      {stats.map((s, i) => (
+        <div key={i} className="stats-bar-item">
+          <StatNum {...s} started={started}/>
+          <span className="stats-bar-label">{s.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /* ───────────── ANNOUNCEMENT ───────────── */
 function Announcement({ t }){
   return (
     <div className="announce">
-      Seu super agente de IA em 5min: Sem saber programar. <a href="#oferta">Começar agora →</a>
+      Crie seu Super Agente de IA: Trabalhando 24/7 por você. <a href="#oferta">Criar meu agente →</a>
     </div>
   );
 }
@@ -105,10 +164,10 @@ function Hero({ t }){
             <h1 className="h-display hero-title reveal">{renderEmph(t.heroTitle)}</h1>
             <p className="lead reveal" style={{'--reveal-delay':'60ms'}}>{t.heroSub}</p>
             <ul className="hero-bullets reveal" style={{'--reveal-delay':'120ms'}}>
-              <li><span><strong>Seu agente no ar</strong> em menos de 5 minutos</span></li>
-              <li><span>Com <strong>memória persistente</strong>, contexto e identidade própria</span></li>
-              <li><span>Operando no seu <strong>celular pelo WhatsApp ou Telegram</strong></span></li>
-              <li><span>Com <strong>9 módulos curtos</strong> e o Kit de Ativação pra te guiar</span></li>
+              <li><span><strong>Primeira versão do agente</strong> no ar rapidamente</span></li>
+              <li><span>Com <strong>contexto, identidade, regras</strong> e memória organizada</span></li>
+              <li><span>Começando pelo <strong>Telegram</strong> e preparado para evoluir para novos canais</span></li>
+              <li><span>Com <strong>4 módulos, 16 aulas base + atualizações futuras</strong> e o Kit de Ignição</span></li>
             </ul>
             <div className="hero-actions reveal" style={{'--reveal-delay':'180ms'}}>
               <a className="btn btn-primary btn-big" href="#oferta">{t.ctaPrimary} <span className="btn-arrow">→</span></a>
@@ -161,7 +220,7 @@ function HeroVis(){
         {/* incoming */}
         <div className="tg-bubble in">
           <span className="tg-sender">Aspira</span>
-          <span className="tg-text">Resumi tudo na sua memória ontem. Os 3 pontos:<br/>1) revisão do funil<br/>2) ajuste de preço do bump<br/>3) novo módulo da Jornada</span>
+          <span className="tg-text">Resumi tudo na sua memória ontem. Os 3 pontos:<br/>1) revisão do funil<br/>2) ajuste de preço do bump<br/>3) registro útil da semana</span>
           <span className="tg-meta">14:02</span>
         </div>
 
@@ -209,10 +268,10 @@ function HeroVis(){
 
 function HeroPillars(){
   const pillars = [
-    { tag: '01 Curso', name: '9 módulos curtos', desc: 'Direto ao ponto, sem encheção' },
-    { tag: '02 KIT DE ATIVAÇÃO', name: 'Ignição + Templates prontos', desc: 'Do zero ao agente configurado' },
-    { tag: '03 Comunidade', name: 'WhatsApp com IA', desc: 'Suporte do agente Aspira' },
-    { tag: '04 Acesso', name: 'Vitalício', desc: 'Paga uma vez, evolui pra sempre' },
+    { tag: '01 Curso', name: '4 módulos / 16 aulas base + atualizações futuras', desc: 'Direto ao ponto, com execução real' },
+    { tag: '02 Kit de Ignição', name: 'Configuração guiada', desc: 'Identidade, contexto, regras e memória' },
+    { tag: '03 Suporte', name: 'Grupo do Whatsapp - Comunidade Viva', desc: 'Apoio para dúvidas gerais e técnicas' },
+    { tag: '04 Acesso', name: 'Vitalício', desc: 'Paga uma vez e acompanha atualizações e novas aulas futuras' },
   ];
   return (
     <div className="hero-pillars reveal" style={{'--reveal-delay':'260ms'}}>
@@ -257,7 +316,7 @@ function Problem({ t }){
   const resultLines = [
     'Uma pasta com arquivos que você nunca mais abriu',
     'Um curso parado no módulo 2',
-    'Um agente que esquece tudo — toda vez',
+    'Um agente que esquece tudo. Toda vez.',
   ];
   return (
     <section className="problem">
@@ -317,11 +376,11 @@ function Problem({ t }){
 /* ───────────── COMPARISON (contraste tipográfico) ───────────── */
 function Agitation({ t }){
   const contrasts = [
-    { bad: '50 agentes genéricos que você nunca vai usar de verdade',           good: 'Um agente que te conhece — e opera por você todo dia'        },
-    { bad: 'Esquece tudo a cada conversa — você recomeça do zero sempre',       good: 'Memória persistente — ele lembra o que importa'              },
-    { bad: 'Só funciona no navegador, longe de onde você vive',                 good: 'Responde no WhatsApp ou Telegram — na palma da mão'          },
-    { bad: 'Você continua fazendo tudo — o agente só responde quando pergunta', good: 'O agente opera. Você decide o que importa.'                  },
-    { bad: 'Semanas de setup — sem ver nada funcionando de verdade',            good: 'No ar em menos de 5 minutos — no celular, hoje'              },
+    { bad: '50 agentes genéricos que você nunca vai usar de verdade',           good: 'Um agente que te conhece e trabalha por você todo dia',       desc: '"Agente, me faz um resumo dos leads de ontem". Ele já sabe qual funil, qual produto, qual tom usar.' },
+    { bad: 'Esquece tudo a cada conversa. Você começa do zero toda vez.',       good: 'Memória organizada: ele não começa do zero toda vez',            desc: '7h da manhã, no café. Você recebe o briefing do dia. Todo dia, pontualmente.' },
+    { bad: 'Só funciona no navegador, longe de onde você vive',                 good: 'Acessível pelo celular. Começa pelo Telegram e evolui para novos canais.'          },
+    { bad: 'Você continua fazendo tudo. O agente só responde quando perguntado.', good: 'O agente organiza, lembra e executa tarefas guiadas. Você decide o que importa.',               desc: 'Resumo de reunião, resposta de suporte, análise de campanha: acontece sem você abrir o computador.' },
+    { bad: 'Semanas de setup. Nada funciona de verdade.',                       good: 'Primeira versão no ar rápido. Depois, adaptada à sua realidade.',            desc: 'No ar em poucos minutos. Trabalhando 24/7 e evoluindo com você.' },
   ];
   return (
     <section className="comparison-section">
@@ -341,6 +400,7 @@ function Agitation({ t }){
               <div className="contrast-after">
                 <span className="after-label">O que você vai ter</span>
                 <p className="after-text">{c.good}</p>
+                {c.desc && <p className="after-desc">{c.desc}</p>}
               </div>
             </div>
           ))}
@@ -363,9 +423,9 @@ function Agitation({ t }){
 function Challenges({ t }){
   const ch = [
     { tag: 'Você comprou, assistiu, salvou: mas nunca saiu do lugar', text: 'Seguiu perfis, assistiu tutoriais, salvou posts sobre IA. Tinha vontade. Tinha interesse. **Mas na hora de colocar em prática, algo sempre travou: e você ficou no mesmo lugar.**' },
-    { tag: 'Achou que era muito técnico, para "programador". E desistiu antes de tentar.', text: 'Parecia complicado demais. Palavras que você nunca ouviu, telas sem explicação, passos que não faziam sentido. **Você chegou à conclusão de que aquilo era pra outro perfil de pessoa — não pra você.**' },
-    { tag: 'Tentou de tudo um pouco. Nada funcionou.', text: 'ChatGPT um dia, outra ferramenta na semana seguinte, aquele app que um amigo indicou. Cada um diferente, cada um com suas regras. **No final, você voltou a fazer tudo na mão mesmo — como sempre.**' },
-    { tag: 'Pagou por coisas que prometiam muito. E não entregaram nada.', text: 'Já assinou alguma coisa, comprou algum curso, testou algum aplicativo. A promessa era grande. **O dinheiro foi real. O resultado que você esperava — não veio.**' },
+    { tag: 'Achou que era muito técnico, para "programador". E desistiu antes de tentar.', text: 'Parecia complicado demais. Palavras que você nunca ouviu, telas sem explicação, passos que não faziam sentido. **Você chegou à conclusão de que aquilo era pra outro perfil de pessoa. Não pra você.**' },
+    { tag: 'Tentou de tudo um pouco. Nada funcionou.', text: 'ChatGPT um dia, outra ferramenta na semana seguinte, aquele app que um amigo indicou. Cada um diferente, cada um com suas regras. **No final, você voltou a fazer tudo na mão mesmo. Como sempre.**' },
+    { tag: 'Você investiu. A estrutura nunca foi entregue.', text: 'Já assinou plataforma, comprou pacote de ferramentas, seguiu o passo a passo de alguém na internet. A promessa era grande. **O que faltou não foi esforço. Foi método. Ninguém te ensinou como montar a fundação.**' },
   ];
   return (
     <section className="challenges">
@@ -396,93 +456,46 @@ function Modules({ t }){
 
   const modules = [
     {
-      num: '01', name: 'Visão geral',
-      sub: 'O que é um agente e como ele pode trabalhar por você',
+      num: '00', name: 'Visão e preparação',
+      sub: 'Entenda por que agentes de IA estão virando uma camada de execução em vários mercados. Escolha onde seu Super Agente pode gerar mais valor.',
       lessons: [
-        'O que diferencia um agente de um chatbot comum',
-        'Como pensar o papel do agente na sua rotina',
-        'Os tipos de agente — qual faz sentido pra você',
-        'O que você vai construir neste curso',
+        'Cenário dos agentes de IA e assimetria de capacidade',
+        'O que você vai construir ao longo do curso',
+        'Casos de uso em serviços, cripto, negócios e agenda pessoal',
+        'Pré-requisitos, custos, rotas e cuidados antes da instalação',
       ]
     },
     {
-      num: '02', name: 'Preparação',
-      sub: 'Tudo que você precisa configurar antes de instalar',
+      num: '01', name: 'Agente no ar',
+      sub: 'Aqui você tira o agente do papel. A primeira versão nasce simples, mas funcional: o objetivo é colocar o agente respondendo em um canal real.',
       lessons: [
-        'Criar conta no Claude ou ChatGPT — qual escolher',
-        'Entendendo os planos e o que cada um oferece',
-        'Escolhendo sua rota: VPS Blindado ou MyQuickClaw',
-        'O que ter no computador antes de começar',
+        'Como preparar sua conta e provider de IA',
+        'Como funciona a infraestrutura básica do agente',
+        'Como instalar e configurar o OpenClaw',
+        'Como validar o primeiro contato do agente no Telegram',
       ]
     },
     {
-      num: '03', name: 'VPS Blindado',
-      sub: 'Rota recomendada — infra robusta e profissional',
+      num: '02', name: 'Kit de Ignição',
+      sub: 'Depois que o agente responde, começa a parte que mais importa: transformar um agente genérico em um agente com contexto, identidade, memória e regras próprias.',
       lessons: [
-        'O que é uma VPS e por que ela muda tudo',
-        'Escolhendo e configurando o servidor certo',
-        'Instalando o ambiente do agente passo a passo',
-        'Primeiros testes e validação do ambiente',
+        'Como ativar o Kit de Ignição no agente',
+        'Como diagnosticar a base inicial do seu agente',
+        'Como definir identidade, função, tom e limites',
+        'Como registrar contexto do usuário e regras de trabalho',
+        'Como criar memória e registros úteis para evolução',
       ]
     },
     {
-      num: '04', name: 'MyQuickClaw',
-      sub: 'Rota econômica — no ar sem dor de cabeça técnica',
+      num: '03', name: 'Segurança e capacidades',
+      sub: 'Com a base pronta, você aprende a proteger o agente e ampliar o que ele consegue fazer sem transformar tudo em risco.',
       lessons: [
-        'Como funciona o MyQuickClaw e suas vantagens',
-        'Ativação e primeiras configurações',
-        'Conectando o agente à sua conta',
-        'Testando e validando a instalação',
-      ]
-    },
-    {
-      num: '05', name: 'Identidade do agente',
-      sub: 'De IA genérica para um agente com personalidade própria',
-      lessons: [
-        'O que é identidade e por que muda tudo',
-        'Nome, persona, tom de voz e estilo de resposta',
-        'Definindo função, limites e prioridades',
-        'Criando o arquivo IDENTITY.md do seu agente',
-      ]
-    },
-    {
-      num: '06', name: 'Arquivos base & Memória',
-      sub: 'Como o agente lembra, aprende e se orienta',
-      lessons: [
-        'O que é memória persistente e como funciona',
-        'Criando o arquivo de memória do agente',
-        'Mapa, contexto e instruções — a fundação que dura',
-        'Como atualizar e expandir o conhecimento do agente',
-      ]
-    },
-    {
-      num: '07', name: 'Jornada',
-      sub: 'O registro vivo do que vocês constroem juntos',
-      lessons: [
-        'O conceito de jornada e por que ela importa',
-        'Como registrar decisões e avanços corretamente',
-        'Mantendo o histórico organizado e útil',
-        'Boas práticas de atualização contínua',
-      ]
-    },
-    {
-      num: '08', name: 'Ferramentas & Canais',
-      sub: 'Conectando o agente ao mundo real',
-      lessons: [
-        'WhatsApp e Telegram — operação na palma da mão',
-        'Quando usar arquivos, mensagens e automações',
-        'Conectando agenda, web e sistemas externos',
-        'Configurando notificações e respostas automáticas',
-      ]
-    },
-    {
-      num: '09', name: 'Evolução contínua',
-      sub: 'O agente que cresce com você — sem ficar obsoleto',
-      lessons: [
-        'Rotina de manutenção: simples e sustentável',
-        'Como ensinar novas habilidades ao agente',
-        'Quando e como atualizar o contexto',
-        'Usando o Aspira para suporte e dúvidas técnicas',
+        'Como tratar credenciais com segurança',
+        'Quando usar painel seguro, .env local protegido ou 1Password',
+        'Como ativar memória semântica com claude-mem',
+        'Como pensar skills, integrações e workflows',
+        'Como usar grupos, tópicos, WhatsApp e outros canais com cuidado',
+        'Como proteger o agente contra prompt injection e instruções externas maliciosas',
       ]
     },
   ];
@@ -494,8 +507,8 @@ function Modules({ t }){
     <section id="modules" className="modules">
       <div className="container">
         <div className="modules-hd reveal">
-          <span className="section-eyebrow">O curso · 9 módulos</span>
-          <h2 className="h-display h2">Tudo pra colocar seu agente no ar <em>e mantê-lo rodando 24 horas em operação real.</em></h2>
+          <span className="section-eyebrow">O curso · 4 módulos e 16 aulas base + atualizações futuras</span>
+          <h2 className="h-display h2">Do entendimento inicial ao agente no ar, <em>com contexto, memória, segurança e capacidades reais.</em></h2>
         </div>
 
         {/* ── DESKTOP: dois painéis ── */}
@@ -555,8 +568,26 @@ function Modules({ t }){
             </div>
           ))}
         </div>
+
+        {/* Faixa CTA */}
+        <div className="modules-cta-band reveal">
+          <p className="modules-cta-text">Em menos de uma tarde, seu agente estará respondendo no seu celular.</p>
+          <a className="btn btn-primary" href="#oferta">{t.ctaPrimary} <span className="btn-arrow">→</span></a>
+        </div>
+
       </div>
     </section>
+  );
+}
+
+/* ───────────── BRIDGE QUOTE (Results → Testimonials) ───────────── */
+function ProofBridge(){
+  return (
+    <div className="proof-bridge reveal">
+      <div className="proof-bridge-rule"/>
+      <p className="proof-bridge-quote"><em>Não é demonstração. É o que roda minha empresa todo dia.</em></p>
+      <span className="proof-bridge-attr">Diego Spanevello · Fundador, INTUS HUB</span>
+    </div>
   );
 }
 
@@ -569,13 +600,13 @@ function ModuleVisGfx({ index }){
 /* ───────────── RESULTS ───────────── */
 function Results({ t }){
   const items = [
-    { icon: '⚡', title: 'Seu Super Agente no ar', desc: 'Acessível de qualquer lugar, no celular, 24 horas por dia — sem depender de ninguém.' },
+    { icon: '⚡', title: 'Seu Super Agente no ar', desc: 'Uma primeira versão funcional, acessível pelo celular e pronta para ser adaptada à sua rotina.' },
     { icon: '🪪', title: 'Identidade configurada', desc: 'Ele sabe exatamente quem é, qual o papel dele e o que não deve fazer. Nunca mais genérico.' },
-    { icon: '🧠', title: 'Memória persistente', desc: 'Lembra do que importa. Não começa do zero toda conversa. Evolui com você ao longo do tempo.' },
-    { icon: '📁', title: 'Contexto real sobre você', desc: 'Arquivos-base com suas informações, objetivos e preferências — a fundação que torna o agente útil de verdade.' },
+    { icon: '🧠', title: 'Memória organizada', desc: 'Registros úteis e memória para o agente não começar do zero toda vez.' },
+    { icon: '📁', title: 'Contexto real sobre você', desc: 'Arquivos-base com suas informações, objetivos e preferências. A fundação que torna o agente útil de verdade.' },
     { icon: '🗺️', title: 'Mapa do workspace', desc: 'O agente se localiza e executa sem se perder. Organização que escala.' },
-    { icon: '▶️', title: 'Primeiras tarefas reais', desc: 'Suporte, organização, automação — o agente já rodando na sua rotina antes de terminar o curso.' },
-    { icon: '🧭', title: 'Kit de Ativação incluso', desc: 'Templates prontos de identidade, memória e mapa do agente. Tudo o que seu agente precisa ter antes de entrar no ar.' },
+    { icon: '▶️', title: 'Primeiras tarefas reais', desc: 'Organização, apoio operacional, registros e tarefas guiadas para começar a usar o agente na prática.' },
+    { icon: '🧭', title: 'Kit de Ignição incluso', desc: 'A condução guiada para configurar identidade, contexto, regras, memória e registros úteis depois que o agente já está respondendo.' },
     { icon: '📈', title: 'Fundação para evoluir', desc: 'Estrutura para adicionar ferramentas, canais e automações conforme você avança. O agente de amanhã é melhor que o de hoje.' },
   ];
   return (
@@ -597,7 +628,7 @@ function Results({ t }){
           ))}
         </div>
         <div className="results-footer reveal">
-          <p>Não é um agente de demonstração. <strong>É o seu agente — funcionando de verdade.</strong></p>
+          <p>Não é um agente de demonstração. <strong>É o seu agente funcionando de verdade.</strong></p>
           <a className="btn btn-primary btn-big" href="#oferta">{t.ctaPrimary} <span className="btn-arrow">→</span></a>
         </div>
       </div>
@@ -608,14 +639,14 @@ function Results({ t }){
 /* ───────────── PROOF SECTION (Diego + Agentes + Carrossel) ───────────── */
 function Testimonials({ t }){
   const aspira = [
-    'Suporte do IntusCripto Club — responde, filtra, escala',
+    'Suporte do IntusCripto Club: responde, filtra, escala',
     'Analytics de redes, Instagram e newsletter',
-    'Meta Ads e carrosséis — análise e otimização',
+    'Meta Ads e carrosséis: análise e otimização',
     'Briefing diário de cripto, trade, DeFi e mercado',
-    'Agenda pessoal — sem eu precisar pedir',
+    'Agenda pessoal, sem eu precisar pedir',
   ];
   const clovis = [
-    'Documentação viva — captura e organiza tudo',
+    'Documentação viva: captura e organiza tudo',
     'Decisões dos sócios registradas com contexto',
     'Mapas de produtos e processos sempre atualizados',
     'Mantém a operação viva mesmo quando ninguém olha',
@@ -636,7 +667,7 @@ function Testimonials({ t }){
         <div className="proof-hd reveal">
           <span className="section-eyebrow">Skin in the game</span>
           <h2 className="h-display h2">Um Humano. <em>Dois Super Agentes.</em></h2>
-          <p className="proof-hd-sub"><strong>Eu não ensino teoria.</strong> Coloco em prática o que ensino — e os dois agentes abaixo rodam a minha operação enquanto você lê isso.</p>
+          <p className="proof-hd-sub">Eu coloco em prática o que ensino. Dois negócios reais, cada um com um Super Agente responsável. Aspira cuida do Intus Cripto Club. Clóvis mantém a estrutura do INTUS HUB. Cada agente com contexto, função e identidade própria, que rodam minha operação todo dia.<br/><br/>É exatamente isso que você vai construir.</p>
         </div>
 
         <div className="proof-layout reveal">
@@ -652,9 +683,9 @@ function Testimonials({ t }){
               <h3 className="diego-name">Diego Spanevello</h3>
               <div className="diego-role">Fundador · INTUS HUB</div>
               <div className="diego-speech">
-                <p>Sou o fundador do IntusCripto Club — mais de 1.000 membros ativos. Formei <strong>6.000+ alunos</strong> em DeFi, sou referência no YouTube com 17K inscritos, 40K no Instagram, fui professor de MBA em finanças descentralizadas e palestrei nos maiores eventos do Brasil.</p>
-                <p>O que mudou minha operação foi entender como estruturar um agente de IA. <strong>Não virei programador — aprendi o mecanismo.</strong> E foi daí que o IntusCripto Club evoluiu pro INTUS HUB: cripto, IA e negócios digitais num só lugar.</p>
-                <p>Hoje dois agentes rodam a minha empresa 24 horas por dia — enquanto continuo fazendo o que sei fazer: criar, ensinar e gerar resultado no digital.</p>
+                <p>Sou o fundador do IntusCripto Club, com mais de 1.000 membros ativos. Formei <strong>6.000+ alunos</strong> em DeFi, sou referência no YouTube com 17K inscritos, 40K no Instagram, fui professor de MBA em finanças descentralizadas e palestrei nos maiores eventos do Brasil.</p>
+                <p>O que mudou minha operação foi entender como estruturar um agente de IA. <strong>Não virei programador. Aprendi o mecanismo.</strong> E foi daí que o IntusCripto Club evoluiu pro INTUS HUB: cripto, IA e negócios digitais num só lugar.</p>
+                <p>Hoje dois agentes rodam minha empresa enquanto continuo fazendo o que sei fazer: criar, ensinar e gerar resultado no digital.</p>
               </div>
             </div>
           </div>
@@ -675,7 +706,7 @@ function Testimonials({ t }){
                   <div className="agent-role-lbl">Agente · Operação 24/7</div>
                 </div>
               </div>
-              <p className="agent-intro">"Aspira cuida de tudo que seria interrupção na minha rotina. <strong>Opera sem parar — eu só entro quando preciso decidir algo.</strong>"</p>
+              <p className="agent-intro">"Aspira cuida de tudo que seria interrupção na minha rotina. <strong>Opera sem parar. Eu só entro quando preciso decidir algo.</strong>"</p>
               <div className="agent-tasks">
                 {aspira.map((item, i) => <div key={i} className="agent-task"><div className="task-dot"/><span>{item}</span></div>)}
               </div>
@@ -706,7 +737,7 @@ function Testimonials({ t }){
 
         {/* Quote */}
         <div className="diego-quote reveal">
-          <p>Eu sei o que funciona porque uso todo dia. <strong>Em menos de uma tarde, você vai ter o seu agente no ar</strong> — com a mesma estrutura que roda a minha operação.</p>
+          <p>Eu sei o que funciona porque uso todo dia. <strong>Em menos de uma tarde, você vai ter o seu agente no ar</strong>, com a mesma estrutura que roda minha operação.</p>
           <div className="diego-quote-attr">— Diego Spanevello · Fundador, INTUS HUB</div>
         </div>
       </div>
@@ -759,8 +790,8 @@ function Marquee({ t }){
     'Acesso vitalício',
     `6x ${t.currency} 16,50`,
     'Comunidade no WhatsApp',
-    'Kit de Ativação incluso',
-    '9 módulos curtos',
+    'Kit de Ignição incluso',
+    '4 módulos práticos',
   ];
   const doubled = [...items, ...items, ...items];
   return (
@@ -779,8 +810,8 @@ function Marquee({ t }){
 /* ───────────── ROADMAP ───────────── */
 function Roadmap({ t }){
   const items = [
-    { num: '01', when: 'já incluso', title: 'Kit de Ativação', desc: 'Templates prontos de identidade, memória e mapa do agente. Tudo o que seu agente precisa ter antes de entrar no ar.' },
-    { num: '02', when: 'todo mês', title: 'Atualizações vivas', desc: 'Novos materiais, ajustes e correções acompanhando o que muda no ecossistema.' },
+    { num: '01', when: 'já incluso', title: 'Kit de Ignição', desc: 'O guia prático que conduz a configuração do agente depois que ele está no ar: identidade, contexto, regras, memória e registros úteis.' },
+    { num: '02', when: 'atualizações do produto', title: 'Atualizações vivas', desc: 'Novos materiais, ajustes e correções acompanhando o que muda no ecossistema.' },
     { num: '+', when: 'em produção', title: 'Novos módulos', desc: 'Mais cases, integrações específicas e habilidades extras pro seu Super Agente.' },
   ];
   return (
@@ -813,25 +844,25 @@ function Founders({ t }){ return null; }
 /* ───────────── OFFER ───────────── */
 function Offer({ t }){
   const main = [
-    'Curso completo · 9 módulos curtos e práticos',
+    'Curso completo · 4 módulos, 16 aulas base e atualizações futuras',
     'Acesso **vitalício** · pagamento único',
-    '**Kit de Ativação** · templates prontos de identidade e memória',
-    'HTMLs visuais de cada aula · revise quando quiser',
-    'Comunidade no **WhatsApp** com agente de suporte (12 meses)',
-    'Atualizações e novos módulos · sem custo extra',
+    '**Kit de Ignição** · configuração guiada de identidade, contexto, regras e memória',
+    'Materiais visuais de cada aula · revise quando quiser',
+    'Comunidade de suporte no **WhatsApp** com agente de apoio (12 meses)',
+    'Atualizações do produto e novas aulas futuras · sem custo extra',
     'Acesso imediato após o pagamento',
     'Garantia incondicional de 7 dias',
   ];
   const valueStack = [
-    { name: 'Curso completo · 9 módulos curtos e práticos', price: 'R$ 497'   },
-    { name: 'Kit de Ativação · templates prontos',          price: 'R$ 197'   },
-    { name: 'HTMLs visuais de cada aula',                   price: 'R$ 97'    },
-    { name: 'Comunidade Viva no WhatsApp · 12 meses de suporte', price: 'R$ 197'   },
-    { name: 'Atualizações e novos módulos',                 price: 'incluso'  },
-    { name: 'Garantia incondicional · 7 dias',              price: 'incluso'  },
-    { name: 'Mais cases reais de aplicação',                price: 'bônus'    },
-    { name: 'Integrações avançadas (agenda, CRM, planilhas)', price: 'bônus'  },
-    { name: 'Novos arquivos-base e templates',              price: 'bônus'    },
+    { name: 'Curso completo · 4 módulos, 16 aulas base e atualizações futuras', price: 'R$ 497'   },
+    { name: 'Kit de Ignição · configuração guiada de identidade e memória',     price: 'R$ 197'   },
+    { name: 'Materiais visuais de cada aula',                                   price: 'R$ 97'    },
+    { name: 'Comunidade de suporte no WhatsApp · 12 meses',                     price: 'R$ 197'   },
+    { name: 'Atualizações do produto e novas aulas futuras',                    price: 'incluso'  },
+    { name: 'Garantia incondicional · 7 dias',                                  price: 'incluso'  },
+    { name: 'Mais cases reais de aplicação',                                    price: 'bônus'    },
+    { name: 'Integrações avançadas (agenda, CRM, planilhas)',                   price: 'bônus'    },
+    { name: 'Novos arquivos-base e templates',                                  price: 'bônus'    },
   ];
   return (
     <section id="oferta" className="offer">
@@ -963,7 +994,7 @@ function Guarantee({ t }){
           <div>
             <span className="section-eyebrow">Garantia incondicional</span>
             <h2 className="h-display h2">Teste por <em>7 dias.</em> Não foi pra você, devolvemos 100%.</h2>
-            <p>Você entra, faz o curso, instala o agente, conversa com ele, usa o Kit de Ativação. Se sentir que não fez sentido, é só pedir reembolso — sem perguntas, sem letra miúda. {t.currency} {t.priceNow} é um teste seguro.</p>
+            <p>Você entra, faz o curso, instala o agente, conversa com ele, usa o Kit de Ignição. Se sentir que não fez sentido, é só pedir reembolso. Sem perguntas, sem letra miúda. {t.currency} {t.priceNow} é um teste seguro.</p>
           </div>
         </div>
       </div>
@@ -975,15 +1006,15 @@ function Guarantee({ t }){
 function Faq({ t }){
   const [open, setOpen] = useState(0);
   const faqs = [
-    { q: 'Preciso saber programar?', a: 'Não. O que você vai aprender aqui é estrutura e configuração — como um bom gestor organiza uma operação, não como um desenvolvedor escreve software. Os módulos de instalação cobrem as duas rotas (VPS Blindado e MyQuickClaw) com passo a passo guiado. Se você sabe usar WhatsApp, você consegue fazer isso. Se travar em algum ponto, o agente Aspira responde no grupo.' },
-    { q: 'Já tentei IA antes e ficou genérico. Por que seria diferente?', a: 'Porque o problema não era a ferramenta — era a falta de estrutura. Um agente sem identidade, sem contexto e sem memória vai parecer ChatGPT com nome diferente. O que muda aqui é a fundação: você vai configurar identidade clara, arquivos-base com seu contexto real, memória persistente e estrutura de evolução. É a diferença entre dar uma ordem isolada e ter um colaborador que conhece você.' },
-    { q: 'Quanto tempo leva pra ter o agente no ar?', a: 'Menos de 5 minutos pra colocar o agente online. O que leva mais tempo é a parte que importa: configurar identidade, contexto, memória e ferramentas. O curso inteiro dá 2 a 3 horas de conteúdo.' },
+    { q: 'Preciso saber programar?', a: 'Não. O curso foi pensado para configuração guiada, não para ensinar programação. Você vai seguir uma rota prática para colocar o agente no ar, configurar a base e evoluir com o Kit de Ignição. Se travar em algum ponto, usa o suporte para destravar.' },
+    { q: 'Já tentei IA antes e ficou genérico. Por que seria diferente?', a: 'Porque o problema não era a ferramenta. Era a falta de estrutura. Um agente sem identidade, sem contexto e sem memória vai parecer ChatGPT com nome diferente. O que muda aqui é a fundação: você vai configurar identidade clara, arquivos-base com seu contexto real, memória persistente e estrutura de evolução. É a diferença entre dar uma ordem isolada e ter um colaborador que conhece você.' },
+    { q: 'Quanto tempo leva pra ter o agente no ar?', a: 'A primeira versão pode ir ao ar em poucos minutos quando a rota está pronta. O que leva mais tempo, e é o que realmente diferencia o curso, é configurar identidade, contexto, memória, segurança e capacidades. A ideia é sair com um agente funcional e uma base para evoluir.' },
     { q: 'Vai me dar 50 agentes prontos?', a: 'Não. E essa é a diferença. Você sai com UM Super Agente seu, com identidade, memória e contexto reais. Não 50 workflows soltos que ninguém usa.' },
-    { q: 'Qual o custo mensal pra rodar o agente?', a: `Duas rotas: econômica em torno de ${t.currency} 50 a ${t.currency} 150/mês (MyQuickClaw) ou recomendada em torno de ${t.currency} 600/mês (VPS Blindado, ChatGPT/Claude pago, infra robusta). Compare com ter um funcionário 24/7.` },
-    { q: 'O que é o Kit de Ativação?', a: 'O kit de configuração incluso no curso. Arquivos prontos de identidade, memória, mapa e instruções do agente — você preenche e aplica sem precisar inventar do zero.' },
+    { q: 'Qual o custo mensal pra rodar o agente?', a: 'O custo depende da rota escolhida, do provider de IA e da infraestrutura. No curso você entende as opções antes de instalar, para escolher uma configuração compatível com seu orçamento e seu nível de controle.' },
+    { q: 'O que é o Kit de Ignição?', a: 'É o guia prático que conduz a configuração do seu agente depois que ele está no ar. Ele ajuda a definir identidade, contexto do usuário, regras, limites, memória e registros úteis, para o agente deixar de ser genérico e começar a operar com base própria.' },
     { q: 'O WhatsApp é vitalício mesmo?', a: `O acesso ao curso é vitalício (${t.currency} ${t.priceNow}, pagamento único). A comunidade WhatsApp vem com 12 meses inclusos. No checkout você pode optar pelo upgrade vitalício do WhatsApp por mais ${t.currency} 57,90 uma única vez.` },
-    { q: 'Aspira e Clóvis são reais?', a: 'Sim. Aspira opera o suporte e rotinas reais do IntusCripto Club e da operação do Diego. Clóvis é o agente que cuida da estrutura do INTUS HUB. Os dois foram construídos exatamente com o método do curso.' },
-    { q: 'Tem garantia?', a: '7 dias incondicionais. Não gostou, pede reembolso, recebe 100% — sem perguntas, sem burocracia.' },
+    { q: 'Aspira e Clóvis são reais?', a: 'Sim. Aspira e Clóvis são agentes reais usados nas operações do Intus Cripto Club e na estrutura do Intus Hub. O curso usa a lógica dessa estrutura como referência, adaptada para uma versão prática e acessível para o aluno começar.' },
+    { q: 'Tem garantia?', a: '7 dias incondicionais. Não gostou, pede reembolso, recebe 100%. Sem perguntas, sem burocracia.' },
   ];
   return (
     <section id="faq" className="faq">
@@ -1154,13 +1185,13 @@ function Cta({ t }){
         <span className="eyebrow" style={{marginBottom:'24px'}}>Comece hoje</span>
         <h2 className="h-display h2 reveal" style={{marginTop:'16px'}}>Você já perdeu tempo suficiente <em>com agentes que não prestam.</em></h2>
         <div className="cta-narrative reveal" style={{'--reveal-delay':'60ms'}}>
-          <p>Enquanto você estava testando workflow atrás de workflow, acumulando pastas de automações que nunca usou de verdade — eu estava construindo uma operação inteira com dois agentes funcionando 24 horas por dia.</p>
+          <p>Enquanto você estava testando workflow atrás de workflow, acumulando pastas de automações que nunca usou de verdade. Eu estava construindo uma operação inteira com dois agentes funcionando 24 horas por dia.</p>
           <p>Não porque sou mais técnico. <strong>Porque aprendi a estruturar.</strong></p>
-          <p>Agora é a sua vez. Em menos de 5 minutos, seu agente está no ar. No curso, você aprende a transformar isso em uma estrutura que trabalha por você — com identidade, memória, contexto e rotina real.</p>
+          <p>Agora é a sua vez. A primeira versão do seu agente pode ir ao ar rápido. No curso, você aprende o que realmente importa: transformar esse agente em uma base operacional com contexto, memória, identidade, segurança e rotina real.</p>
         </div>
         <div className="cta-offer-recap reveal" style={{'--reveal-delay':'100ms'}}>
-          <span>✓ Curso vitalício (9 módulos)</span>
-          <span>✓ Kit de Ativação incluso</span>
+          <span>✓ Curso vitalício (4 módulos, 16 aulas base)</span>
+          <span>✓ Kit de Ignição incluso</span>
           <span>✓ WhatsApp 12 meses</span>
           <span>✓ Garantia 7 dias</span>
         </div>
@@ -1255,7 +1286,7 @@ function Footer({ t }){
 }
 
 Object.assign(window, {
-  Announcement, Nav, Hero, Video, Problem, Agitation, Challenges, Modules,
-  Results, Testimonials, Marquee, Roadmap, Founders, Offer, OrderBump,
+  Announcement, Nav, Hero, StatsBar, Video, Problem, Agitation, Challenges, Modules,
+  Results, ProofBridge, Testimonials, Marquee, Roadmap, Founders, Offer, OrderBump,
   Guarantee, Faq, Support, WhatsappFloat, LeadModal, Cta, Footer
 });

@@ -672,7 +672,7 @@ function Testimonials({ t }){
         <div className="proof-hd reveal">
           <span className="section-eyebrow">Skin in the game</span>
           <h2 className="h-display h2">Um Humano. <em>Dois Super Agentes.</em></h2>
-          <p className="proof-hd-sub">Eu coloco em prática o que ensino. Dois negócios reais, cada um com um Super Agente responsável. Aspira cuida do Intus Cripto Club. Clóvis mantém a estrutura do INTUS HUB. Cada agente com contexto, função e identidade própria, que rodam minha operação todo dia.<br/><br/>É exatamente isso que você vai construir.</p>
+          <p className="proof-hd-sub">Eu coloco em prática o que ensino. <strong>Dois negócios reais</strong>, cada um com um Super Agente responsável. <strong>Aspira</strong> cuida do <strong>Intus Cripto Club</strong>. <strong>Clóvis</strong> mantém a estrutura do <strong>INTUS HUB</strong>. Cada agente com contexto, função e identidade própria, que rodam minha operação todo dia.<br/><br/>É exatamente isso que <strong>você vai construir</strong>.</p>
         </div>
 
         <div className="proof-layout reveal">

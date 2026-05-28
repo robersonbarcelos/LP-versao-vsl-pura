@@ -321,9 +321,14 @@ function Problem({ t }){
   return (
     <section className="problem">
       <div className="container">
-        <div className="problem-hd">
-          <span className="section-eyebrow">O mercado de IA</span>
-          <h2 className="h-display h2 reveal">O mercado virou um camelô de agentes. <em>Você não precisa de 50. Precisa de um.</em></h2>
+        <div className="problem-hd problem-hd-split">
+          <div className="problem-hd-text">
+            <span className="section-eyebrow">O mercado de IA</span>
+            <h2 className="h-display h2 reveal">O mercado virou um camelô de agentes. <em>Você não precisa de 50. Precisa de um.</em></h2>
+          </div>
+          <div className="problem-hd-img reveal" style={{'--reveal-delay':'80ms'}}>
+            <img src="img/noise-tools.png" alt="O camelô de ferramentas de IA" className="problem-camel-img"/>
+          </div>
         </div>
 
         {/* Ruído acumulado */}

@@ -589,6 +589,29 @@ button{ font: inherit; cursor: pointer; }
 .problem{ padding: var(--pad-section) 0 calc(var(--pad-section) / 2); }
 .problem-hd{ margin-bottom: 56px; max-width: 920px; }
 
+/* ── Problem headline split: texto + imagem ── */
+.problem-hd-split{
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+.problem-hd-text{ max-width: 560px; }
+.problem-hd-img{ position: relative; }
+.problem-camel-img{
+  width: 100%;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 64px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04);
+}
+@media (max-width: 860px){
+  .problem-hd-split{
+    grid-template-columns: 1fr;
+  }
+  .problem-hd-img{ order: -1; max-width: 480px; margin: 0 auto; }
+}
+
 /* ── Two-column comparison — flat grid ── */
 .problem-cols{
   display: grid;

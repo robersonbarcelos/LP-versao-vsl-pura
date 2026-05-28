@@ -663,6 +663,12 @@ function Testimonials({ t }){
     { initials:'AR', name:'Arcanjo', role:'Tráfego pago · Low ticket', img:'img/arcanjo.jpg',
       quote:'Eu comecei do zero, sem saber estruturar campanhas. O curso me mostrou um caminho claro. **Hoje uso IA para criar criativos, analisar produtos e montar uma operação organizada para vender no digital.**',
       result:'Operação organizada do zero' },
+    { initials:'NH', name:'Natanael H.', role:'Freelancer IA e Investidor Cripto', img:'img/natanel.jpg',
+      quote:'Minha curva de aprendizado foi gigantesca. O uso de agente de IA nas minhas vendas e serviços **se tornou indispensável**, no meu negócio e também nos meus investimentos.',
+      result:'IA aplicada em vendas e investimentos' },
+    { initials:'LM', name:'Lukas Minervini', role:'Lançador de Produtos Digitais', img:'img/avatar.jpg',
+      quote:'Conteúdo direto, sem enrolação. Apliquei o que aprendi no Super Agente e **destravei negociações que estavam paradas há meses**. Pagou o investimento logo nas primeiras semanas, agora opero em todas as frentes e em todas as demandas da operação.',
+      result:'Investimento recuperado nas primeiras semanas' },
   ];
   /* Repete até ter volume suficiente pra loop infinito em qualquer tela */
   const repeated = Array(8).fill(students).flat();

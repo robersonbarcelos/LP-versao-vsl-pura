@@ -507,28 +507,30 @@ button{ font: inherit; cursor: pointer; }
 
 @media (max-width: 920px){
   .hero-bleed-grid {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    min-height: unset;
   }
   .hero-content-col {
+    grid-row: 1;
     width: 100%;
     justify-content: flex-start;
-    padding: clamp(48px, 8vw, 80px) clamp(20px, 4vw, 40px) 32px;
+    padding: clamp(48px, 8vw, 80px) clamp(20px, 5vw, 40px) 24px;
   }
   .hero-content { max-width: 100%; }
   .hero-foto-c {
+    grid-row: 2;
     position: relative;
-    right: auto;
-    top: auto;
-    bottom: auto;
+    right: auto; top: auto; bottom: auto;
     width: 100%;
-    height: 56vw;
-    min-height: 260px;
-    max-height: 400px;
+    height: 72vw;
+    min-height: 280px;
+    max-height: 440px;
   }
   .hero-foto-c img {
-    object-position: center 25%;
-    -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
-    mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+    object-position: center 20%;
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
   }
 }
 

@@ -157,27 +157,31 @@ function Hero({ t }){
     <section id="top" className="hero">
       <div className="hero-orb a" data-parallax={t.parallax ? "0.06" : ""}/>
       <div className="hero-orb b" data-parallax={t.parallax ? "-0.04" : ""}/>
-      <div className="container hero-container">
-        <div className="hero-grid">
+      <div className="hero-bleed-grid">
+        <div className="hero-content-col">
           <div className="hero-content">
             <span className="eyebrow">{t.brandTag}</span>
             <h1 className="h-display hero-title reveal">{renderEmph(t.heroTitle)}</h1>
             <p className="lead reveal" style={{'--reveal-delay':'60ms'}}>{t.heroSub}</p>
-            <ul className="hero-bullets reveal" style={{'--reveal-delay':'120ms'}}>
-              <li><span><strong>Primeira versão do agente</strong> no ar rapidamente</span></li>
-              <li><span>Com <strong>contexto, identidade, regras</strong> e memória organizada</span></li>
-              <li><span>Começando pelo <strong>Telegram</strong> e preparado para evoluir para novos canais</span></li>
-              <li><span>Com <strong>4 módulos, 16 aulas base + atualizações futuras</strong> e o Kit de Ignição</span></li>
-            </ul>
-            <div className="hero-actions reveal" style={{'--reveal-delay':'180ms'}}>
-              <a className="btn btn-primary btn-big" href="#oferta">{t.ctaPrimary} <span className="btn-arrow">→</span></a>
-              <span className="hero-actions-meta">Acesso vitalício · 7 dias de garantia</span>
+            <div className="hero-actions reveal" style={{'--reveal-delay':'120ms'}}>
+              <div className="hero-actions-wrap">
+                <a className="btn btn-primary btn-big" href="#oferta">{t.ctaPrimary} <span className="btn-arrow">→</span></a>
+                <span className="hero-actions-meta">7 dias de garantia</span>
+              </div>
             </div>
           </div>
-          <div className="hero-foto-c">
-            <img src="img/DIEGOHERO02.png" alt="Diego Spanevello"/>
-          </div>
         </div>
+        <div className="hero-foto-c">
+          <img src="img/heeerochat01.png" alt="Diego Spanevello"/>
+        </div>
+      </div>
+      <div className="container">
+        <ul className="hero-bullets hero-bullets-below reveal" style={{'--reveal-delay':'200ms'}}>
+          <li><span><strong>Primeira versão do agente</strong> no ar rapidamente</span></li>
+          <li><span>Com <strong>contexto, identidade, regras</strong> e memória organizada</span></li>
+          <li><span>Começando pelo <strong>Telegram</strong> e preparado para evoluir para novos canais</span></li>
+          <li><span>Com <strong>4 módulos, 16 aulas base + atualizações futuras</strong> e o Kit de Ignição</span></li>
+        </ul>
         <HeroPillars />
       </div>
     </section>
@@ -271,7 +275,7 @@ function HeroPillars(){
     { tag: '01 Curso', name: '4 módulos / 16 aulas base + atualizações futuras', desc: 'Direto ao ponto, com execução real' },
     { tag: '02 Kit de Ignição', name: 'Configuração guiada', desc: 'Identidade, contexto, regras e memória' },
     { tag: '03 Suporte', name: 'Grupo do Whatsapp - Comunidade Viva', desc: 'Apoio para dúvidas gerais e técnicas' },
-    { tag: '04 Acesso', name: 'Vitalício', desc: 'Paga uma vez e acompanha atualizações e novas aulas futuras' },
+    { tag: '04 Curso Vivo', name: 'Sempre Atualizado', desc: 'Novas aulas adicionadas conforme a IA avança. Você nunca fica para trás.' },
   ];
   return (
     <div className="hero-pillars reveal" style={{'--reveal-delay':'260ms'}}>
@@ -529,6 +533,7 @@ function Modules({ t }){
               </button>
             ))}
           </div>
+          {active >= 0 && (
           <div className="module-panel" key={active}>
             <div className="module-panel-hd">
               <span className="module-panel-num">{modules[active].num}</span>
@@ -546,6 +551,7 @@ function Modules({ t }){
               ))}
             </ul>
           </div>
+          )}
         </div>
 
         {/* ── MOBILE: accordion ── */}
@@ -798,7 +804,7 @@ function Testimonials({ t }){
 function Marquee({ t }){
   const items = [
     'Crie um Super Agente de IA',
-    'Acesso vitalício',
+    'Acesso por 12 meses',
     `6x ${t.currency} 16,50`,
     'Comunidade no WhatsApp',
     'Kit de Ignição incluso',
@@ -830,8 +836,8 @@ function Roadmap({ t }){
       <div className="container">
         <div className="roadmap-hd reveal">
           <span className="section-eyebrow">O curso evolui</span>
-          <h2 className="h-display h2">Vitalício significa <em>pra valer.</em></h2>
-          <p className="lead" style={{margin:'24px auto 0'}}>Você paga uma vez. As novas aulas, materiais e atualizações entram sem custo extra.</p>
+          <h2 className="h-display h2">Curso vivo <em>de verdade.</em></h2>
+          <p className="lead" style={{margin:'24px auto 0'}}>Cada avanço significativo da IA, novas aulas. Você acompanha a evolução sem custo extra.</p>
         </div>
         <div className="roadmap-grid">
           {items.map((it, i) => (
@@ -856,7 +862,7 @@ function Founders({ t }){ return null; }
 function Offer({ t }){
   const main = [
     'Curso completo · 4 módulos, 16 aulas base e atualizações futuras',
-    'Acesso **vitalício** · pagamento único',
+    'Acesso por 12 meses · pagamento único',
     '**Kit de Ignição** · configuração guiada de identidade, contexto, regras e memória',
     'Materiais visuais de cada aula · revise quando quiser',
     'Comunidade de suporte no **WhatsApp** com agente de apoio (12 meses)',
@@ -911,9 +917,9 @@ function Offer({ t }){
                 </div>
               </div>
               <div className="offer-price-vista">ou {t.currency} {t.priceNow} à vista</div>
-              <div className="offer-price-lock">🔒 Acesso vitalício · 7 dias de garantia</div>
+              <CountdownTimer />
               <a href="#" className="btn btn-primary btn-big">Quero meu Super Agente <span className="btn-arrow">→</span></a>
-              <div className="offer-price-note">acesso imediato · 7 dias de garantia</div>
+              <div className="offer-price-note">🔒 1 ano de acesso · 7 dias de garantia</div>
             </div>
           </div>
         </div>
@@ -922,31 +928,44 @@ function Offer({ t }){
   );
 }
 
-/* ───────────── ORDER BUMP (NOVO) ───────────── */
-function OrderBump({ t }){
+
+/* ───────────── COUNTDOWN TIMER ───────────── */
+function CountdownTimer(){
+  const DURATION = 59 * 60; // 59 minutos em segundos
+
+  function getRemaining(){
+    const key = 'sa_offer_end';
+    let end = parseInt(sessionStorage.getItem(key) || '0', 10);
+    if(!end || end < Date.now()){
+      end = Date.now() + DURATION * 1000;
+      sessionStorage.setItem(key, end);
+    }
+    return Math.max(0, Math.floor((end - Date.now()) / 1000));
+  }
+
+  const [secs, setSecs] = useState(getRemaining);
+
+  useEffect(() => {
+    if(secs <= 0) return;
+    const id = setInterval(() => setSecs(getRemaining()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const h = String(Math.floor(secs / 3600)).padStart(2, '0');
+  const m = String(Math.floor((secs % 3600) / 60)).padStart(2, '0');
+  const s = String(secs % 60).padStart(2, '0');
+
   return (
-    <section className="order-bump">
-      <div className="container">
-        <div className="bump-card reveal">
-          <div className="bump-icon">+</div>
-          <div className="bump-body">
-            <div className="bump-tag">Upgrade no checkout</div>
-            <h3 className="bump-title">WhatsApp Vitalício do Curso Super Agentes</h3>
-            <p className="bump-desc">Além dos 12 meses inclusos, garanta acesso <strong>vitalício</strong> à comunidade de suporte com o agente Aspira respondendo dúvidas técnicas.</p>
-            <div className="bump-meta">
-              <span>✓ Sem renovação</span>
-              <span>✓ Sem surpresa</span>
-              <span>✓ Suporte enquanto você usar o agente</span>
-            </div>
-          </div>
-          <div className="bump-price">
-            <div className="bump-price-old">de {t.currency} 597,00</div>
-            <div className="bump-price-now">{t.currency} 57,90</div>
-            <div className="bump-price-once">uma única vez · só no checkout</div>
-          </div>
-        </div>
+    <div className="offer-countdown">
+      <span className="offer-countdown-label">⏳ ESSA OFERTA EXPIRA EM:</span>
+      <div className="offer-countdown-clock">
+        <div className="ocd-unit"><span className="ocd-num">{h}</span><span className="ocd-sub">HORAS</span></div>
+        <span className="ocd-sep">:</span>
+        <div className="ocd-unit"><span className="ocd-num">{m}</span><span className="ocd-sub">MIN</span></div>
+        <span className="ocd-sep">:</span>
+        <div className="ocd-unit"><span className="ocd-num">{s}</span><span className="ocd-sub">SEG</span></div>
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -1020,10 +1039,10 @@ function Faq({ t }){
     { q: 'Preciso saber programar?', a: 'Não. O curso foi pensado para configuração guiada, não para ensinar programação. Você vai seguir uma rota prática para colocar o agente no ar, configurar a base e evoluir com o Kit de Ignição. Se travar em algum ponto, usa o suporte para destravar.' },
     { q: 'Já tentei IA antes e ficou genérico. Por que seria diferente?', a: 'Porque o problema não era a ferramenta. Era a falta de estrutura. Um agente sem identidade, sem contexto e sem memória vai parecer ChatGPT com nome diferente. O que muda aqui é a fundação: você vai configurar identidade clara, arquivos-base com seu contexto real, memória persistente e estrutura de evolução. É a diferença entre dar uma ordem isolada e ter um colaborador que conhece você.' },
     { q: 'Quanto tempo leva pra ter o agente no ar?', a: 'A primeira versão pode ir ao ar em poucos minutos quando a rota está pronta. O que leva mais tempo, e é o que realmente diferencia o curso, é configurar identidade, contexto, memória, segurança e capacidades. A ideia é sair com um agente funcional e uma base para evoluir.' },
-    { q: 'Vai me dar 50 agentes prontos?', a: 'Não. E essa é a diferença. Você sai com UM Super Agente seu, com identidade, memória e contexto reais. Não 50 workflows soltos que ninguém usa.' },
+    { q: 'Vou receber 50 agentes genéricos prontos?', a: 'Não. E essa é a diferença. Você sai com UM Super Agente seu, com identidade, memória e contexto reais. Não 50 workflows soltos que ninguém usa.' },
     { q: 'Qual o custo mensal pra rodar o agente?', a: 'O custo depende da rota escolhida, do provider de IA e da infraestrutura. No curso você entende as opções antes de instalar, para escolher uma configuração compatível com seu orçamento e seu nível de controle.' },
     { q: 'O que é o Kit de Ignição?', a: 'É o guia prático que conduz a configuração do seu agente depois que ele está no ar. Ele ajuda a definir identidade, contexto do usuário, regras, limites, memória e registros úteis, para o agente deixar de ser genérico e começar a operar com base própria.' },
-    { q: 'O WhatsApp é vitalício mesmo?', a: `O acesso ao curso é vitalício (${t.currency} ${t.priceNow}, pagamento único). A comunidade WhatsApp vem com 12 meses inclusos. No checkout você pode optar pelo upgrade vitalício do WhatsApp por mais ${t.currency} 57,90 uma única vez.` },
+    { q: 'O acesso ao curso e ao grupo do WhatsApp é vitalício?', a: 'Não. O acesso ao curso e à comunidade WhatsApp é por 12 meses: tempo mais que suficiente para aplicar tudo e evoluir. No checkout, você pode optar pelo upgrade de acesso vitalício por apenas R$ 67,90 uma única vez.' },
     { q: 'Aspira e Clóvis são reais?', a: 'Sim. Aspira e Clóvis são agentes reais usados nas operações do Intus Cripto Club e na estrutura do Intus Hub. O curso usa a lógica dessa estrutura como referência, adaptada para uma versão prática e acessível para o aluno começar.' },
     { q: 'Tem garantia?', a: '7 dias incondicionais. Não gostou, pede reembolso, recebe 100%. Sem perguntas, sem burocracia.' },
   ];
@@ -1101,7 +1120,7 @@ function LeadModal({ t }) {
 
         <h2 className="modal-title">Preencha seus dados<br/>e garanta sua vaga</h2>
         <p className="modal-sub">
-          {t.currency} {t.priceNow} · acesso vitalício após o pagamento.
+          {t.currency} {t.priceNow} · 1 ano de acesso.
         </p>
 
         <form className="modal-form" onSubmit={handleSubmit} noValidate>
@@ -1201,7 +1220,7 @@ function Cta({ t }){
           <p>Agora é a sua vez. A primeira versão do seu agente pode ir ao ar rápido. No curso, você aprende o que realmente importa: transformar esse agente em uma base operacional com contexto, memória, identidade, segurança e rotina real.</p>
         </div>
         <div className="cta-offer-recap reveal" style={{'--reveal-delay':'100ms'}}>
-          <span>✓ Curso vitalício (4 módulos, 16 aulas base)</span>
+          <span>✓ 4 módulos, 16 aulas base + atualizações</span>
           <span>✓ Kit de Ignição incluso</span>
           <span>✓ WhatsApp 12 meses</span>
           <span>✓ Garantia 7 dias</span>

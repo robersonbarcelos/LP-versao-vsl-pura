@@ -672,7 +672,7 @@ function Testimonials({ t }){
     { initials:'NH', name:'Natanael H.', role:'Freelancer IA e Investidor Cripto', img:'img/natanael.jpg',
       quote:'Minha curva de aprendizado foi gigantesca. O uso de agente de IA nas minhas vendas e serviços **se tornou indispensável**, no meu negócio e também nos meus investimentos.',
       result:'IA aplicada em vendas e investimentos' },
-    { initials:'LM', name:'Lukas Minervini', role:'Lançador de Produtos Digitais', img:'img/avatar.jpg',
+    { initials:'LM', name:'Lukas Minervini', role:'Lançador de Produtos Digitais', img:'img/minervini.jpg',
       quote:'Conteúdo direto, sem enrolação. Apliquei o que aprendi no Super Agente e **destravei negociações que estavam paradas há meses**. Pagou o investimento logo nas primeiras semanas, agora opero em todas as frentes e em todas as demandas da operação.',
       result:'Investimento recuperado nas primeiras semanas' },
   ];

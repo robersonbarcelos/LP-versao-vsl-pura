@@ -1,7 +1,8 @@
 # DESIGN SYSTEM — Crie um Super Agente de IA
 **Produto:** Curso low-ticket · INTUS HUB  
-**URL produção:** https://super-agente-v2.vercel.app  
-**Stack:** React 18 + Babel standalone · CSS custom properties · Vercel  
+**URL produção:** https://superagente.intushub.com.br  
+**Stack:** React 18 (produção, self-hosted) · JSX pré-compilado com esbuild · shell pré-renderizado · CSS custom properties · Vercel  
+**Build:** `build.ps1` (esbuild) e `prerender.ps1` — ver `ALTERACOES.md` (Guia para desenvolvedores)  
 **Última atualização:** 2026-05-29
 
 ---
@@ -415,17 +416,26 @@ Announcement → Nav → Hero → StatsBar → Problem → Challenges → Compar
 
 ```
 LP-Crie-um-Super-Agente-de-IA/
-├── index.html          ← Entry point único + TWEAK_DEFAULTS (servido pelo Vercel)
-├── styles.css          ← Todo o CSS do produto
-├── sections.jsx        ← Todos os componentes React
+├── index.html          ← Entry point + TWEAK_DEFAULTS; #root tem o shell pré-renderizado
+├── styles.css          ← Todo o CSS do produto (carregado direto, sem build)
+├── sections.jsx        ← Componentes React (CÓDIGO-FONTE — compilado para js/)
 ├── app.jsx             ← Root: ordem das seções + TweaksPanel
 ├── effects.jsx         ← useScrollReveal, useParallax, useCustomCursor
 ├── tweaks-panel.jsx    ← Painel de edição ao vivo (TweakColor, TweakToggle…)
+├── js/*.min.js         ← Bundles compilados (esbuild) — o que o navegador roda
+├── vendor/*.min.js     ← React de produção self-hosted
+├── build.ps1           ← esbuild: .jsx → js/*.min.js
+├── prerender.ps1       ← build + snapshot do #root (shell estático)
+├── scripts/            ← optimize-images.js (WebP) · prerender.mjs (snapshot headless)
 ├── serve.ps1           ← Servidor local (PowerShell HttpListener, porta 3000)
-├── vercel.json         ← Config de deploy (cleanUrls, sem build step)
+├── vercel.json         ← Config de deploy (cleanUrls; serve estático, sem build no Vercel)
+├── ALTERACOES.md      ← Otimizações + Guia para desenvolvedores
 ├── DESIGN-SYSTEM.md   ← Este arquivo
 └── PRD.md              ← Product Requirements Document
 ```
+
+> O build roda **localmente** (`build.ps1` / `prerender.ps1`) e o resultado é commitado;
+> o Vercel só serve os arquivos estáticos. Detalhes e regras em `ALTERACOES.md`.
 
 ### TWEAK_DEFAULTS (editáveis no HTML)
 
@@ -449,7 +459,9 @@ LP-Crie-um-Super-Agente-de-IA/
 ### Deploy
 
 ```powershell
-# Push na branch main dispara deploy automático no Vercel (sem build step).
+# 1. Se mudou .jsx/estrutura, compile e regenere o shell antes de commitar:
+powershell -ExecutionPolicy Bypass -File prerender.ps1
+# 2. Push na main dispara deploy automático no Vercel (serve estático):
 git push origin main
-# → https://super-agente-v2.vercel.app
+# → https://superagente.intushub.com.br  (e https://super-agente-v2.vercel.app)
 ```

@@ -1,146 +1,182 @@
-# ALTERAÇÕES — Auditoria completa da LP
+# ALTERAÇÕES & GUIA DE OTIMIZAÇÃO — LP "Crie um Super Agente de IA"
 
-**Data:** 2026-05-30
-**Escopo:** Auditoria de brechas, incompatibilidades, inconsistências e redundâncias na landing page "Crie um Super Agente de IA" + correções.
-**Validação:** Página carregada no navegador (Playwright) após cada bloco de correção — **0 erros de console** (resta apenas o aviso esperado do Babel in-browser). Hero, mobile, modal, preços e carrossel verificados.
+**Última atualização:** 2026-05-30
+**Resumo:** Auditoria completa (bugs, inconsistências, redundâncias) + otimização de
+performance. **PageSpeed: 31 → 96 desktop / 87 mobile.**
 
----
-
-## 1. Brechas / bugs corrigidos
-
-### 1.1 `OrderBump` indefinido → `ReferenceError` em todo carregamento
-- **Problema:** o componente `OrderBump` era referenciado em `app.jsx` e no `Object.assign` final de `sections.jsx`, mas **nunca foi definido**. Isso lançava `ReferenceError: OrderBump is not defined` em todo load. Com `showOrderBump: true` (caso do antigo `Super Agente.html`), quebrava o render da página inteira.
-- **Correção:** removida toda a fiação quebrada — render em `app.jsx`, toggle do painel, entrada no `Object.assign` (`sections.jsx`) e a flag `showOrderBump` em `index.html`.
-- **Nota:** order bump é uma oferta complementar de checkout (ex.: "adicione acesso vitalício por +R$X"), pertencente à página de pagamento (Hotmart), não à landing. Pode ser construído como seção no futuro, se desejado.
-
-### 1.2 `serve.ps1` com caminho hardcoded inexistente
-- **Problema:** `$root = "C:\Users\User\super-agente-lp"` — pasta que não existe nesta máquina, deixando o servidor local inutilizável.
-- **Correção:** `$root = $PSScriptRoot` (usa o diretório do próprio script).
-
-### 1.3 Modal de captura sem acessibilidade
-- **Problema:** o `LeadModal` não fechava com `Esc`, não travava o scroll do fundo, não levava foco ao primeiro campo e não tinha semântica de diálogo.
-- **Correção:** adicionados `role="dialog"`, `aria-modal="true"`, `aria-labelledby`, fechamento com **Esc**, trava de scroll do `body` (restaurada ao fechar) e **autofocus** no primeiro campo. Tudo testado.
+> Este documento tem duas partes:
+> 1. **O que foi feito** — histórico das correções e otimizações.
+> 2. **Guia para desenvolvedores** — como mexer no projeto sem quebrar nada nem a performance (build, imagens, classes, CSS).
 
 ---
+
+# PARTE 1 — O QUE FOI FEITO
+
+## 1. Bugs corrigidos
+
+| # | Problema | Correção |
+|---|---|---|
+| 1.1 | `OrderBump` referenciado mas nunca definido → `ReferenceError` em todo load | Removida toda a fiação (render, toggle, export, flag) |
+| 1.2 | `serve.ps1` com caminho hardcoded inexistente | `$root = $PSScriptRoot` |
+| 1.3 | Modal de captura sem acessibilidade | `role="dialog"`, `aria-modal`, fecha no `Esc`, trava scroll, autofocus |
 
 ## 2. Inconsistências corrigidas
 
-### 2.1 Parcelamento hardcoded em 4 lugares
-- **Problema:** `6x R$16,50` estava escrito à mão na nav, na oferta, no marquee e no CTA final, enquanto o tweak `priceInstallments` existia mas **nunca era usado**. Mudar o preço no painel quebrava a consistência.
-- **Correção:** criado o helper `parseInstallment()` que quebra `priceInstallments` em `{ count, value }`. Nav, oferta, marquee e CTA agora derivam do tweak. Mudar o preço propaga em toda a página.
-
-### 2.2 Valor âncora e CTA da oferta hardcoded
-- **Problema:** "R$ 997,00" e o texto do botão da oferta estavam fixos.
-- **Correção:** ligados a `t.priceFull` (`{currency} {priceFull},00`) e `t.ctaPrimary`.
-
-### 2.3 `alt` incorreto na imagem do hero
-- **Problema:** `alt="Diego Spanevello"` numa imagem que é um print de conversa (`heeerochat01.png`).
-- **Correção:** `alt="Conversa real com um Super Agente de IA no Telegram"` + `fetchpriority="high"` (imagem acima da dobra).
-
-### 2.4 Documentação desatualizada
-- **`README.md`:** removida referência a `hero-variacoes.html` (arquivo inexistente); removidas as linhas das seções Founders e Order Bump da tabela; corrigido o snippet de `vercel.json` (mostrava `rewrites`, o real usa `cleanUrls`).
-- **`DESIGN-SYSTEM.md`:** corrigido número de módulos (9 → 4), contagem de FAQ (9 → 8), arquitetura de arquivos (removido `Super Agente.html`, adicionados `serve.ps1`/`vercel.json`), comando de deploy (era `Copy-Item` de arquivo apagado → `git push`), sequência de seções, tabela AIDA, headlines e microcopy (alinhados ao produto real: "12 meses" em vez de "vitalício", "rápido" em vez de "5min"), descrição do hero (imagem com máscara dissolve em vez do mockup Telegram), value stack e upgrade de checkout (R$ 67,90).
-
-> **Não alterado por decisão do cliente:** a divergência entre "16 aulas base" (copy) e as 19 aulas listadas nos módulos (4+4+5+6). Mantido como está.
-
----
+- **Parcelamento hardcoded em 4 lugares** → criado `parseInstallment()`; nav, oferta, marquee e CTA agora derivam do tweak `priceInstallments`.
+- **Valor âncora e CTA da oferta** hardcoded → ligados a `t.priceFull` e `t.ctaPrimary`.
+- **`alt` do hero** descrevia "Diego Spanevello" numa imagem de chat → corrigido.
+- **Docs desatualizados** (README/DESIGN-SYSTEM): `vercel.json`, referência a arquivo inexistente, contagem de módulos/FAQ, headlines, microcopy.
 
 ## 3. Redundâncias / código morto removido
 
-### 3.1 Componentes mortos (JSX)
-- **`HeroVis`** — mockup de Telegram (~80 linhas) que não era mais renderizado (o hero usa uma imagem).
-- **`ModuleVisGfx`** — retornava `null`, sem referências.
-- **`Founders`** — retornava `null` (conteúdo migrado para `Testimonials`); removida também a fiação (render, toggle, flag).
+- Componentes mortos: `HeroVis`, `ModuleVisGfx`, `Founders`.
+- ~200 linhas de CSS morto (`.tg-*`, `.hero-vis*`).
+- Arquivo duplicado `Super Agente.html` (divergente do `index.html`).
+- `MutationObserver` do scroll-reveal coalescido num `requestAnimationFrame` (o countdown disparava re-scan da página inteira a cada segundo).
 
-### 3.2 CSS morto (`styles.css`, ~200 linhas)
-- Bloco `.tg-*` (mockup Telegram do `HeroVis`).
-- Bloco `.hero-vis*` (visual de hero de uma versão anterior).
+## 4. Performance — PageSpeed 31 → 96/87
 
-### 3.3 Arquivo duplicado
-- **`Super Agente.html`** — duplicado divergente do `index.html` (copy antiga do hero, `showOrderBump: true`, sem favicon). O Vercel serve `index.html`; o duplicado só gerava divergência. **Apagado.**
+PageSpeed inicial (desktop): **31** · TBT 6.600ms · payload 4,3MB · main-thread 10,7s.
 
-### 3.4 `MutationObserver` ineficiente (`effects.jsx`)
-- **Problema:** o observer do scroll-reveal rodava `querySelectorAll` na página inteira a **cada mutação** do DOM. O countdown (que muda o DOM a cada segundo) disparava esse re-scan completo continuamente.
-- **Correção:** as rajadas são coalescidas num único `requestAnimationFrame` (no máximo um re-scan por frame).
+### 4.1 Eliminado o Babel-no-browser (resolve o TBT)
+- Os 4 `.jsx` agora são **pré-compilados por esbuild** (`build.ps1`) → `js/*.min.js` (~83 KB).
+- `index.html` carrega **React de produção** com `defer` (não bloqueia render). `@babel/standalone` (~3 MB) e os builds de desenvolvimento do React foram removidos.
 
----
+### 4.2 React self-hosted
+- React de produção movido de `unpkg.com` (terceiro, ~281ms de main-thread + latência) para `vendor/` (servido pelo edge do Vercel, mesma origem).
 
-## 4. Correção pós-auditoria (imagens do carrossel)
-
-- **Problema:** o `loading="lazy"` que adicionei às fotos do **carrossel de depoimentos** fazia as imagens ficarem em branco. O carrossel é um marquee infinito (32 cópias) animado por `transform`; o lazy-load decide o que carregar pela proximidade do scroll e **ignora deslocamento por animação CSS** — então as cópias "fora da tela" nunca carregavam.
-- **Correção:** removido o `loading="lazy"` **apenas do carrossel** (`sections.jsx`), mantendo `decoding="async"`. As imagens estáticas abaixo da dobra (hero, diego, aspira, clóvis, noise-tools) seguem com `lazy`, onde funciona corretamente.
-
----
-
-## 5. Recomendações (não aplicadas — fora do escopo de "correção")
-
-- **React `.development.js` + Babel in-browser:** ok para protótipo, mas em produção pesa (recompila 4 arquivos JSX a cada load). O ideal seria um build step que pré-compila o JSX. Mudança arquitetural maior.
-- **`checkoutUrl`** ainda é o placeholder `https://pay.hotmart.com/COLOQUE-AQUI` — preencher com o link real do checkout.
-- **Imagens não usadas** em `img/` (`diego-1..11`, `avatar.jpg`, `DIEGOHERO02.png`, `diego hero2.png`, etc.) — bloat de repositório, sem custo de deploy (não referenciadas). Podem ser removidas após confirmação.
-
----
-
-## 5.1 Otimização de performance (PageSpeed 31 → meta ~90+)
-
-PageSpeed Insights (desktop) acusou **Desempenho 31**: TBT **6.600 ms**, main-thread 10,7s, JS execution 8,1s, Speed Index 7,1s, payload 4,3 MB. Causa: Babel-no-browser + React de debug + imagens gigantes.
-
-**Frente 1 — eliminado o Babel-no-browser:**
-- Os 4 `.jsx` agora são pré-compilados por **esbuild** (`build.ps1`) para `js/*.min.js` (~83 KB minificado total, IIFE).
-- `index.html` carrega **`react.production.min.js`** + bundles com **`defer`** (não bloqueiam render). `@babel/standalone` (~3 MB) e os builds de desenvolvimento do React foram **removidos**.
-- Adicionados `preconnect` para unpkg, `preload` da imagem do hero, `meta description` + Open Graph (SEO).
-
-**Frente 2 — imagens (só as em uso) redimensionadas + WebP:**
-
+### 4.3 Imagens redimensionadas + WebP
 | Imagem | Antes | Depois |
 |---|---|---|
-| aspira | 6,8 MB (2400px) | 26 KB (400px webp) |
-| clovis | 6,6 MB | 26 KB |
-| heeerochat01 (LCP) | 1,3 MB | 66 KB |
+| aspira / clovis | 6,8 / 6,6 MB | ~26 KB cada |
+| heeerochat01 (hero/LCP) | 1,3 MB | 66 KB |
 | noise-tools | 1,6 MB | 64 KB |
 | diego | 1,4 MB | 23 KB |
-| depoimentos (4) | 18–209 KB jpg | 2–8 KB webp |
+| depoimentos | até 209 KB | 2–8 KB |
 
-Adicionados `width`/`height` explícitos (resolve o aviso de CLS). Originais mantidos no repo (não referenciados).
+`width`/`height` explícitos adicionados (evita CLS). Conversão via `scripts/optimize-images.js`.
 
-**Frente 3 — React self-hosted:** o React vinha do `unpkg.com` (terceiro), custando ~281ms de main-thread + latência/variância de rede (Lighthouse oscilava 60–76). Passou a ser servido pelo edge do Vercel (mesma origem), em `vendor/`.
-
-**Resultado (Lighthouse desktop, produção):**
-
-| Métrica | Antes | Depois |
-|---|---|---|
-| Desempenho | 31 | **96** |
-| TBT | 6.600 ms | 20–70 ms |
-| LCP | 3,7 s | ~1,1 s |
-| FCP | 3,0 s | ~1,0 s |
-| Speed Index | 7,1 s | ~1,5 s |
-| Payload | 4.389 KiB | ~464 KiB |
-
-**Frente 4 — otimizações de mobile (Style & Layout) + pré-render:**
+### 4.4 Otimizações de mobile (Style & Layout)
 - `btn-sweep` animado via `transform` (compositado) em vez de `left` (reflow por frame).
 - `backdrop-filter` (blur) da nav trocado por fundo sólido translúcido em ≤768px.
-- Parallax desligado em `pointer: coarse` (touch) e em `prefers-reduced-motion`.
-- Bloco `prefers-reduced-motion`: desliga animações contínuas para quem opta.
-- `useScrollReveal` revela síncrono os elementos já visíveis no mount (evita flicker).
-- **Pré-render:** `prerender.ps1` gera um shell estático (~69 KB) dentro do `#root` via Chrome headless. O conteúdo pinta antes do JS (LCP/FCP/SEO); o `createRoot` substitui o `#root` ao montar — **sem hidratação**, então não há risco de hydration mismatch.
+- Parallax desligado em `pointer: coarse` (touch) e `prefers-reduced-motion`.
+- Bloco `@media (prefers-reduced-motion: reduce)` desliga animações contínuas.
 
-**Resultado oficial (PageSpeed Insights):** desktop **96**, mobile **86** (ante 31 inicial).
+### 4.5 Pré-render (LCP / FCP / SEO)
+- `prerender.ps1` gera um **shell estático** (~69 KB) dentro do `#root` via Chrome headless (`scripts/prerender.mjs`). O conteúdo pinta antes do JS e crawlers veem HTML real.
+- Mantém `createRoot` (substitui o `#root` ao montar) → **sem hidratação, zero risco de hydration mismatch**.
+- `useScrollReveal` revela síncrono o que já está visível no mount (evita flicker quando o React reassume).
 
-> **Workflow novo:** o código-fonte continua em `.jsx`. Rode **`build.ps1`** após editar um `.jsx`, ou **`prerender.ps1`** antes do deploy para também atualizar o shell estático. Edições só no `TWEAK_DEFAULTS` não exigem rebuild.
+### Resultado final (PageSpeed Insights)
+| | Antes | Depois |
+|---|---|---|
+| **Desktop** | 31 | **96** |
+| **Mobile** | 31 | **87** |
+| TBT (desktop) | 6.600 ms | ~30 ms |
+| LCP (desktop) | 3,7 s | ~1,0 s |
+| Payload | 4.389 KiB | ~464 KiB |
 
 ---
 
-## 6. Arquivos alterados
+# PARTE 2 — GUIA PARA DESENVOLVEDORES
 
-| Arquivo | Mudança |
+> **Regra de ouro:** o navegador NÃO carrega mais os `.jsx` diretamente. Ele carrega
+> os **bundles compilados** em `js/*.min.js`. Editar um `.jsx` **não tem efeito** até
+> você rodar o build.
+
+## Fluxo de build — o que rodar e quando
+
+| O que você mudou | Comando antes de commitar |
 |---|---|
-| `sections.jsx` | Helper de parcelamento, wiring de preços, alt do hero, a11y do modal, lazy nas imagens, remoção de `HeroVis`/`ModuleVisGfx`/`Founders`, fix do `Object.assign` |
-| `app.jsx` | Remoção de render e toggles de `OrderBump` e `Founders` |
-| `effects.jsx` | Debounce do `MutationObserver` (rAF) |
-| `index.html` | Remoção das flags `showOrderBump` e `showFounders` |
-| `styles.css` | Remoção de ~200 linhas de CSS morto (`.tg-*`, `.hero-vis*`) |
-| `serve.ps1` | Caminho dinâmico (`$PSScriptRoot`) |
-| `README.md` | Correção de referências e config de deploy |
-| `DESIGN-SYSTEM.md` | Alinhamento de specs ao produto atual |
-| `Super Agente.html` | **Removido** (duplicado) |
+| Só `TWEAK_DEFAULTS` no `index.html` (copy, preço, toggles, cor) | **nada** — é lido em runtime |
+| Só `styles.css` | **nada** (mas veja o flash do shell abaixo) |
+| Qualquer `.jsx` (componente, classe, lógica) | **`build.ps1`** |
+| Mudança **estrutural** de seções/layout, antes do deploy | **`prerender.ps1`** (já roda o build por dentro) |
+| Trocou/adicionou imagem | `scripts/optimize-images.js` → atualizar `src` → `build.ps1` |
 
-**Saldo:** ~−260 linhas líquidas (remoção de código morto).
+```powershell
+powershell -ExecutionPolicy Bypass -File build.ps1      # compila .jsx -> js/*.min.js
+powershell -ExecutionPolicy Bypass -File prerender.ps1  # build + atualiza o shell estático do #root
+```
+
+> O **shell pré-renderizado** no `#root` é só o primeiro paint. Se você mudar a estrutura
+> e **não** rodar `prerender.ps1`, a página ainda funciona — só mostra o conteúdo antigo
+> por ~400ms até o React assumir. Rode `prerender.ps1` antes do deploy para evitar isso.
+
+## ➕ Adicionando ou trocando IMAGENS
+
+Imagens **nunca** entram em tamanho original (uma foto de 6 MB destrói a performance).
+Sempre redimensione + converta para **WebP**:
+
+1. Coloque o original em `img/`.
+2. Adicione uma entrada em `scripts/optimize-images.js` (arquivo, largura-alvo, qualidade):
+   ```js
+   { src: 'minha-foto.png', width: 800, q: 80 },
+   ```
+   Largura-alvo ≈ o **dobro** do tamanho que a imagem aparece na tela (retina).
+3. Gere o `.webp`:
+   ```powershell
+   npm install --no-save sharp@0.33.5
+   node scripts/optimize-images.js
+   Remove-Item -Recurse -Force node_modules
+   ```
+4. Use o `.webp` no `sections.jsx` **sempre com `width`/`height`** (evita CLS):
+   ```jsx
+   <img src="img/minha-foto.webp" width="800" height="600" loading="lazy" decoding="async" />
+   ```
+5. Regras de `loading`:
+   - **Acima da dobra (hero):** `fetchpriority="high"`, **sem** `loading="lazy"`.
+   - **Abaixo da dobra (estática):** `loading="lazy"`.
+   - **No carrossel de depoimentos:** **NÃO** use `loading="lazy"` — as imagens vivem
+     numa faixa animada por `transform`, e o lazy-load não dispara para elementos
+     deslocados por animação (ficariam em branco). Use só `decoding="async"`.
+6. Rode `build.ps1` (e `prerender.ps1` antes do deploy).
+
+## 🏷️ Mudando CLASSES ou JSX
+
+- Edite o `.jsx` correspondente (`sections.jsx`, `app.jsx`, `effects.jsx`, `tweaks-panel.jsx`).
+- **Rode `build.ps1`** — sem isso o navegador continua com o bundle antigo.
+- Se criou um componente novo que o `app.jsx` usa, exponha-o no `Object.assign(window, {...})`
+  no fim do `sections.jsx` (o `app.jsx` referencia os componentes como globais).
+- Antes do deploy, rode `prerender.ps1` se a mudança afeta o que aparece no primeiro paint.
+
+## 🎨 Mexendo no CSS (`styles.css`)
+
+CSS é carregado direto (sem build). Mas para **não regredir a performance**, siga:
+
+- **Anime só `transform` e `opacity`** (compositados na GPU). **Nunca** anime
+  `left`/`top`/`width`/`height`/`margin`/`inset` em loop — cada frame força reflow
+  (foi exatamente o problema do `btn-sweep`, que animava `left`).
+- **`backdrop-filter: blur()` é caro no mobile** (recalcula a cada frame de scroll).
+  Se usar, desligue em telas pequenas com `@media (max-width: 768px)` (ver a nav).
+- **Respeite `prefers-reduced-motion`** — já existe um bloco no fim do `styles.css` que
+  desliga animações contínuas; animações novas devem se enquadrar nele.
+- **Reveal on scroll:** elementos com a classe `reveal` começam invisíveis (`opacity:0`)
+  e ganham `.in` ao entrar na viewport (via `effects.jsx`). Não remova a classe `reveal`
+  achando que está "escondendo" algo — é o efeito de entrada.
+- Use os **design tokens** (variáveis CSS em `:root`: `--accent`, `--bg`, `--ink`, `--r`…)
+  em vez de cores/raios hardcoded.
+
+## ✅ Checklist antes de commitar/deploy
+
+- [ ] Mudou `.jsx`? Rodei **`build.ps1`**.
+- [ ] Mudança estrutural/visual? Rodei **`prerender.ps1`**.
+- [ ] Imagem nova está em **WebP**, com `width`/`height` e a regra de `loading` correta.
+- [ ] Nenhuma animação nova em loop mexendo em `left/top/width/height`.
+- [ ] Testei: abre sem erro no console, modal fecha no `Esc`, FAQ/tabs funcionam.
+- [ ] (Opcional) Rodei o PageSpeed em `pagespeed.web.dev` para conferir que não regrediu.
+
+## Arquitetura dos arquivos
+
+```
+index.html          ← entry; carrega vendor/React + js/*.min.js; #root tem o shell pré-renderizado
+*.jsx               ← CÓDIGO-FONTE (não é carregado direto pelo navegador)
+js/*.min.js         ← bundles compilados (gerados por build.ps1) — É o que o navegador roda
+vendor/*.min.js     ← React de produção self-hosted
+styles.css          ← CSS (carregado direto, sem build)
+build.ps1           ← esbuild: .jsx → js/*.min.js
+prerender.ps1       ← build + snapshot do #root (shell estático)
+scripts/optimize-images.js ← sharp: redimensiona + WebP
+scripts/prerender.mjs      ← puppeteer-core: snapshot headless
+serve.ps1           ← servidor local (porta 3000)
+```

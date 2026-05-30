@@ -80,6 +80,32 @@
 
 ---
 
+## 5.1 Otimização de performance (PageSpeed 31 → meta ~90+)
+
+PageSpeed Insights (desktop) acusou **Desempenho 31**: TBT **6.600 ms**, main-thread 10,7s, JS execution 8,1s, Speed Index 7,1s, payload 4,3 MB. Causa: Babel-no-browser + React de debug + imagens gigantes.
+
+**Frente 1 — eliminado o Babel-no-browser:**
+- Os 4 `.jsx` agora são pré-compilados por **esbuild** (`build.ps1`) para `js/*.min.js` (~83 KB minificado total, IIFE).
+- `index.html` carrega **`react.production.min.js`** + bundles com **`defer`** (não bloqueiam render). `@babel/standalone` (~3 MB) e os builds de desenvolvimento do React foram **removidos**.
+- Adicionados `preconnect` para unpkg, `preload` da imagem do hero, `meta description` + Open Graph (SEO).
+
+**Frente 2 — imagens (só as em uso) redimensionadas + WebP:**
+
+| Imagem | Antes | Depois |
+|---|---|---|
+| aspira | 6,8 MB (2400px) | 26 KB (400px webp) |
+| clovis | 6,6 MB | 26 KB |
+| heeerochat01 (LCP) | 1,3 MB | 66 KB |
+| noise-tools | 1,6 MB | 64 KB |
+| diego | 1,4 MB | 23 KB |
+| depoimentos (4) | 18–209 KB jpg | 2–8 KB webp |
+
+Adicionados `width`/`height` explícitos (resolve o aviso de CLS). Originais mantidos no repo (não referenciados).
+
+> **Workflow novo:** o código-fonte continua em `.jsx`; rode **`build.ps1`** após editar qualquer `.jsx`. Edições no `TWEAK_DEFAULTS` não exigem rebuild.
+
+---
+
 ## 6. Arquivos alterados
 
 | Arquivo | Mudança |

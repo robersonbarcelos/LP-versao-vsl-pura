@@ -9,13 +9,15 @@ Landing page de vendas do curso **Crie um Super Agente de IA**, desenvolvida pel
 | Tecnologia | Detalhe |
 |---|---|
 | HTML5 | Entry point único (`index.html`) |
-| React 18 | Carregado via CDN (sem build step) |
-| Babel Standalone | Transpila JSX direto no browser |
+| React 18 | `react.production.min.js` via CDN, com `defer` (não bloqueia render) |
+| esbuild | Pré-compila os `.jsx` → `js/*.min.js` (via `build.ps1`, sem Babel-no-browser) |
 | CSS puro | Design tokens via variáveis CSS |
 | Servidor local | PowerShell HttpListener (`serve.ps1`) |
 | Deploy | Vercel — push na `main` dispara deploy automático |
 
-Não existe `node_modules`, `package.json` nem processo de build. Qualquer editor de texto funciona.
+O código-fonte são os arquivos `.jsx`; o navegador carrega os bundles compilados em `js/`.
+**Sempre que alterar um `.jsx`, rode `build.ps1` antes de commitar.** Edições só no bloco
+`TWEAK_DEFAULTS` do `index.html` (copy, preços, toggles) **não** exigem rebuild.
 
 ---
 
@@ -28,6 +30,10 @@ Não existe `node_modules`, `package.json` nem processo de build. Qualquer edito
 ├── sections.jsx          # Todos os componentes de seção da LP
 ├── effects.jsx           # Hooks compartilhados: scroll reveal, parallax, cursor
 ├── tweaks-panel.jsx      # Painel lateral de customização visual (dev only)
+├── js/                   # Bundles compilados (gerados por build.ps1) — carregados pelo index.html
+├── build.ps1             # Pré-compila os .jsx → js/*.min.js (esbuild via npx)
+├── scripts/
+│   └── optimize-images.js # Redimensiona + converte imagens em uso para WebP (sharp)
 ├── styles.css            # Estilos globais + design tokens CSS
 ├── serve.ps1             # Servidor local PowerShell
 ├── vercel.json           # Configuração de deploy Vercel
@@ -49,12 +55,28 @@ Não existe `node_modules`, `package.json` nem processo de build. Qualquer edito
 ## Como rodar localmente
 
 ```powershell
+# 1. Compile os bundles (necessário após qualquer alteração em .jsx)
+powershell -ExecutionPolicy Bypass -File build.ps1
+
+# 2. Suba o servidor estático
 powershell -ExecutionPolicy Bypass -File serve.ps1
 ```
 
 Acesse: [http://localhost:3000](http://localhost:3000)
 
-O servidor serve os arquivos estáticos na porta 3000. Não precisa instalar nada.
+`build.ps1` usa o esbuild via `npx` (baixado sob demanda, sem instalar nada permanente).
+
+### Otimizar imagens
+
+Ao adicionar/trocar imagens em uso, ajuste a lista em `scripts/optimize-images.js` e rode:
+
+```powershell
+npm install --no-save sharp@0.33.5
+node scripts/optimize-images.js
+Remove-Item -Recurse -Force node_modules
+```
+
+Gera `.webp` redimensionados ao lado dos originais. Atualize os `src` no `sections.jsx` e rode `build.ps1`.
 
 ---
 

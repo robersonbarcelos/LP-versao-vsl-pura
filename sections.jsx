@@ -184,8 +184,8 @@ function Hero({ t }){
           </div>
         </div>
         <div className="hero-foto-c">
-          <img src="img/heeerochat01.png" alt="Conversa real com um Super Agente de IA no Telegram"
-               fetchpriority="high" decoding="async"/>
+          <img src="img/heeerochat01.webp" alt="Conversa real com um Super Agente de IA no Telegram"
+               width="1000" height="1000" fetchpriority="high" decoding="async"/>
         </div>
       </div>
       <div className="container">
@@ -262,7 +262,7 @@ function Problem({ t }){
             <h2 className="h-display h2 reveal">O mercado virou um camelô de agentes. <em>Você não precisa de 50. Precisa de um.</em></h2>
           </div>
           <div className="problem-hd-img reveal" style={{'--reveal-delay':'80ms'}}>
-            <img src="img/noise-tools.png" alt="O camelô de ferramentas de IA" className="problem-camel-img" loading="lazy" decoding="async"/>
+            <img src="img/noise-tools.webp" alt="O camelô de ferramentas de IA" className="problem-camel-img" width="820" height="820" loading="lazy" decoding="async"/>
           </div>
         </div>
 
@@ -588,16 +588,16 @@ function Testimonials({ t }){
     'Mantém a operação viva mesmo quando ninguém olha',
   ];
   const students = [
-    { initials:'DB', name:'Denys Buso', role:'Conset Capital', img:'img/denys.jpg',
+    { initials:'DB', name:'Denys Buso', role:'Conset Capital', img:'img/denys.webp', w:200, h:210,
       quote:'O treinamento me ajudou a **acelerar a construção e validação dos agentes**, reduzindo retrabalho, aumentando a eficiência e otimizando o consumo de tokens de forma estratégica e inteligente!',
       result:'Agentes em produção · tokens otimizados' },
-    { initials:'AR', name:'Arcanjo', role:'Tráfego pago · Low ticket', img:'img/arcanjo.jpg',
+    { initials:'AR', name:'Arcanjo', role:'Tráfego pago · Low ticket', img:'img/arcanjo.webp', w:200, h:267,
       quote:'Eu comecei do zero, sem saber estruturar campanhas. O curso me mostrou um caminho claro. **Hoje uso IA para criar criativos, analisar produtos e montar uma operação organizada para vender no digital.**',
       result:'Operação organizada do zero' },
-    { initials:'NH', name:'Natanael H.', role:'Freelancer IA e Investidor Cripto', img:'img/natanael.jpg',
+    { initials:'NH', name:'Natanael H.', role:'Freelancer IA e Investidor Cripto', img:'img/natanael.webp', w:200, h:199,
       quote:'Minha curva de aprendizado foi gigantesca. O uso de agente de IA nas minhas vendas e serviços **se tornou indispensável**, no meu negócio e também nos meus investimentos.',
       result:'IA aplicada em vendas e investimentos' },
-    { initials:'LM', name:'Lukas Minervini', role:'Lançador de Produtos Digitais', img:'img/minervini.jpg',
+    { initials:'LM', name:'Lukas Minervini', role:'Lançador de Produtos Digitais', img:'img/minervini.webp', w:200, h:199,
       quote:'Conteúdo direto, sem enrolação. Apliquei o que aprendi no Super Agente e **destravei negociações que estavam paradas há meses**. Pagou o investimento logo nas primeiras semanas, agora opero em todas as frentes e em todas as demandas da operação.',
       result:'Investimento recuperado nas primeiras semanas' },
   ];
@@ -616,7 +616,7 @@ function Testimonials({ t }){
           {/* Diego */}
           <div className="diego-card">
             <div className="diego-avatar-box">
-              <img src="img/diego.png" alt="Diego Spanevello" className="diego-img" loading="lazy" decoding="async"
+              <img src="img/diego.webp" alt="Diego Spanevello" className="diego-img" width="640" height="357" loading="lazy" decoding="async"
                 onError={(e)=>{ e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }}/>
               <div className="diego-initials" style={{display:'none'}}>DS</div>
             </div>
@@ -636,7 +636,7 @@ function Testimonials({ t }){
           <div className="agents-col">
             <div className="agent-card">
               <div className="agent-photo-box">
-                <img src="img/aspira.png" alt="Aspira" className="agent-photo-img" loading="lazy" decoding="async"
+                <img src="img/aspira.webp" alt="Aspira" className="agent-photo-img" width="400" height="299" loading="lazy" decoding="async"
                   onError={(e)=>{ e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }}/>
                 <div className="agent-photo-fallback">AS</div>
               </div>
@@ -656,7 +656,7 @@ function Testimonials({ t }){
             </div>
             <div className="agent-card">
               <div className="agent-photo-box">
-                <img src="img/clovis.png" alt="Clóvis" className="agent-photo-img" loading="lazy" decoding="async"
+                <img src="img/clovis.webp" alt="Clóvis" className="agent-photo-img" width="400" height="299" loading="lazy" decoding="async"
                   onError={(e)=>{ e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }}/>
                 <div className="agent-photo-fallback">CL</div>
               </div>
@@ -710,7 +710,7 @@ function Testimonials({ t }){
                   {/* Sem loading="lazy": as imagens vivem num marquee animado por
                       transform; o lazy-load não dispara para elementos deslocados
                       por animação e elas ficariam em branco. */}
-                  <img src={s.img} alt={s.name} decoding="async" onError={(e)=>{ e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }}/>
+                  <img src={s.img} alt={s.name} width={s.w} height={s.h} decoding="async" onError={(e)=>{ e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }}/>
                   <div className="testi-initials" style={{display:'none'}}>{s.initials}</div>
                 </div>
                 <div>

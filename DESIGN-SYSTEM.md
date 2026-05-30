@@ -2,7 +2,7 @@
 **Produto:** Curso low-ticket · INTUS HUB  
 **URL produção:** https://super-agente-v2.vercel.app  
 **Stack:** React 18 + Babel standalone · CSS custom properties · Vercel  
-**Última atualização:** 2026-05-15
+**Última atualização:** 2026-05-29
 
 ---
 
@@ -30,7 +30,7 @@
 | **Fundador** | Diego Spanevello |
 | **Agentes reais de prova** | Aspira (operação) · Clóvis (estrutura) |
 | **Posicionamento** | Curso prático low-ticket — do zero ao agente operando no celular |
-| **Promessa principal** | Seu super agente de IA no ar em menos de 5 minutos, sem saber programar |
+| **Promessa principal** | A primeira versão do seu agente no ar rápido, sem saber programar — e a estrutura para evoluir |
 | **Diferencial** | Um agente com identidade, memória persistente e contexto real — não 50 genéricos |
 
 ---
@@ -231,7 +231,7 @@ color: var(--ink);
 
 ### Announcement Bar
 - Fundo `var(--accent)` · texto branco · link sublinhado
-- Copy: `"Seu super agente de IA em 5min: Sem saber programar. [Começar agora →]"`
+- Copy: `"Crie seu Super Agente de IA: Trabalhando 24/7 por você. [Criar meu agente →]"`
 
 ### Nav
 - Sticky · blur backdrop no scroll
@@ -239,9 +239,9 @@ color: var(--ink);
 - Direita: preço riscado `R$ 997` + parcelamento `6x R$16,50` + CTA small
 
 ### Hero
-- Grid 2 colunas: copy left · mockup Telegram right
-- Mockup: `.tg-shell` — simula interface do Telegram com bolhas de conversa reais
-- Bullets: 4 pontos com `<strong>` em branco
+- Grid full-bleed 2 colunas: copy left · imagem right
+- Imagem: `img/heeerochat01.png` (print de conversa real com o agente) com máscara dissolve dupla
+- Bullets: 4 pontos com `<strong>` em branco (abaixo, em grid 2 colunas)
 - Pillars bar: 4 colunas com `tag / name / desc`
 
 ### Eyebrow (badge pulsante)
@@ -271,7 +271,7 @@ background: color-mix(in oklab, var(--accent) 8%, transparent);
 ### Modules
 - Desktop: dois painéis — tabs clicáveis à esquerda + painel de conteúdo à direita
 - Mobile: accordion
-- 9 módulos numerados `01–09`
+- 4 módulos numerados `00–03`
 - Sticky tabs a `top: 90px`
 
 ### Offer (Oferta)
@@ -291,7 +291,7 @@ background: color-mix(in oklab, var(--accent) 8%, transparent);
 
 ### FAQ
 - Accordion — pergunta + `+` → expande resposta
-- 9 perguntas cobrindo: programação, customização, tempo, custo, kit, garantia
+- 8 perguntas cobrindo: programação, customização, tempo, custo, kit, acesso, garantia
 
 ---
 
@@ -330,10 +330,9 @@ transform: translateZ(0); /* ícone ::after */
 ### Sequência de seções
 
 ```
-Announcement → Nav → Hero → Problem → Challenges → Comparison
+Announcement → Nav → Hero → StatsBar → Problem → Challenges → Comparison
 → Modules → Results → Testimonials → Marquee → Roadmap
-→ Founders → Offer → Order Bump → Guarantee → FAQ
-→ Support → CTA Final → Footer
+→ Offer → Guarantee → FAQ → CTA Final → Support → Footer
 ```
 
 ### AIDA por seção
@@ -345,22 +344,24 @@ Announcement → Nav → Hero → Problem → Challenges → Comparison
 | **I** — Interesse | Challenges | 4 barreiras no registro "você" |
 | **D** — Desejo | Comparison | Grid Sem × Com — transformação concreta |
 | **D** — Desejo | Modules, Results | Prova de entrega e profundidade |
-| **D** — Desejo | Testimonials, Founders | Prova social — Aspira e Clóvis reais |
-| **A** — Ação | Offer, Order Bump, CTA Final | Âncora + preço + garantia |
+| **D** — Desejo | Testimonials | Prova social — Aspira e Clóvis reais + carrossel de alunos |
+| **A** — Ação | Offer, CTA Final | Âncora + preço + garantia |
 
 ### Headlines principais
 
 | Seção | Headline |
 |---|---|
-| Hero | "Você não precisa de 50 agentes bagunçados. Precisa de um *Super Agente que conhece você.*" |
+| Hero | "Chega de IA genérica. *Crie um Super Agente de verdade.*" |
 | Problem | "O mercado virou um camelô de agentes. *Você não precisa de 50. Precisa de um.*" |
-| Challenges | "Se você tentou e ficou genérico — *aqui está o motivo.*" |
+| Challenges | "Você já tentou. Você já investiu. *Por que ainda não deu certo?*" |
 | Comparison | "O que muda quando o agente *é construído do jeito certo.*" |
-| Modules | "Tudo pra colocar seu agente no ar *e mantê-lo rodando 24 horas em operação real.*" |
+| Modules | "Do entendimento inicial ao agente no ar, *com contexto, memória, segurança e capacidades reais.*" |
 | Results | "Ao terminar o curso, *você terá:*" |
-| Testimonials | "Eu não vendo teoria. *Eu vivo isso todo dia.*" |
+| Testimonials | "Um Humano. *Dois Super Agentes.*" |
 | Guarantee | "Teste por *7 dias.* Não foi pra você, devolvemos 100%." |
 | CTA final | "Você já perdeu tempo suficiente *com agentes que não prestam.*" |
+
+> A copy do hero (`heroTitle`, `heroSub`, `ctaPrimary`) é editável via `TWEAK_DEFAULTS` / painel de tweaks.
 
 ### CTA principal
 
@@ -370,10 +371,10 @@ Announcement → Nav → Hero → Problem → Challenges → Comparison
 
 ### Micro-copy de suporte
 
-- Announcement: `"Seu super agente de IA em 5min: Sem saber programar."`
-- Below CTA: `"Acesso vitalício · 7 dias de garantia"`
-- Price note: `"acesso imediato · 7 dias de garantia"`
-- Lock: `"🔒 Acesso vitalício · 7 dias de garantia"`
+- Announcement: `"Crie seu Super Agente de IA: Trabalhando 24/7 por você."`
+- Below CTA (hero): `"7 dias de garantia"`
+- CTA meta: `"6x R$16,50 · ou R$87,90 à vista · acesso imediato"`
+- Lock (oferta): `"🔒 1 ano de acesso · 7 dias de garantia"`
 
 ---
 
@@ -386,17 +387,17 @@ Announcement → Nav → Hero → Problem → Challenges → Comparison
 | Parcelamento | 6x de R$ 16,50 |
 | Checkout | `https://pay.hotmart.com/COLOQUE-AQUI` |
 | Garantia | 7 dias incondicional |
-| Order bump | WhatsApp vitalício por R$ 57,90 (incluso = 12 meses) |
+| Upgrade (no checkout) | Acesso vitalício por R$ 67,90 — oferecido no checkout Hotmart, não há seção de order bump na LP |
 
 ### Value Stack (itens da oferta)
 
 | Item | Valor exibido |
 |---|---|
-| Curso completo · 9 módulos curtos e práticos | R$ 497 |
-| Kit de Ativação · templates prontos | R$ 197 |
-| HTMLs visuais de cada aula | R$ 97 |
-| Comunidade Viva no WhatsApp · 12 meses de suporte | R$ 197 |
-| Atualizações e novos módulos | incluso |
+| Curso completo · 4 módulos, 16 aulas base e atualizações futuras | R$ 497 |
+| Kit de Ignição · configuração guiada de identidade e memória | R$ 197 |
+| Materiais visuais de cada aula | R$ 97 |
+| Comunidade de suporte no WhatsApp · 12 meses | R$ 197 |
+| Atualizações do produto e novas aulas futuras | incluso |
 | Garantia incondicional · 7 dias | incluso |
 | Mais cases reais de aplicação | Bônus |
 | Integrações avançadas (agenda, CRM, planilhas) | Bônus |
@@ -413,14 +414,15 @@ Announcement → Nav → Hero → Problem → Challenges → Comparison
 ## 10. ARQUITETURA DE ARQUIVOS
 
 ```
-produto-super-agente-v2/
-├── Super Agente.html   ← HTML principal + TWEAK_DEFAULTS
-├── index.html          ← Alias para deploy Vercel (gerado via Copy-Item)
+LP-Crie-um-Super-Agente-de-IA/
+├── index.html          ← Entry point único + TWEAK_DEFAULTS (servido pelo Vercel)
 ├── styles.css          ← Todo o CSS do produto
 ├── sections.jsx        ← Todos os componentes React
 ├── app.jsx             ← Root: ordem das seções + TweaksPanel
 ├── effects.jsx         ← useScrollReveal, useParallax, useCustomCursor
 ├── tweaks-panel.jsx    ← Painel de edição ao vivo (TweakColor, TweakToggle…)
+├── serve.ps1           ← Servidor local (PowerShell HttpListener, porta 3000)
+├── vercel.json         ← Config de deploy (cleanUrls, sem build step)
 ├── DESIGN-SYSTEM.md   ← Este arquivo
 └── PRD.md              ← Product Requirements Document
 ```
@@ -447,8 +449,7 @@ produto-super-agente-v2/
 ### Deploy
 
 ```powershell
-# A partir de produto-super-agente-v2/
-Copy-Item "Super Agente.html" "index.html" -Force
-vercel --prod --yes
+# Push na branch main dispara deploy automático no Vercel (sem build step).
+git push origin main
 # → https://super-agente-v2.vercel.app
 ```

@@ -21,8 +21,15 @@ function useScrollReveal(enabled = true){
 
     const observe = () => document.querySelectorAll('.reveal:not(.in)').forEach(el => io.observe(el));
     observe();
-    // Re-observe when DOM changes (e.g. tabs switch)
-    const mo = new MutationObserver(observe);
+    // Re-observe when DOM changes (e.g. tabs switch). Coalesce bursts num único
+    // rAF — sem isso, o countdown (que muda o DOM a cada segundo) força um
+    // querySelectorAll na página inteira a cada tick.
+    let scheduled = false;
+    const mo = new MutationObserver(() => {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(() => { scheduled = false; observe(); });
+    });
     mo.observe(document.body, { childList: true, subtree: true });
     return () => { io.disconnect(); mo.disconnect(); };
   }, [enabled]);

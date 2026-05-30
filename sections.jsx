@@ -14,6 +14,17 @@ function withStrong(text){
   return { __html: (text || '').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>') };
 }
 
+/* Quebra a string de parcelamento ("6x R$16,50") em { count, value } e remove o
+   símbolo de moeda do valor, para que nav, oferta e marquee fiquem em sincronia
+   com o tweak priceInstallments em vez de repetir o número hardcoded. */
+function parseInstallment(str, currency){
+  const m = (str || '').trim().match(/^(\S+)\s+(.*)$/);
+  const count = m ? m[1] : (str || '');
+  let value = m ? m[2] : '';
+  if (currency) value = value.replace(currency, '').trim();
+  return { count, value };
+}
+
 /* ───────────── COUNT-UP HOOK + STATS BAR ───────────── */
 function useCountUp(target, duration, started){
   const [val, setVal] = useState(0);
@@ -85,6 +96,7 @@ function Announcement({ t }){
 /* ───────────── NAV ───────────── */
 function Nav({ t }){
   const scrolled = useScrolledFlag(20);
+  const inst = parseInstallment(t.priceInstallments, t.currency);
   return (
     <header className={`nav ${scrolled ? 'scrolled' : ''}`}>
       <div className="container nav-inner">
@@ -140,8 +152,8 @@ function Nav({ t }){
             <s className="nav-price-old">{t.currency} {t.priceFull}</s>
             <span className="nav-price-sep">·</span>
             <span className="nav-price-inst">
-              <span className="nav-price-times">6x</span>
-              <strong className="nav-price-value">R$16,50</strong>
+              <span className="nav-price-times">{inst.count}</span>
+              <strong className="nav-price-value">{t.currency}{inst.value}</strong>
             </span>
           </div>
           <a className="btn btn-primary" href="#oferta">{t.ctaPrimary} <span className="btn-arrow">→</span></a>
@@ -172,7 +184,8 @@ function Hero({ t }){
           </div>
         </div>
         <div className="hero-foto-c">
-          <img src="img/heeerochat01.png" alt="Diego Spanevello"/>
+          <img src="img/heeerochat01.png" alt="Conversa real com um Super Agente de IA no Telegram"
+               fetchpriority="high" decoding="async"/>
         </div>
       </div>
       <div className="container">
@@ -185,88 +198,6 @@ function Hero({ t }){
         <HeroPillars />
       </div>
     </section>
-  );
-}
-
-function HeroVis(){
-  return (
-    <div className="hero-vis reveal tg-shell" style={{'--reveal-delay':'200ms'}}>
-
-      {/* Telegram top bar */}
-      <div className="tg-bar">
-        <div className="tg-bar-left">
-          <div className="tg-avatar">
-            <span>A</span>
-            <span className="tg-online-dot"/>
-          </div>
-          <div className="tg-bar-info">
-            <div className="tg-bar-name">Aspira</div>
-            <div className="tg-bar-status">online</div>
-          </div>
-        </div>
-        <div className="tg-bar-icons">
-          <span className="tg-icon">⋯</span>
-        </div>
-      </div>
-
-      {/* Wallpaper + messages */}
-      <div className="tg-body">
-
-        {/* date divider */}
-        <div className="tg-date-divider">Hoje</div>
-
-        {/* outgoing */}
-        <div className="tg-bubble out">
-          <span className="tg-text">Aspira, me lembra os 3 pontos da reunião de ontem com o time?</span>
-          <span className="tg-meta">14:01 <span className="tg-check">✓✓</span></span>
-        </div>
-
-        {/* incoming */}
-        <div className="tg-bubble in">
-          <span className="tg-sender">Aspira</span>
-          <span className="tg-text">Resumi tudo na sua memória ontem. Os 3 pontos:<br/>1) revisão do funil<br/>2) ajuste de preço do bump<br/>3) registro útil da semana</span>
-          <span className="tg-meta">14:02</span>
-        </div>
-
-        {/* incoming follow-up */}
-        <div className="tg-bubble in">
-          <span className="tg-text">Quer que eu já agende a próxima reunião com a equipe? Tem 2 janelas livres amanhã às 10h e 15h. 📅</span>
-          <span className="tg-meta">14:02</span>
-        </div>
-
-        {/* outgoing */}
-        <div className="tg-bubble out">
-          <span className="tg-text">Sim, marca às 10h e manda o resumo de hoje pro canal do time.</span>
-          <span className="tg-meta">14:03 <span className="tg-check">✓✓</span></span>
-        </div>
-
-        {/* incoming */}
-        <div className="tg-bubble in">
-          <span className="tg-text">Feito. Reunião agendada e resumo enviado. Mais alguma coisa? ✅</span>
-          <span className="tg-meta">14:03</span>
-        </div>
-
-        {/* typing indicator */}
-        <div className="tg-typing">
-          <div className="tg-typing-dot"/>
-          <div className="tg-typing-dot"/>
-          <div className="tg-typing-dot"/>
-        </div>
-
-      </div>
-
-      {/* Fake input bar */}
-      <div className="tg-input-bar">
-        <div className="tg-input-field">Digite uma mensagem…</div>
-        <button className="tg-send-btn" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-      </div>
-
-    </div>
   );
 }
 
@@ -331,7 +262,7 @@ function Problem({ t }){
             <h2 className="h-display h2 reveal">O mercado virou um camelô de agentes. <em>Você não precisa de 50. Precisa de um.</em></h2>
           </div>
           <div className="problem-hd-img reveal" style={{'--reveal-delay':'80ms'}}>
-            <img src="img/noise-tools.png" alt="O camelô de ferramentas de IA" className="problem-camel-img"/>
+            <img src="img/noise-tools.png" alt="O camelô de ferramentas de IA" className="problem-camel-img" loading="lazy" decoding="async"/>
           </div>
         </div>
 
@@ -602,12 +533,6 @@ function ProofBridge(){
   );
 }
 
-/* REMOVIDO: ModuleVisGfx — não usado no novo layout */
-function ModuleVisGfx({ index }){
-  return null; /* mantido por compatibilidade, não renderiza nada */
-}
-
-
 /* ───────────── RESULTS ───────────── */
 function Results({ t }){
   const items = [
@@ -691,7 +616,7 @@ function Testimonials({ t }){
           {/* Diego */}
           <div className="diego-card">
             <div className="diego-avatar-box">
-              <img src="img/diego.png" alt="Diego Spanevello" className="diego-img"
+              <img src="img/diego.png" alt="Diego Spanevello" className="diego-img" loading="lazy" decoding="async"
                 onError={(e)=>{ e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }}/>
               <div className="diego-initials" style={{display:'none'}}>DS</div>
             </div>
@@ -711,7 +636,7 @@ function Testimonials({ t }){
           <div className="agents-col">
             <div className="agent-card">
               <div className="agent-photo-box">
-                <img src="img/aspira.png" alt="Aspira" className="agent-photo-img"
+                <img src="img/aspira.png" alt="Aspira" className="agent-photo-img" loading="lazy" decoding="async"
                   onError={(e)=>{ e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }}/>
                 <div className="agent-photo-fallback">AS</div>
               </div>
@@ -731,7 +656,7 @@ function Testimonials({ t }){
             </div>
             <div className="agent-card">
               <div className="agent-photo-box">
-                <img src="img/clovis.png" alt="Clóvis" className="agent-photo-img"
+                <img src="img/clovis.png" alt="Clóvis" className="agent-photo-img" loading="lazy" decoding="async"
                   onError={(e)=>{ e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }}/>
                 <div className="agent-photo-fallback">CL</div>
               </div>
@@ -782,7 +707,10 @@ function Testimonials({ t }){
             <div key={i} className="testi-card">
               <div className="testi-hdr">
                 <div className="testi-photo">
-                  <img src={s.img} alt={s.name} onError={(e)=>{ e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }}/>
+                  {/* Sem loading="lazy": as imagens vivem num marquee animado por
+                      transform; o lazy-load não dispara para elementos deslocados
+                      por animação e elas ficariam em branco. */}
+                  <img src={s.img} alt={s.name} decoding="async" onError={(e)=>{ e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }}/>
                   <div className="testi-initials" style={{display:'none'}}>{s.initials}</div>
                 </div>
                 <div>
@@ -802,10 +730,11 @@ function Testimonials({ t }){
 
 /* ───────────── MARQUEE ───────────── */
 function Marquee({ t }){
+  const inst = parseInstallment(t.priceInstallments, t.currency);
   const items = [
     'Crie um Super Agente de IA',
     'Acesso por 12 meses',
-    `6x ${t.currency} 16,50`,
+    `${inst.count} ${t.currency} ${inst.value}`,
     'Comunidade no WhatsApp',
     'Kit de Ignição incluso',
     '4 módulos práticos',
@@ -854,10 +783,6 @@ function Roadmap({ t }){
   );
 }
 
-/* ───────────── FOUNDERS ───────────── */
-/* Conteúdo migrado para Testimonials (ProofSection). Mantido para compatibilidade do toggle. */
-function Founders({ t }){ return null; }
-
 /* ───────────── OFFER ───────────── */
 function Offer({ t }){
   const main = [
@@ -881,6 +806,7 @@ function Offer({ t }){
     { name: 'Integrações avançadas (agenda, CRM, planilhas)',                   price: 'bônus'    },
     { name: 'Novos arquivos-base e templates',                                  price: 'bônus'    },
   ];
+  const inst = parseInstallment(t.priceInstallments, t.currency);
   return (
     <section id="oferta" className="offer">
       <div className="container">
@@ -903,7 +829,7 @@ function Offer({ t }){
               </div>
               <div className="value-total">
                 <span className="value-total-label">Tudo isso custaria</span>
-                <span className="value-total-num">R$ 997,00</span>
+                <span className="value-total-num">{t.currency} {t.priceFull},00</span>
               </div>
             </div>
 
@@ -911,14 +837,14 @@ function Offer({ t }){
             <div className="offer-price">
               <div className="offer-price-launch-label">Mas hoje você paga apenas:</div>
               <div className="offer-price-installment">
-                <span className="price-times">6x</span>
+                <span className="price-times">{inst.count}</span>
                 <div className="price-main">
-                  <span className="currency">{t.currency}</span>16,50
+                  <span className="currency">{t.currency}</span>{inst.value}
                 </div>
               </div>
               <div className="offer-price-vista">ou {t.currency} {t.priceNow} à vista</div>
               <CountdownTimer />
-              <a href="#" className="btn btn-primary btn-big">Quero meu Super Agente <span className="btn-arrow">→</span></a>
+              <a href="#" className="btn btn-primary btn-big">{t.ctaPrimary} <span className="btn-arrow">→</span></a>
               <div className="offer-price-note">🔒 1 ano de acesso · 7 dias de garantia</div>
             </div>
           </div>
@@ -1099,6 +1025,23 @@ function LeadModal({ t }) {
     return () => document.removeEventListener('click', intercept);
   }, []);
 
+  // Acessibilidade do modal: fecha no Esc, trava o scroll do fundo e leva o foco
+  // ao primeiro campo quando abre.
+  const firstFieldRef = useRef(null);
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    document.addEventListener('keydown', onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const focusTimer = setTimeout(() => firstFieldRef.current?.focus(), 50);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prevOverflow;
+      clearTimeout(focusTimer);
+    };
+  }, [open]);
+
   function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
@@ -1113,18 +1056,20 @@ function LeadModal({ t }) {
 
   return (
     <div className="modal-overlay" onClick={() => setOpen(false)}>
-      <div className="modal-box" onClick={e => e.stopPropagation()}>
+      <div className="modal-box" onClick={e => e.stopPropagation()}
+           role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
         <button className="modal-close" onClick={() => setOpen(false)} aria-label="Fechar">×</button>
 
         <div className="modal-badge">FALTA SÓ UM PASSO</div>
 
-        <h2 className="modal-title">Preencha seus dados<br/>e garanta sua vaga</h2>
+        <h2 className="modal-title" id="lead-modal-title">Preencha seus dados<br/>e garanta sua vaga</h2>
         <p className="modal-sub">
           {t.currency} {t.priceNow} · 1 ano de acesso.
         </p>
 
         <form className="modal-form" onSubmit={handleSubmit} noValidate>
           <input
+            ref={firstFieldRef}
             className="modal-input"
             type="text"
             placeholder="Seu nome"
@@ -1226,7 +1171,7 @@ function Cta({ t }){
           <span>✓ Garantia 7 dias</span>
         </div>
         <a className="btn btn-primary btn-big reveal" href="#oferta" style={{'--reveal-delay':'140ms'}}>{t.ctaPrimary} <span className="btn-arrow">→</span></a>
-        <div className="cta-meta">6x R$16,50 · ou R$87,90 à vista · acesso imediato</div>
+        <div className="cta-meta">{t.priceInstallments} · ou {t.currency}{t.priceNow} à vista · acesso imediato</div>
       </div>
     </section>
   );
@@ -1317,6 +1262,6 @@ function Footer({ t }){
 
 Object.assign(window, {
   Announcement, Nav, Hero, StatsBar, Video, Problem, Agitation, Challenges, Modules,
-  Results, ProofBridge, Testimonials, Marquee, Roadmap, Founders, Offer, OrderBump,
+  Results, ProofBridge, Testimonials, Marquee, Roadmap, Offer,
   Guarantee, Faq, Support, WhatsappFloat, LeadModal, Cta, Footer
 });

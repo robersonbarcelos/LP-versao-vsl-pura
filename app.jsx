@@ -37,10 +37,8 @@ function App(){
       {t.showResults && t.showTestimonials && <ProofBridge/>}
       {t.showTestimonials && <Testimonials t={t}/>}
       {t.showMarquee && <Marquee t={t}/>}
-      {t.showFounders && <Founders t={t}/>}
       {t.showRoadmap && <Roadmap t={t}/>}
       {t.showOffer && <Offer t={t}/>}
-      {t.showOrderBump && <OrderBump t={t}/>}
       {t.showGuarantee && <Guarantee t={t}/>}
       {t.showFaq && <Faq t={t}/>}
       {t.showCta && <Cta t={t}/>}
@@ -101,9 +99,7 @@ function App(){
         <TweakToggle label="Provas (Aspira/Clóvis)" value={t.showTestimonials} onChange={v => setTweak('showTestimonials', v)}/>
         <TweakToggle label="Marquee" value={t.showMarquee} onChange={v => setTweak('showMarquee', v)}/>
         <TweakToggle label="Roadmap" value={t.showRoadmap} onChange={v => setTweak('showRoadmap', v)}/>
-        <TweakToggle label="Time" value={t.showFounders} onChange={v => setTweak('showFounders', v)}/>
         <TweakToggle label="Oferta" value={t.showOffer} onChange={v => setTweak('showOffer', v)}/>
-        <TweakToggle label="Order bump" value={t.showOrderBump} onChange={v => setTweak('showOrderBump', v)}/>
         <TweakToggle label="Garantia" value={t.showGuarantee} onChange={v => setTweak('showGuarantee', v)}/>
         <TweakToggle label="FAQ" value={t.showFaq} onChange={v => setTweak('showFaq', v)}/>
         <TweakToggle label="Suporte WhatsApp" value={t.showSupport} onChange={v => setTweak('showSupport', v)}/>

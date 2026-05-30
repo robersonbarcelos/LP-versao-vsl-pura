@@ -31,7 +31,6 @@ Não existe `node_modules`, `package.json` nem processo de build. Qualquer edito
 ├── styles.css            # Estilos globais + design tokens CSS
 ├── serve.ps1             # Servidor local PowerShell
 ├── vercel.json           # Configuração de deploy Vercel
-├── hero-variacoes.html   # Arquivo de referência — 5 variações de hero testadas
 ├── PRD.md                # Product Requirements Document
 ├── DESIGN-SYSTEM.md      # Guia de design tokens e componentes
 └── img/
@@ -119,14 +118,12 @@ window.TWEAK_DEFAULTS = {
 | 12 | Testimonials | `showTestimonials` | Depoimentos (Diego + Aspira + Clóvis + carrossel) |
 | 13 | Marquee | `showMarquee` | Faixa animada horizontal |
 | 14 | Roadmap | `showRoadmap` | Linha do tempo de evolução do agente |
-| 15 | Founders | `showFounders` | Seção do professor |
-| 16 | Offer | `showOffer` | Caixa de oferta com countdown timer de 59 min |
-| 17 | Order Bump | `showOrderBump` | Oferta adicional (desativado por padrão) |
-| 18 | Guarantee | `showGuarantee` | Garantia de 7 dias |
-| 19 | FAQ | `showFaq` | Perguntas frequentes |
-| 20 | CTA final | `showCta` | Bloco final de conversão |
-| 21 | Support | `showSupport` | Link de suporte via WhatsApp |
-| 22 | Footer | `showFooter` | Rodapé com links e CNPJ |
+| 15 | Offer | `showOffer` | Caixa de oferta com countdown timer de 59 min |
+| 16 | Guarantee | `showGuarantee` | Garantia de 7 dias |
+| 17 | FAQ | `showFaq` | Perguntas frequentes |
+| 18 | CTA final | `showCta` | Bloco final de conversão |
+| 19 | Support | `showSupport` | Link de suporte via WhatsApp |
+| 20 | Footer | `showFooter` | Rodapé com links e CNPJ |
 
 ---
 
@@ -179,8 +176,10 @@ Push na branch `main` dispara deploy automático. Não precisa de build command 
 
 **Configuração (`vercel.json`):**
 ```json
-{ "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }
+{ "buildCommand": null, "outputDirectory": ".", "framework": null, "cleanUrls": true }
 ```
+
+`cleanUrls` remove a extensão `.html` das URLs; sem build step, o Vercel serve os arquivos estáticos direto da raiz.
 
 ---
 
@@ -200,7 +199,6 @@ Todos os botões CTA da página apontam para `#oferta` (âncora interna) ou para
 
 | Arquivo | Descrição |
 |---|---|
-| `hero-variacoes.html` | 5 variações de hero testadas (V1 a V5) — V1 foi a escolhida |
 | `DESIGN-SYSTEM.md` | Tokens de cor, tipografia, espaçamento e componentes |
 | `PRD.md` | Requisitos do produto, público-alvo e objetivos |
 

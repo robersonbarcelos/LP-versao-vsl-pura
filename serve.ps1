@@ -3,7 +3,7 @@ $listener.Prefixes.Add("http://localhost:3000/")
 $listener.Start()
 Write-Host "Servidor no ar: http://localhost:3000"
 
-$root = "C:\Users\User\super-agente-lp"
+$root = $PSScriptRoot
 $mimes = @{
     ".html" = "text/html; charset=utf-8"
     ".css"  = "text/css"

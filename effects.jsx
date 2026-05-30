@@ -88,6 +88,11 @@ function useCustomCursor(enabled){
 function useParallax(enabled){
   useEffect(() => {
     if (!enabled) return;
+    // Parallax mal aparece em telas touch e força transform/paint a cada scroll
+    // (custo alto de Style & Layout no mobile). Desliga em ponteiro coarse e
+    // quando o usuário pede menos movimento.
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     let raf;
     const els = Array.from(document.querySelectorAll('[data-parallax]'));
     const update = () => {

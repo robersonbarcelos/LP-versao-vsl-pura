@@ -162,26 +162,25 @@ button{ font: inherit; cursor: pointer; }
   backface-visibility: hidden;
 }
 
-/* Sweep de luz */
+/* Sweep de luz — animado via transform (compositado na GPU, sem reflow por frame) */
 .btn-primary::before{
   content: "";
   position: absolute;
-  top: 0; left: -20%;
-  height: 100%; width: 90px;
-  background: #fff;
-  box-shadow: 0 0 28px 18px rgba(255,255,255,.7);
-  transform: skewX(-20deg) translateZ(0);
+  top: 0; left: 0;
+  height: 100%; width: 100%;
+  background: linear-gradient(100deg, transparent 38%, rgba(255,255,255,.85) 50%, transparent 62%);
+  transform: translateX(-100%);
   mix-blend-mode: plus-lighter;
   opacity: 0;
   pointer-events: none;
   animation: btn-sweep 2.6s linear infinite;
 }
 @keyframes btn-sweep{
-  0%   { opacity:0; left:-20%; }
-  20%  { opacity:.16; }
-  50%  { opacity:.30; left:50%; }
-  80%  { opacity:.16; }
-  100% { opacity:0; left:110%; }
+  0%   { opacity:0; transform: translateX(-100%); }
+  20%  { opacity:.55; }
+  50%  { opacity:.95; transform: translateX(0%); }
+  80%  { opacity:.55; }
+  100% { opacity:0; transform: translateX(100%); }
 }
 
 .btn-primary:hover{
@@ -270,6 +269,15 @@ button{ font: inherit; cursor: pointer; }
   -webkit-backdrop-filter: blur(20px) saturate(140%);
   backdrop-filter: blur(20px) saturate(140%);
   border-bottom-color: var(--line);
+}
+/* backdrop-filter (blur) recalcula a cada frame de scroll e é caro no mobile.
+   Em telas pequenas troca por um fundo sólido translúcido (sem blur). */
+@media (max-width: 768px){
+  .nav.scrolled{
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: color-mix(in oklab, var(--bg) 94%, transparent);
+  }
 }
 .nav-inner{
   display: flex; align-items: center; justify-content: space-between;
@@ -2772,4 +2780,19 @@ body.cursor-on a, body.cursor-on button{ cursor: none; }
 @media (max-width: 540px) {
   .support-card { padding: 32px 20px; }
   .support-card p { font-size: 15px; }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   ACESSIBILIDADE — respeita "prefers-reduced-motion"
+   Desliga animações contínuas (sweep, marquee, selo girando, pulsos) e
+   transições para quem pede menos movimento. Também elimina o custo de
+   Style & Layout dessas animações nesses dispositivos.
+   ─────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

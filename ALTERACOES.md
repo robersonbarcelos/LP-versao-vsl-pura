@@ -102,6 +102,19 @@ PageSpeed Insights (desktop) acusou **Desempenho 31**: TBT **6.600 ms**, main-th
 
 Adicionados `width`/`height` explícitos (resolve o aviso de CLS). Originais mantidos no repo (não referenciados).
 
+**Frente 3 — React self-hosted:** o React vinha do `unpkg.com` (terceiro), custando ~281ms de main-thread + latência/variância de rede (Lighthouse oscilava 60–76). Passou a ser servido pelo edge do Vercel (mesma origem), em `vendor/`.
+
+**Resultado (Lighthouse desktop, produção):**
+
+| Métrica | Antes | Depois |
+|---|---|---|
+| Desempenho | 31 | **96** |
+| TBT | 6.600 ms | 20–70 ms |
+| LCP | 3,7 s | ~1,1 s |
+| FCP | 3,0 s | ~1,0 s |
+| Speed Index | 7,1 s | ~1,5 s |
+| Payload | 4.389 KiB | ~464 KiB |
+
 > **Workflow novo:** o código-fonte continua em `.jsx`; rode **`build.ps1`** após editar qualquer `.jsx`. Edições no `TWEAK_DEFAULTS` não exigem rebuild.
 
 ---

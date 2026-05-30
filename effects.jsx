@@ -19,7 +19,19 @@ function useScrollReveal(enabled = true){
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-    const observe = () => document.querySelectorAll('.reveal:not(.in)').forEach(el => io.observe(el));
+    // Elementos já visíveis no mount são revelados de forma síncrona (sem esperar
+    // o callback assíncrono do IntersectionObserver). Isso evita um flicker quando
+    // o React reassume o conteúdo pré-renderizado: o que está acima da dobra já
+    // aparece imediatamente. O resto continua observado para revelar no scroll.
+    const inView = (el) => {
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      return r.top < vh && r.bottom > 0;
+    };
+    const observe = () => document.querySelectorAll('.reveal:not(.in)').forEach(el => {
+      if (inView(el)) el.classList.add('in');
+      else io.observe(el);
+    });
     observe();
     // Re-observe when DOM changes (e.g. tabs switch). Coalesce bursts num único
     // rAF — sem isso, o countdown (que muda o DOM a cada segundo) força um

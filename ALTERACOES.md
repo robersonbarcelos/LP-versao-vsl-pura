@@ -115,7 +115,17 @@ Adicionados `width`/`height` explícitos (resolve o aviso de CLS). Originais man
 | Speed Index | 7,1 s | ~1,5 s |
 | Payload | 4.389 KiB | ~464 KiB |
 
-> **Workflow novo:** o código-fonte continua em `.jsx`; rode **`build.ps1`** após editar qualquer `.jsx`. Edições no `TWEAK_DEFAULTS` não exigem rebuild.
+**Frente 4 — otimizações de mobile (Style & Layout) + pré-render:**
+- `btn-sweep` animado via `transform` (compositado) em vez de `left` (reflow por frame).
+- `backdrop-filter` (blur) da nav trocado por fundo sólido translúcido em ≤768px.
+- Parallax desligado em `pointer: coarse` (touch) e em `prefers-reduced-motion`.
+- Bloco `prefers-reduced-motion`: desliga animações contínuas para quem opta.
+- `useScrollReveal` revela síncrono os elementos já visíveis no mount (evita flicker).
+- **Pré-render:** `prerender.ps1` gera um shell estático (~69 KB) dentro do `#root` via Chrome headless. O conteúdo pinta antes do JS (LCP/FCP/SEO); o `createRoot` substitui o `#root` ao montar — **sem hidratação**, então não há risco de hydration mismatch.
+
+**Resultado oficial (PageSpeed Insights):** desktop **96**, mobile **86** (ante 31 inicial).
+
+> **Workflow novo:** o código-fonte continua em `.jsx`. Rode **`build.ps1`** após editar um `.jsx`, ou **`prerender.ps1`** antes do deploy para também atualizar o shell estático. Edições só no `TWEAK_DEFAULTS` não exigem rebuild.
 
 ---
 

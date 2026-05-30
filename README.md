@@ -31,9 +31,12 @@ O código-fonte são os arquivos `.jsx`; o navegador carrega os bundles compilad
 ├── effects.jsx           # Hooks compartilhados: scroll reveal, parallax, cursor
 ├── tweaks-panel.jsx      # Painel lateral de customização visual (dev only)
 ├── js/                   # Bundles compilados (gerados por build.ps1) — carregados pelo index.html
+├── vendor/               # React de produção self-hosted (react / react-dom .min.js)
 ├── build.ps1             # Pré-compila os .jsx → js/*.min.js (esbuild via npx)
+├── prerender.ps1         # build + gera o shell estático no #root (LCP/SEO)
 ├── scripts/
-│   └── optimize-images.js # Redimensiona + converte imagens em uso para WebP (sharp)
+│   ├── optimize-images.js # Redimensiona + converte imagens em uso para WebP (sharp)
+│   └── prerender.mjs      # Snapshot do #root via Chrome headless (puppeteer-core)
 ├── styles.css            # Estilos globais + design tokens CSS
 ├── serve.ps1             # Servidor local PowerShell
 ├── vercel.json           # Configuração de deploy Vercel
@@ -55,8 +58,9 @@ O código-fonte são os arquivos `.jsx`; o navegador carrega os bundles compilad
 ## Como rodar localmente
 
 ```powershell
-# 1. Compile os bundles (necessário após qualquer alteração em .jsx)
-powershell -ExecutionPolicy Bypass -File build.ps1
+# 1. Compile os bundles + gere o shell estático (rode após alterar .jsx)
+powershell -ExecutionPolicy Bypass -File prerender.ps1
+#    (ou só `build.ps1` se não quiser regenerar o pré-render durante o dev)
 
 # 2. Suba o servidor estático
 powershell -ExecutionPolicy Bypass -File serve.ps1
@@ -64,7 +68,13 @@ powershell -ExecutionPolicy Bypass -File serve.ps1
 
 Acesse: [http://localhost:3000](http://localhost:3000)
 
-`build.ps1` usa o esbuild via `npx` (baixado sob demanda, sem instalar nada permanente).
+`build.ps1` usa o esbuild via `npx`; `prerender.ps1` usa puppeteer-core + o Chrome/Edge
+instalado (ambos baixados sob demanda, sem instalar nada permanente).
+
+**Antes de fazer deploy de mudanças estruturais nos `.jsx`, rode `prerender.ps1`** para
+atualizar o shell estático embutido no `#root`. O React substitui esse shell ao montar
+(via `createRoot`, sem hidratação), então ele serve só para o primeiro paint / LCP / SEO —
+edições só de `TWEAK_DEFAULTS` não exigem regenerar.
 
 ### Otimizar imagens
 

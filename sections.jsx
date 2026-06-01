@@ -221,23 +221,6 @@ function HeroPillars(){
   );
 }
 
-/* ───────────── VIDEO ───────────── */
-function Video({ t }){
-  return (
-    <section className="video">
-      <div className="container">
-        <div className="video-frame reveal">
-          <div className="video-meta"><strong>diego spanevello</strong> · apresentação · 04:32</div>
-          <div className="video-play">
-            <button className="video-play-btn" aria-label="Reproduzir">▶</button>
-          </div>
-        </div>
-        <p className="video-caption">Assista a apresentação rápida e veja como funciona um Super Agente real, criado em poucos minutos.</p>
-      </div>
-    </section>
-  );
-}
-
 /* ───────────── PROBLEM ───────────── */
 function Problem({ t }){
   const noiseCards = [
@@ -995,124 +978,23 @@ function Faq({ t }){
   );
 }
 
-/* ───────────── LEAD MODAL ───────────── */
-let _setModalOpen = null;
-function openLeadModal(e) {
-  if (e && e.preventDefault) e.preventDefault();
-  if (_setModalOpen) _setModalOpen(true);
-}
-
-function LeadModal({ t }) {
-  const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ name: '', email: '', phone: '' });
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    _setModalOpen = setOpen;
-    return () => { _setModalOpen = null; };
-  }, []);
-
-  // Intercepta todos os cliques em CTAs primários (href="#oferta")
+/* ───────────── CHECKOUT REDIRECT ─────────────
+   Sem modal de captura: todo CTA primário leva direto ao checkout.
+   Os botões usam href="#oferta" / "#" como âncora semântica; este
+   interceptador global captura o clique e redireciona para t.checkoutUrl. */
+function CheckoutRedirect({ t }) {
   useEffect(() => {
     function intercept(e) {
       const link = e.target.closest('a[href="#oferta"], a[href="#"], .btn-primary');
-      if (link && !link.closest('.modal-box')) {
-        e.preventDefault();
-        setOpen(true);
-      }
+      if (!link) return;
+      e.preventDefault();
+      window.location.href = t.checkoutUrl || '#oferta';
     }
     document.addEventListener('click', intercept);
     return () => document.removeEventListener('click', intercept);
-  }, []);
+  }, [t.checkoutUrl]);
 
-  // Acessibilidade do modal: fecha no Esc, trava o scroll do fundo e leva o foco
-  // ao primeiro campo quando abre.
-  const firstFieldRef = useRef(null);
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
-    document.addEventListener('keydown', onKey);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    const focusTimer = setTimeout(() => firstFieldRef.current?.focus(), 50);
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = prevOverflow;
-      clearTimeout(focusTimer);
-    };
-  }, [open]);
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    setLoading(true);
-    // Aqui você pode adicionar integração com ActiveCampaign / RD Station / webhook
-    // Ex: fetch('/api/lead', { method:'POST', body: JSON.stringify(form) })
-    setTimeout(() => {
-      window.location.href = t.checkoutUrl || '#oferta';
-    }, 500);
-  }
-
-  if (!open) return null;
-
-  return (
-    <div className="modal-overlay" onClick={() => setOpen(false)}>
-      <div className="modal-box" onClick={e => e.stopPropagation()}
-           role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
-        <button className="modal-close" onClick={() => setOpen(false)} aria-label="Fechar">×</button>
-
-        <div className="modal-badge">FALTA SÓ UM PASSO</div>
-
-        <h2 className="modal-title" id="lead-modal-title">Preencha seus dados<br/>e garanta sua vaga</h2>
-        <p className="modal-sub">
-          {t.currency} {t.priceNow} · 1 ano de acesso.
-        </p>
-
-        <form className="modal-form" onSubmit={handleSubmit} noValidate>
-          <input
-            ref={firstFieldRef}
-            className="modal-input"
-            type="text"
-            placeholder="Seu nome"
-            required
-            autoComplete="name"
-            value={form.name}
-            onChange={e => setForm({ ...form, name: e.target.value })}
-          />
-          <input
-            className="modal-input"
-            type="email"
-            placeholder="Seu melhor email"
-            required
-            autoComplete="email"
-            value={form.email}
-            onChange={e => setForm({ ...form, email: e.target.value })}
-          />
-          <div className="modal-phone-row">
-            <span className="modal-phone-prefix">🇧🇷 +55</span>
-            <input
-              className="modal-input modal-input-phone"
-              type="tel"
-              placeholder="WhatsApp (opcional)"
-              autoComplete="tel"
-              value={form.phone}
-              onChange={e => setForm({ ...form, phone: e.target.value })}
-            />
-          </div>
-          <button
-            type="submit"
-            className="btn btn-primary btn-big modal-submit"
-            disabled={loading}
-          >
-            {loading ? 'Redirecionando…' : <>Continuar para o checkout <span className="btn-arrow">→</span></>}
-          </button>
-        </form>
-
-        <p className="modal-footer-note">
-          Ao continuar você é redirecionado para o <strong>checkout seguro</strong>.
-        </p>
-      </div>
-    </div>
-  );
+  return null;
 }
 
 /* ───────────── WHATSAPP FLOAT ───────────── */
@@ -1261,7 +1143,7 @@ function Footer({ t }){
 }
 
 Object.assign(window, {
-  Announcement, Nav, Hero, StatsBar, Video, Problem, Agitation, Challenges, Modules,
+  Announcement, Nav, Hero, StatsBar, Problem, Agitation, Challenges, Modules,
   Results, ProofBridge, Testimonials, Marquee, Roadmap, Offer,
-  Guarantee, Faq, Support, WhatsappFloat, LeadModal, Cta, Footer
+  Guarantee, Faq, Support, WhatsappFloat, CheckoutRedirect, Cta, Footer
 });

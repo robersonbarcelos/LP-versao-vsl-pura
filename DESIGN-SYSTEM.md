@@ -279,7 +279,7 @@ background: color-mix(in oklab, var(--accent) 8%, transparent);
 - Grid: value stack esquerda + price box direita
 - Value stack: lista de itens com badges `R$ 497 / R$ 197 / R$ 97` + `incluso` + `Bônus`
 - Âncora: só `R$ 997,00` riscado (branco · risco laranja 1.5px · 22px)
-- Price box: `6x` em mono pequeno · `R$16,50` em display grande · `ou R$ 87,90 à vista`
+- Price box: `6x` em mono pequeno · `R$16,50` em display grande · `ou R$ 87,95 à vista`
 - CTA big centralizado no price box
 
 ### Guarantee (Garantia)
@@ -374,7 +374,7 @@ Announcement → Nav → Hero → StatsBar → Problem → Challenges → Compar
 
 - Announcement: `"Crie seu Super Agente de IA: Trabalhando 24/7 por você."`
 - Below CTA (hero): `"7 dias de garantia"`
-- CTA meta: `"6x R$16,50 · ou R$87,90 à vista · acesso imediato"`
+- CTA meta: `"6x R$16,50 · ou R$87,95 à vista · acesso imediato"`
 - Lock (oferta): `"🔒 1 ano de acesso · 7 dias de garantia"`
 
 ---
@@ -384,9 +384,9 @@ Announcement → Nav → Hero → StatsBar → Problem → Challenges → Compar
 | Campo | Valor |
 |---|---|
 | Preço âncora | R$ 997,00 |
-| Preço à vista | R$ 87,90 |
+| Preço à vista | R$ 87,95 |
 | Parcelamento | 6x de R$ 16,50 |
-| Checkout | `https://pay.hotmart.com/COLOQUE-AQUI` |
+| Checkout | `https://lastlink.com/p/C5C385BB1/checkout-payment` |
 | Garantia | 7 dias incondicional |
 | Upgrade (no checkout) | Acesso vitalício por R$ 67,90 — oferecido no checkout Hotmart, não há seção de order bump na LP |
 
@@ -408,7 +408,7 @@ Announcement → Nav → Hero → StatsBar → Problem → Challenges → Compar
 
 > Mostrar valores individuais somando ~R$ 988 **antes** de revelar o preço.  
 > O único valor riscado é `R$ 997,00` — sem fabricar soma falsa.  
-> O choque vem de: valor percebido acumulado → riscado → R$ 87,90.
+> O choque vem de: valor percebido acumulado → riscado → R$ 87,95.
 
 ---
 
@@ -448,11 +448,11 @@ LP-Crie-um-Super-Agente-de-IA/
   "fontDisplay": "Inter Tight",
   "radius": 14,
   "density": "regular",
-  "priceNow": "87,90",
+  "priceNow": "87,95",
   "priceFull": "997",
   "currency": "R$",
   "ctaPrimary": "Quero meu Super Agente",
-  "checkoutUrl": "https://pay.hotmart.com/COLOQUE-AQUI"
+  "checkoutUrl": "https://lastlink.com/p/C5C385BB1/checkout-payment"
 }
 ```
 

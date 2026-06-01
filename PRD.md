@@ -38,7 +38,7 @@ O mercado vende quantidade (50 agentes, 12 GPTs, workflows). Este curso entrega 
 - Já ouviram falar de IA mas não conseguiram aplicar de verdade
 - Tentaram ChatGPT e ficou genérico, sem memória, longe da rotina
 - Têm medo técnico mas querem resultado prático
-- Faixa: R$ 87,90 entra no orçamento sem atrito
+- Faixa: R$ 87,95 entra no orçamento sem atrito
 
 ### Dores identificadas (Challenges)
 
@@ -104,7 +104,7 @@ Templates prontos de:
 | | Valor |
 |---|---|
 | Preço de lançamento (âncora) | R$ 997,00 |
-| Preço à vista | R$ 87,90 |
+| Preço à vista | R$ 87,95 |
 | Parcelado | 6x de R$ 16,50 |
 | Order bump (WhatsApp vitalício) | + R$ 57,90 único |
 
@@ -114,7 +114,7 @@ Templates prontos de:
 Mostrar value stack:
   R$ 497 + R$ 197 + R$ 97 + R$ 197 + bônus + bônus + bônus
 → Âncora: R$ 997,00 riscado
-→ Reveal: R$ 87,90 à vista / 6x R$ 16,50
+→ Reveal: R$ 87,95 à vista / 6x R$ 16,50
 ```
 
 ### Garantia
@@ -123,7 +123,7 @@ Mostrar value stack:
 
 ### Checkout
 
-Hotmart — `https://pay.hotmart.com/COLOQUE-AQUI`
+Lastlink — `https://lastlink.com/p/C5C385BB1/checkout-payment`
 
 ---
 
@@ -143,7 +143,7 @@ Conversão em venda — levar o visitante do clique no anúncio até o checkout 
 
 ### Objetivos secundários
 
-- Gerar leads qualificados via modal (nome + email + WhatsApp)
+- Conversão direta: CTA leva o usuário direto ao checkout (sem modal de captura)
 - Order bump: ≥ 20% dos compradores adicionam o WhatsApp vitalício
 - Suporte via WhatsApp para dúvidas pré-compra
 
@@ -234,10 +234,10 @@ Google Fonts (Inter Tight, JetBrains Mono, Instrument Serif)
 
 ### Integrações pendentes
 
-- [ ] Checkout URL no Hotmart (`checkoutUrl` no TWEAK_DEFAULTS)
-- [ ] Lead modal → ActiveCampaign / RD Station / webhook
+- [x] Checkout URL (Lastlink) configurada no `checkoutUrl` do TWEAK_DEFAULTS
+- [ ] (Opcional) Captura de lead antes do checkout → ActiveCampaign / RD Station / webhook
 - [ ] Google Analytics / Meta Pixel
-- [ ] Vídeo de apresentação (seção `showVideo: false` no momento)
+- [ ] Vídeo de apresentação (seção removida — ver "Seções removidas" em `ALTERACOES.md` para recolocar)
 
 ---
 

@@ -28,7 +28,6 @@ function App(){
       {t.showNav && <Nav t={t}/>}
       {t.showHero && <Hero t={t}/>}
       <StatsBar/>
-      {t.showVideo && <Video t={t}/>}
       {t.showProblem && <Problem t={t}/>}
       {t.showChallenges && <Challenges t={t}/>}
       {t.showAgitation && <Agitation t={t}/>}
@@ -45,7 +44,7 @@ function App(){
       {t.showSupport && <Support t={t}/>}
       {t.showFooter && <Footer t={t}/>}
       <WhatsappFloat/>
-      <LeadModal t={t}/>
+      <CheckoutRedirect t={t}/>
 
       <TweaksPanel>
         <TweakSection label="Identidade visual"/>
@@ -90,7 +89,6 @@ function App(){
         <TweakToggle label="Anúncio topo" value={t.showAnnouncement} onChange={v => setTweak('showAnnouncement', v)}/>
         <TweakToggle label="Nav" value={t.showNav} onChange={v => setTweak('showNav', v)}/>
         <TweakToggle label="Hero" value={t.showHero} onChange={v => setTweak('showHero', v)}/>
-        <TweakToggle label="Vídeo" value={t.showVideo} onChange={v => setTweak('showVideo', v)}/>
         <TweakToggle label="Problema" value={t.showProblem} onChange={v => setTweak('showProblem', v)}/>
         <TweakToggle label="Agitação" value={t.showAgitation} onChange={v => setTweak('showAgitation', v)}/>
         <TweakToggle label="Desafios" value={t.showChallenges} onChange={v => setTweak('showChallenges', v)}/>

@@ -104,11 +104,11 @@ window.TWEAK_DEFAULTS = {
   "fontDisplay": "Inter Tight",
 
   // Preços
-  "priceNow": "87,90",              // Preço promocional
+  "priceNow": "87,95",              // Preço promocional (à vista)
   "priceFull": "997",               // Preço original riscado
   "priceInstallments": "6x R$16,50",
   "currency": "R$",
-  "checkoutUrl": "https://pay.hotmart.com/COLOQUE-AQUI",
+  "checkoutUrl": "https://lastlink.com/p/C5C385BB1/checkout-payment",
 
   // Copy principal
   "heroTitle": "Chega de IA genérica. *Crie um Super Agente de verdade.*",
@@ -119,7 +119,6 @@ window.TWEAK_DEFAULTS = {
   "showAnnouncement": true,
   "showNav": true,
   "showHero": true,
-  "showVideo": false,
   "showProblem": true,
   "showModules": true,
   "showTestimonials": true,
@@ -217,13 +216,17 @@ Push na branch `main` dispara deploy automático. Não precisa de build command 
 
 ## Checkout
 
-Substituir a URL de checkout no `TWEAK_DEFAULTS`:
+A URL de checkout fica no `TWEAK_DEFAULTS` (`index.html`):
 
 ```js
-"checkoutUrl": "https://pay.hotmart.com/SEU-LINK-AQUI"
+"checkoutUrl": "https://lastlink.com/p/C5C385BB1/checkout-payment"
 ```
 
-Todos os botões CTA da página apontam para `#oferta` (âncora interna) ou para o `checkoutUrl` diretamente no bloco de oferta.
+Fluxo dos botões: todos os CTAs primários apontam para `#oferta` como âncora
+semântica, mas o clique é interceptado pelo componente `CheckoutRedirect`
+(`sections.jsx`) e o usuário vai **direto** para o `checkoutUrl` — não há modal de
+captura de dados. Para trocar o link, basta editar esse valor — é lido em runtime,
+**não** exige rebuild (mas rode `prerender.ps1` se quiser o shell estático atualizado).
 
 ---
 

@@ -250,6 +250,13 @@ Sempre redimensione + converta para **WebP**:
    ```jsx
    <img src="img/minha-foto.webp" width="800" height="600" loading="lazy" decoding="async" />
    ```
+   ⚠️ **Atributos `width`/`height` + CSS responsivo = precisa de `height: auto`.**
+   Se o CSS da imagem define a largura de forma fluida (`width: 100%`, `max-width`, etc.)
+   **sem** `height: auto`, o atributo `height="..."` trava a altura e a imagem **estica**
+   (foi o bug da imagem do camelô na seção *Problem*: quadrada virava retângulo alto).
+   Regra: sempre que o CSS controlar a largura da imagem, inclua `height: auto;` —
+   ou, se a intenção é preencher um box de proporção fixa, use `object-fit: cover`
+   (recorta, não distorce), como na hero, no Diego e nos avatares do carrossel.
 5. Regras de `loading`:
    - **Acima da dobra (hero):** `fetchpriority="high"`, **sem** `loading="lazy"`.
    - **Abaixo da dobra (estática):** `loading="lazy"`.

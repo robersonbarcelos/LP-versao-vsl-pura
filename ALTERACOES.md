@@ -1,6 +1,6 @@
 # ALTERAÇÕES & GUIA DE OTIMIZAÇÃO — LP "Crie um Super Agente de IA"
 
-**Última atualização:** 2026-06-01
+**Última atualização:** 2026-06-03
 **Resumo:** Auditoria completa (bugs, inconsistências, redundâncias) + otimização de
 performance. **PageSpeed: 31 → 96 desktop / 87 mobile.**
 
@@ -201,6 +201,24 @@ real embutido) + legenda. Já vinha desligada (`showVideo: false`).
    `.video-frame::before`, `.video-play`, `.video-play-btn`, `.video-play-btn::after`,
    keyframe `pulse-ring`, `.video-meta`, `.video-caption`.
    (CSS completo em `git log -p styles.css`.)
+
+---
+
+## 6. Rastreamento — Meta Pixel (Facebook)
+
+- **Pixel instalado** no `<head>` do `index.html` (snippet padrão da Meta), id `1245755299773926`,
+  disparando `PageView` no load. Inclui `<noscript>` de fallback.
+- **CSP do `vercel.json` ajustada** para o pixel funcionar (sem isso a CSP bloquearia o
+  carregamento e o envio de eventos):
+  - `script-src` → `+ https://connect.facebook.net`
+  - `img-src` → `+ https://www.facebook.com`
+  - `connect-src` → `+ https://www.facebook.com https://connect.facebook.net`
+- **Para trocar o pixel:** edite o `fbq('init', '...')` no `index.html`. É HTML puro no head
+  (não precisa de build). Se mudar de provedor (ex.: GA4, TikTok, GTM), libere os domínios
+  correspondentes na CSP do `vercel.json`.
+- **Eventos de conversão (Purchase)** acontecem no **checkout (Lastlink)**, fora desta página.
+  O webhook Lastlink→Utmify (`api.utmify.com.br/webhooks/last-link?id=...`) é configurado no
+  painel do produto, não no código da LP.
 
 ---
 

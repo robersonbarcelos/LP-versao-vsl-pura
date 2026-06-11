@@ -134,6 +134,16 @@ Para a hidratação bater (sem mismatch → sem fallback que anularia o ganho), 
 - Validado local: **0 erros de hidratação** (sem bailout), hero sem flash, reveals/contadores/
   FAQ/checkout (→ Lastlink) OK.
 
+### 4.9 Paint above-the-fold — orbs via gradient (2026-06-11)
+Com o score em 90, o gargalo restante de FCP/LCP é o **tempo de 1º paint na CPU estrangulada**
+(TTFB já é ~40 ms; LCP mobile = o texto do `h1`, não a imagem). Os `.hero-orb` usavam
+**`filter: blur(100px)`** sobre 500/360 px — um passe de convolução caríssimo no mobile, no
+caminho do 1º paint. Trocado por **`radial-gradient`** (mesmo halo, rasterização trivial).
+**Visual preservado** (validado com screenshot antes/depois mobile). Critical CSS inline
+regenerado (sem `blur`). Só CSS — sem rebuild/prerender.
+- O glow SVG do logo da nav (`#nav-glow`, 8 filtros) foi **mantido**: identidade da marca,
+  custo pequeno perto do orb. Princípio: preservar o visual distintivo.
+
 ---
 
 ## 5. Seções / recursos removidos (como recolocar)

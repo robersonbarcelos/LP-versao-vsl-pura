@@ -134,13 +134,24 @@
 - **Deploy na Vercel pode demorar** (vimos de 3 a ~20 min). Valide **depois** de propagar:
   cheque um asset novo (ex.: a fonte) retornando **200** antes de declarar concluído. Use
   cache-buster (`?v=…`) ao medir; o edge serve HTML em cache (`X-Vercel-Cache: HIT`, `Age` alto).
-- **DNS na Vercel — use `cname.vercel-dns.com`, NÃO um alvo por-projeto.** A página caiu "do
-  nada" (deploy "Ready", mas **TCP 443 em timeout**) porque o CNAME apontava para um alvo
-  antigo (`<hash>.vercel-dns-017.com`) cujos IPs a Vercel **desativou**. Diagnóstico: site
-  funciona forçando o Host pelo IP bom (`curl --resolve dominio:443:<ip-bom>`) ⇒ é DNS, não
-  código/deploy. **Fix:** repontar o registro para o CNAME padrão `cname.vercel-dns.com`
-  (DNS-only / nuvem cinza no Cloudflare) — ele acompanha as migrações de IP da Vercel sozinho.
-  IPs de teste que funcionaram: `cname.vercel-dns.com` (66.33.60.66) e o A clássico `76.76.21.21`.
+- **DNS na Vercel — cluster de edge pode ficar inalcançável; escape com A record fixo.**
+  A página caiu "do nada" (deploy **"Ready"**, mas **TCP 443 em timeout intermitente**): o
+  CNAME (mesmo o padrão `cname.vercel-dns.com`) roteava o domínio para o cluster
+  `cname.vercel-dns-017.com`, cujos IPs (`216.198.79.1`, `64.29.17.1`) estavam **mortos** —
+  como o DNS devolvia 1 IP morto + 1 vivo, o navegador caía ora num ora noutro (timeout
+  intermitente, difícil de diagnosticar).
+  - **Diagnóstico (sequência que funcionou):** (1) `curl -w "%{http_code}"` em loop → vê
+    intermitência; (2) `nslookup` em 2+ resolvers (`1.1.1.1`, `8.8.8.8`) → vê IPs diferentes/
+    um morto; (3) `bash -c 'cat </dev/null >/dev/tcp/<ip>/443'` → testa cada IP; (4)
+    `curl --resolve dominio:443:<ip-bom>` retorna **200 + conteúdo certo** ⇒ é DNS, não código.
+    `vercel.com`/`vercel.app` carregando confirma que o edge da Vercel está no ar (problema é
+    o cluster/IP do seu domínio).
+  - **Fix que destravou:** trocar o registro para **`A → 76.76.21.21`** (IP anycast estável da
+    Vercel, de outro cluster, que serve qualquer domínio anexado), **DNS-only / nuvem cinza**,
+    TTL mínimo. O `cname.vercel-dns.com` NÃO resolveu porque continuava caindo no cluster 017.
+  - **Alternativa robusta:** proxy do Cloudflare (nuvem laranja) + **SSL Full** — o Cloudflare
+    alcança a Vercel mesmo em IPs que o ISP do visitante não alcança.
+  - **TTL baixo** nesse registro desde o começo = correções de DNS propagam em minutos, não horas.
 
 ### 3.7 Princípios gerais (que se pagaram)
 - **Valide visualmente toda mudança que toca o visual** (screenshot antes/depois) e

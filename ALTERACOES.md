@@ -94,6 +94,21 @@ CSS do Google Fonts (3ª origem) **e** o `styles.css` (86,8 KB). Mudanças:
     mobile (390px) e desktop (1280px); estado normal com 0 erros de console.
 - **Meta Pixel adiado** (ver §6) — os ~370 KB do `fbevents.js` saíram do caminho crítico.
 
+### 4.7 Hero (LCP) re-encodado — rodada 2026-06-11
+Após a §4.6 o PageSpeed mobile oscilou (87↔80, variância de TBT — o teto do score é o
+`react-dom` ~128 KB executando na CPU 4× estrangulada, inerente à LP React; não compensa trocar).
+Diagnóstico confirmou: compressão **Brotli** ativa em tudo, **CLS = 0**, hero já com
+`preload`+`fetchpriority=high`. A única alavanca segura restante era o peso do **elemento LCP**
+(`img/heeerochat01.webp`).
+- **Por que NÃO reduzir a dimensão:** no mobile (390 px) o box do hero é 375×281 com
+  `object-fit:cover` → fonte ideal 750 px (DPR 2×) a 1125 px (DPR 3×). Os 1000×1000 já estão
+  certos para celulares hiDPI; encolher amaciaria o hero nos iPhones por só ~13 KB.
+- **O que foi feito:** re-encode em **resolução cheia (1000×1000)** com qualidade webp mais
+  eficiente (`quality=75, method=6`, via Pillow). **66,3 → 55,4 KB (−17 %)**, PSNR 41 dB e
+  diferença média 1,26/255 — **visualmente idêntico em qualquer densidade de tela**, sem
+  amaciar. Não exige rebuild/prerender (mesmo nome/dimensão; só os bytes mudam).
+- Original preservado localmente em `img/heeerochat01.original-66kb.webp.bak` (ignorado pelo git).
+
 ---
 
 ## 5. Seções / recursos removidos (como recolocar)

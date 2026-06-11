@@ -129,7 +129,9 @@ try {
   let html = await readFile(indexPath, 'utf8');
   const re = /(\/\*CRITICAL-CSS-START\*\/)[\s\S]*?(\/\*CRITICAL-CSS-END\*\/)/;
   if (!re.test(html)) throw new Error('Marcadores CRITICAL-CSS-START/END não encontrados em index.html');
-  html = html.replace(re, `$1${css}$2`);
+  // Função de substituição: evita que um eventual `$` no CSS seja interpretado como
+  // backreference na string de replace (mesmo motivo do prerender.mjs).
+  html = html.replace(re, (_full, p1, p2) => p1 + css + p2);
   await writeFile(indexPath, html, 'utf8');
 
   const kept = keep.filter(Boolean).length;

@@ -109,6 +109,31 @@ Diagnóstico confirmou: compressão **Brotli** ativa em tudo, **CLS = 0**, hero 
   amaciar. Não exige rebuild/prerender (mesmo nome/dimensão; só os bytes mudam).
 - Original preservado localmente em `img/heeerochat01.original-66kb.webp.bak` (ignorado pelo git).
 
+### 4.8 Hidratação (hydrateRoot) — ataque ao TBT / oscilação do score (2026-06-11)
+O score mobile oscilava 80–88. Causa: o `app.jsx` usava **`createRoot().render()`**, que
+**descartava o shell pré-renderizado e reconstruía a página inteira** na main thread durante
+o load → **TBT ~530 ms** (a métrica mais pesada do Lighthouse, 30%). Trocamos para
+**`hydrateRoot`**: o React reaproveita o DOM do prerender em vez de recriá-lo.
+**Resultado medido (Lighthouse local): TBT 530 → 210 ms (−60%)**, CLS mantido (~0,007).
+Para a hidratação bater (sem mismatch → sem fallback que anularia o ganho), foi preciso:
+- **`scripts/prerender.mjs` agora gera o markup com `ReactDOMServer.renderToString`** (build
+  `vendor/react-dom-server-legacy.browser.production.min.js`), **não mais `innerHTML` do cliente**.
+  O renderToString insere os marcadores de texto entre nós adjacentes (ex. `{moeda} {preço}`)
+  que o `hydrateRoot` espera; o innerHTML não os tinha e dava mismatch em todo texto múltiplo.
+- **Bug latente corrigido** (existia desde sempre, só não importava com createRoot): a injeção
+  usava `html.replace(re, '$1…$2')` — string de replace **interpreta `$16` do preço "R$16,50"
+  como backreference**, corrompendo o snapshot. Agora usa **função de substituição**
+  (idem em `critical-css.mjs`).
+- **Render inicial determinístico** (snapshot = 1º render do cliente): contadores (`useCountUp`)
+  começam em 0; countdown (`CountdownTimer`) inicia em `DURATION` (59:00) e só lê `Date.now()`
+  no efeito; o efeito da StatsBar não roda no prerender (`window.__PRERENDER__`).
+- **`reveal` removido dos 3 elementos do hero** (above-the-fold): aparecem no 1º paint
+  (melhor FCP, sem flash, markup determinístico). Reveals abaixo da dobra seguem no scroll.
+- `app.jsx` expõe `window.App` e **não monta no prerender** (o markup vem do renderToString);
+  em produção `hydrateRoot`, com fallback `createRoot` se o `#root` estiver vazio.
+- Validado local: **0 erros de hidratação** (sem bailout), hero sem flash, reveals/contadores/
+  FAQ/checkout (→ Lastlink) OK.
+
 ---
 
 ## 5. Seções / recursos removidos (como recolocar)

@@ -117,4 +117,18 @@ function getContrastInk(hex){
   return lum > 0.55 ? '#0a0e14' : '#ffffff';
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+// Exposto para o prerender (scripts/prerender.mjs) gerar o markup via
+// ReactDOMServer.renderToString — HTML compatível com hidratação.
+window.App = App;
+
+// A página é pré-renderizada (shell estático no #root). Em produção HIDRATAMOS esse
+// shell — o React reaproveita o DOM existente em vez de reconstruir tudo, o que reduz
+// drasticamente o trabalho na main thread (TBT) durante o load.
+const rootEl = document.getElementById('root');
+if (window.__PRERENDER__) {
+  // No passe de prerender o markup é gerado por renderToString (fora daqui); não montamos.
+} else if (rootEl.firstElementChild) {
+  ReactDOM.hydrateRoot(rootEl, <App/>);
+} else {
+  ReactDOM.createRoot(rootEl).render(<App/>); // fallback: #root vazio (sem prerender)
+}

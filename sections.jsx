@@ -57,6 +57,10 @@ function StatsBar(){
   const ref = useRef(null);
   const [started, setStarted] = useState(false);
   useEffect(() => {
+    // No prerender os contadores ficam em 0 (estado inicial). Assim o snapshot bate
+    // com o render inicial do cliente na hidratação — sem mismatch. O count-up roda
+    // normalmente no cliente quando a StatsBar entra na viewport.
+    if (window.__PRERENDER__) return;
     const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver(([entry]) => {
@@ -173,9 +177,11 @@ function Hero({ t }){
         <div className="hero-content-col">
           <div className="hero-content">
             <span className="eyebrow">{t.brandTag}</span>
-            <h1 className="h-display hero-title reveal">{renderEmph(t.heroTitle)}</h1>
-            <p className="lead reveal" style={{'--reveal-delay':'60ms'}}>{t.heroSub}</p>
-            <div className="hero-actions reveal" style={{'--reveal-delay':'120ms'}}>
+            {/* Sem `reveal` no hero (above-the-fold): aparece já no primeiro paint,
+                melhora FCP/LCP e mantém o markup determinístico p/ o hydrateRoot. */}
+            <h1 className="h-display hero-title">{renderEmph(t.heroTitle)}</h1>
+            <p className="lead">{t.heroSub}</p>
+            <div className="hero-actions">
               <div className="hero-actions-wrap">
                 <a className="btn btn-primary btn-big" href="#oferta">{t.ctaPrimary} <span className="btn-arrow">→</span></a>
                 <span className="hero-actions-meta">7 dias de garantia</span>
@@ -852,10 +858,14 @@ function CountdownTimer(){
     return Math.max(0, Math.floor((end - Date.now()) / 1000));
   }
 
-  const [secs, setSecs] = useState(getRemaining);
+  // Valor inicial DETERMINÍSTICO (DURATION), igual no prerender e no 1º render do
+  // cliente → hidratação sem mismatch. O valor real (Date.now()) entra no efeito,
+  // que NÃO roda no prerender (snapshot fica em 59:00, idêntico ao render inicial).
+  const [secs, setSecs] = useState(DURATION);
 
   useEffect(() => {
-    if(secs <= 0) return;
+    if(window.__PRERENDER__) return;
+    setSecs(getRemaining());
     const id = setInterval(() => setSecs(getRemaining()), 1000);
     return () => clearInterval(id);
   }, []);

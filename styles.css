@@ -475,12 +475,15 @@ button{ font: inherit; cursor: pointer; }
 /* Ambient orbs */
 .hero-orb{
   position: absolute; border-radius: 50%;
-  filter: blur(100px);
+  /* Glow via radial-gradient (não filter:blur(100px)). Mesmo visual — um halo suave que
+     dissolve nas bordas — mas paint ~grátis: o blur de 100px exige um passe de convolução
+     caríssimo no mobile, bem no caminho do 1º paint (FCP/LCP). O gradiente é rasterização
+     trivial. As caixas são maiores (raio original + spread do blur) p/ manter o alcance. */
   pointer-events: none;
   will-change: transform;
 }
-.hero-orb.a{ width: 500px; height: 500px; background: var(--accent); top: -120px; right: -150px; opacity: .22; }
-.hero-orb.b{ width: 360px; height: 360px; background: color-mix(in oklab, var(--accent) 50%, #5b21b6); bottom: -100px; left: -100px; opacity: .20; }
+.hero-orb.a{ width: 720px; height: 720px; background: radial-gradient(circle closest-side, var(--accent), transparent); top: -230px; right: -260px; opacity: .26; }
+.hero-orb.b{ width: 580px; height: 580px; background: radial-gradient(circle closest-side, color-mix(in oklab, var(--accent) 50%, #5b21b6), transparent); bottom: -210px; left: -210px; opacity: .24; }
 
 /* Hero foto — V1 Gradient Dissolve: full-bleed, emerge do escuro */
 .hero-foto-c {

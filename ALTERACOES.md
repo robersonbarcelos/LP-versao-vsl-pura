@@ -206,8 +206,17 @@ real embutido) + legenda. Já vinha desligada (`showVideo: false`).
 
 ## 6. Rastreamento — Meta Pixel (Facebook)
 
-- **Pixel instalado** no `<head>` do `index.html` (snippet padrão da Meta), id `1245755299773926`,
-  disparando `PageView` no load. Inclui `<noscript>` de fallback.
+- **Pixel instalado** no `<head>` do `index.html` (snippet da Meta), id `1245755299773926`,
+  disparando `PageView`. Inclui `<noscript>` de fallback.
+- **Carregamento ADIADO (performance mobile):** o `fbevents.js` da Meta pesa **~370 KB** numa
+  origem nova (`connect.facebook.net`). Em vez de injetá-lo no parse do `<head>` (onde competia
+  com CSS/fontes/React no caminho crítico do load mobile), o stub do `fbq` é definido na hora
+  (`init` + `PageView` ficam na fila) e o script só é injetado na **1ª interação** do usuário
+  **ou** quando o navegador fica **ocioso** (`requestIdleCallback`, teto de 4 s; `setTimeout` 3 s
+  de fallback p/ Safari). Quando o script chega, a fila é processada — o `PageView` não se perde.
+  Há também um `<link rel="dns-prefetch">` p/ aquecer o DNS sem pagar o TLS antecipado.
+  - **Para reverter ao carregamento imediato** (não recomendado): troque o bloco pelo snippet
+    padrão da Meta (o IIFE que faz `t.src=v; insertBefore` direto). Está em `git log -p index.html`.
 - **CSP do `vercel.json` ajustada** para o pixel funcionar (sem isso a CSP bloquearia o
   carregamento e o envio de eventos):
   - `script-src` → `+ https://connect.facebook.net`

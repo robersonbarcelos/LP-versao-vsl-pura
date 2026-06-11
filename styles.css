@@ -2,6 +2,20 @@
    SUPER AGENTE IA · INTUS HUB
    Variante: LARANJA — preto puro + FE5000 + Inter Tight
    ─────────────────────────────────────────────────────────────────────── */
+
+/* Inter Tight SELF-HOSTED (fonte variável, pesos 400–800 num único woff2 latin).
+   Tira a fonte do título (LCP) das 2 origens de terceiros do Google Fonts
+   (googleapis + gstatic) — com o preload no <head>, ela fica pronta antes e o
+   título não espera o swap. JetBrains Mono e Instrument Serif seguem no Google
+   Fonts (não são above-the-fold/LCP). Ver ALTERACOES.md. */
+@font-face{
+  font-family: "Inter Tight";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("fonts/inter-tight-latin.woff2") format("woff2");
+}
+
 :root{
   /* Brand accent — laranja */
   --accent: #FE5000;

@@ -144,6 +144,20 @@ regenerado (sem `blur`). Só CSS — sem rebuild/prerender.
 - O glow SVG do logo da nav (`#nav-glow`, 8 filtros) foi **mantido**: identidade da marca,
   custo pequeno perto do orb. Princípio: preservar o visual distintivo.
 
+### 4.10 Inter Tight self-hosted — ataque ao LCP (2026-06-11)
+Com o score em 95, o único gap era o **LCP (~2,9s)**. Diagnóstico (Lighthouse): o LCP é o
+**texto do `h1`** e ficava **~1,6 s depois do FCP**, sem recurso bloqueante — ou seja, era o
+**swap da fonte**: o título pintava com o fallback e re-renderizava quando a "Inter Tight 800"
+chegava pelas **2 origens de terceiros do Google Fonts** (googleapis → gstatic).
+- **Fix:** Inter Tight **self-hosted**. `fonts/inter-tight-latin.woff2` (fonte **variável**,
+  pesos 400–800 num arquivo só, subset latin = cobre acentos pt-BR, 44 KB) + `@font-face` no
+  `styles.css` (entra no critical CSS inline) + **`<link rel="preload" as="font" crossorigin>`**
+  no `<head>`. A fonte do título fica pronta antes do 1º paint, sem esperar o Google Fonts.
+- A URL do Google Fonts passou a carregar **só JetBrains Mono + Instrument Serif** (fontes de
+  acento, não-LCP). `font-src 'self'` já cobre a fonte local; gstatic segue p/ as outras duas.
+- Validado: `@font-face` "400 800" **loaded**, `document.fonts.check` confirma 400 e 800 no
+  arquivo único, título renderiza em **peso 800** com acentos corretos (screenshot).
+
 ---
 
 ## 5. Seções / recursos removidos (como recolocar)

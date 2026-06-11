@@ -134,6 +134,13 @@
 - **Deploy na Vercel pode demorar** (vimos de 3 a ~20 min). Valide **depois** de propagar:
   cheque um asset novo (ex.: a fonte) retornando **200** antes de declarar concluído. Use
   cache-buster (`?v=…`) ao medir; o edge serve HTML em cache (`X-Vercel-Cache: HIT`, `Age` alto).
+- **DNS na Vercel — use `cname.vercel-dns.com`, NÃO um alvo por-projeto.** A página caiu "do
+  nada" (deploy "Ready", mas **TCP 443 em timeout**) porque o CNAME apontava para um alvo
+  antigo (`<hash>.vercel-dns-017.com`) cujos IPs a Vercel **desativou**. Diagnóstico: site
+  funciona forçando o Host pelo IP bom (`curl --resolve dominio:443:<ip-bom>`) ⇒ é DNS, não
+  código/deploy. **Fix:** repontar o registro para o CNAME padrão `cname.vercel-dns.com`
+  (DNS-only / nuvem cinza no Cloudflare) — ele acompanha as migrações de IP da Vercel sozinho.
+  IPs de teste que funcionaram: `cname.vercel-dns.com` (66.33.60.66) e o A clássico `76.76.21.21`.
 
 ### 3.7 Princípios gerais (que se pagaram)
 - **Valide visualmente toda mudança que toca o visual** (screenshot antes/depois) e

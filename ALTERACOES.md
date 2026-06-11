@@ -1,6 +1,6 @@
 # ALTERAÇÕES & GUIA DE OTIMIZAÇÃO — LP "Crie um Super Agente de IA"
 
-**Última atualização:** 2026-06-03
+**Última atualização:** 2026-06-11
 **Resumo:** Auditoria completa (bugs, inconsistências, redundâncias) + otimização de
 performance. **PageSpeed: 31 → 96 desktop / 87 mobile.**
 
@@ -75,6 +75,24 @@ PageSpeed inicial (desktop): **31** · TBT 6.600ms · payload 4,3MB · main-thre
 | TBT (desktop) | 6.600 ms | ~30 ms |
 | LCP (desktop) | 3,7 s | ~1,0 s |
 | Payload | 4.389 KiB | ~464 KiB |
+
+### 4.6 Render-blocking atacado (rodada FCP/LCP mobile)
+Alvo: FCP 2,9 s / LCP 3,2 s / SI 3,4 s no mobile (score 87). Nada pintava até baixar o
+CSS do Google Fonts (3ª origem) **e** o `styles.css` (86,8 KB). Mudanças:
+- **Google Fonts não-bloqueante** — `preload` + `media="print" onload="this.media='all'"` +
+  `<noscript>`. O texto pinta na hora com os fallbacks (`system-ui`/`ui-monospace`/`Times`)
+  e troca quando a fonte chega (`display=swap` já estava ativo).
+- **Critical CSS inline** — o CSS above-the-fold (~12,5 KB, 96 de 539 regras) é gerado
+  automaticamente e embutido em `<style id="critical-css">`; o `styles.css` completo passa
+  a carregar **não-bloqueante** (`preload`→`rel=stylesheet`, `<noscript>` de fallback).
+  - Geração: **`critical-css.ps1`** → `scripts/critical-css.mjs` (Chrome headless, 2 viewports
+    mobile+desktop, decide por regra se algum elemento que o seletor casa está na 1ª dobra;
+    `@keyframes`/`@font-face` e regras que **escondem** algo acima da dobra são sempre mantidas).
+  - **Não editar o conteúdo entre `/*CRITICAL-CSS-START*/` e `/*CRITICAL-CSS-END*/` à mão** —
+    é regenerado. Se mexer no CSS acima da dobra, rode `critical-css.ps1` de novo.
+  - Validado sem FOUC: render "só critical" vs "CSS completo" idêntico acima da dobra em
+    mobile (390px) e desktop (1280px); estado normal com 0 erros de console.
+- **Meta Pixel adiado** (ver §6) — os ~370 KB do `fbevents.js` saíram do caminho crítico.
 
 ---
 
@@ -242,14 +260,16 @@ real embutido) + legenda. Já vinha desligada (`showVideo: false`).
 | O que você mudou | Comando antes de commitar |
 |---|---|
 | Só `TWEAK_DEFAULTS` no `index.html` (copy, preço, toggles, cor) | **nada** — é lido em runtime |
-| Só `styles.css` | **nada** (mas veja o flash do shell abaixo) |
+| `styles.css` **abaixo da dobra** | **nada** (mas veja o flash do shell abaixo) |
+| `styles.css` **acima da dobra** (hero, nav, announce) | **`critical-css.ps1`** (regenera o critical inline) |
 | Qualquer `.jsx` (componente, classe, lógica) | **`build.ps1`** |
-| Mudança **estrutural** de seções/layout, antes do deploy | **`prerender.ps1`** (já roda o build por dentro) |
+| Mudança **estrutural** de seções/layout, antes do deploy | **`prerender.ps1`** → depois **`critical-css.ps1`** |
 | Trocou/adicionou imagem | `scripts/optimize-images.js` → atualizar `src` → `build.ps1` |
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File build.ps1      # compila .jsx -> js/*.min.js
-powershell -ExecutionPolicy Bypass -File prerender.ps1  # build + atualiza o shell estático do #root
+powershell -ExecutionPolicy Bypass -File build.ps1         # compila .jsx -> js/*.min.js
+powershell -ExecutionPolicy Bypass -File prerender.ps1     # build + atualiza o shell estático do #root
+powershell -ExecutionPolicy Bypass -File critical-css.ps1  # regenera o critical CSS inline (rode DEPOIS do prerender)
 ```
 
 > O **shell pré-renderizado** no `#root` é só o primeiro paint. Se você mudar a estrutura

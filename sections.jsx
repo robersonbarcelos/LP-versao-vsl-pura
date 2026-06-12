@@ -190,7 +190,10 @@ function Hero({ t }){
           </div>
         </div>
         <div className="hero-foto-c">
-          <img src="img/heeerochat01.webp" alt="Conversa real com um Super Agente de IA no Telegram"
+          <img src="img/heeerochat01.webp"
+               srcSet="img/heeerochat01-720.webp 720w, img/heeerochat01.webp 1000w"
+               sizes="(max-width: 920px) 100vw, 50vw"
+               alt="Conversa real com um Super Agente de IA no Telegram"
                width="1000" height="1000" fetchpriority="high" decoding="async"/>
         </div>
       </div>
@@ -251,7 +254,7 @@ function Problem({ t }){
             <h2 className="h-display h2 reveal">O mercado virou um camelô de agentes. <em>Você não precisa de 50. Precisa de um.</em></h2>
           </div>
           <div className="problem-hd-img reveal" style={{'--reveal-delay':'80ms'}}>
-            <img src="img/noise-tools.webp" alt="O camelô de ferramentas de IA" className="problem-camel-img" width="820" height="820" loading="lazy" decoding="async"/>
+            <img src="img/noise-tools.webp" alt="O camelô de ferramentas de IA" className="problem-camel-img" width="740" height="740" loading="lazy" decoding="async"/>
           </div>
         </div>
 

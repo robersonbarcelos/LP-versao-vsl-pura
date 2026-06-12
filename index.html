@@ -4,48 +4,33 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<!-- Meta Pixel Code (carregamento ADIADO p/ performance mobile — ver ALTERACOES.md §6) -->
-<link rel="dns-prefetch" href="https://connect.facebook.net">
+<!-- Meta Pixel Code (carregamento IMEDIATO — fbevents.js injetado async no parse,
+     PageView dispara de cara, sem esperar interação/idle). -->
+<link rel="preconnect" href="https://connect.facebook.net" crossorigin>
 <script>
-// Stub do fbq: define a fila imediatamente, mas NÃO injeta o fbevents.js (~370KB) ainda.
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
 if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[]}(window,document,'script');
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '1245755299773926');
-fbq('track', 'PageView');  // fica na fila e dispara quando o script carregar
-// Injeta o fbevents.js só na 1ª interação OU quando o navegador ficar ocioso —
-// tira o terceiro de 370KB do caminho crítico do load mobile. A fila acima é
-// processada assim que o script chega, então o PageView não se perde.
-(function(){
-  var done=false, evts=['scroll','mousemove','touchstart','keydown','click'];
-  function load(){
-    if(done)return; done=true;
-    evts.forEach(function(ev){ window.removeEventListener(ev, load); });
-    var t=document.createElement('script'); t.async=true;
-    t.src='https://connect.facebook.net/en_US/fbevents.js';
-    var s=document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(t, s);
-  }
-  evts.forEach(function(ev){ window.addEventListener(ev, load, {passive:true}); });
-  if('requestIdleCallback' in window){ requestIdleCallback(load, {timeout:4000}); }
-  else { setTimeout(load, 3000); }  // fallback (ex.: Safari)
-})();
+fbq('track', 'PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1245755299773926&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 
-<!-- Utmify — rastreio de UTMs/origem do tráfego (async+defer, não bloqueia o render). -->
-<link rel="dns-prefetch" href="https://cdn.utmify.com.br">
+<!-- Utmify — rastreio de UTMs/origem do tráfego (async, carrega imediato sem bloquear o render). -->
+<link rel="preconnect" href="https://cdn.utmify.com.br" crossorigin>
 <script
   src="https://cdn.utmify.com.br/scripts/utms/latest.js"
   data-utmify-prevent-xcod-sck
   data-utmify-prevent-subids
   async
-  defer
 ></script>
 <!-- End Utmify -->
 

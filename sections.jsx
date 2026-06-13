@@ -191,7 +191,7 @@ function Hero({ t }){
         </div>
         <div className="hero-foto-c">
           <img src="img/heeerochat01.webp"
-               srcSet="img/heeerochat01-720.webp 720w, img/heeerochat01-900.webp 900w, img/heeerochat01.webp 1000w"
+               srcSet="img/heeerochat01-500.webp 500w, img/heeerochat01-720.webp 720w, img/heeerochat01-900.webp 900w, img/heeerochat01.webp 1000w"
                sizes="(max-width: 920px) 100vw, 50vw"
                alt="Conversa real com um Super Agente de IA no Telegram"
                width="1000" height="1000" fetchpriority="high" decoding="async"/>

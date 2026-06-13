@@ -10,45 +10,47 @@ function useScrollReveal(enabled = true){
       document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
       return;
     }
+    // Rastreia quantos .reveal ainda faltam — usado para desconectar o MO
+    // sem fazer querySelector síncrono dentro do callback (evita forced reflow).
+    let remaining = document.querySelectorAll('.reveal').length;
+    let mo;
+
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
+          remaining--;
           e.target.classList.add('in');
           io.unobserve(e.target);
+          if (remaining <= 0 && mo) mo.disconnect();
         }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-    // Elementos já visíveis no mount são revelados de forma síncrona (sem esperar
-    // o callback assíncrono do IntersectionObserver). Isso evita um flicker quando
-    // o React reassume o conteúdo pré-renderizado: o que está acima da dobra já
-    // aparece imediatamente. O resto continua observado para revelar no scroll.
     const inView = (el) => {
       const r = el.getBoundingClientRect();
       const vh = window.innerHeight || document.documentElement.clientHeight;
       return r.top < vh && r.bottom > 0;
     };
     const observe = () => {
-      // Batch: todas as leituras de layout primeiro, depois todas as escritas.
-      // Evita o ciclo leitura→escrita→leitura que causa forced reflow.
+      // Batch: todas as leituras primeiro, depois todas as escritas.
       const els = Array.from(document.querySelectorAll('.reveal:not(.in)'));
       const results = els.map(el => ({ el, visible: inView(el) }));
       results.forEach(({ el, visible }) => {
-        if (visible) el.classList.add('in');
+        if (visible) { remaining--; el.classList.add('in'); }
         else io.observe(el);
       });
+      if (remaining <= 0 && mo) mo.disconnect();
     };
-    observe();
-    // Re-observe when DOM changes (e.g. tabs switch). Coalesce bursts num único
-    // rAF — sem isso, o countdown (que muda o DOM a cada segundo) força um
-    // querySelectorAll na página inteira a cada tick.
+
+    // Adia a verificação inicial para depois do commit do React — evita
+    // forced reflow por leitura de getBoundingClientRect durante a hidratação.
+    if ('requestIdleCallback' in window) requestIdleCallback(observe, { timeout: 200 });
+    else setTimeout(observe, 0);
+
+    // MO roda só enquanto há elementos não revelados — para automaticamente.
     let scheduled = false;
-    const mo = new MutationObserver(() => {
-      if (scheduled) return;
-      // Desconecta quando não há mais elementos para revelar — evita
-      // que o countdown (que muda o DOM a cada segundo) continue disparando
-      // getBoundingClientRect() desnecessariamente.
-      if (!document.querySelector('.reveal:not(.in)')) { mo.disconnect(); return; }
+    mo = new MutationObserver(() => {
+      if (scheduled || remaining <= 0) { if (remaining <= 0) mo.disconnect(); return; }
       scheduled = true;
       requestAnimationFrame(() => { scheduled = false; observe(); });
     });

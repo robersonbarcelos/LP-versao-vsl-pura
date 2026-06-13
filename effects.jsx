@@ -127,4 +127,18 @@ function useParallax(enabled){
   }, [enabled]);
 }
 
+/* Sweep animation pausada por padrão no CSS. Ativa só nos botões visíveis
+   para evitar paint contínuo em todos os CTAs fora da tela. */
+(function initBtnSweep(){
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      e.target.classList.toggle('btn-sweep-on', e.isIntersecting);
+    });
+  }, { threshold: 0.1 });
+  const attach = () =>
+    document.querySelectorAll('.btn-primary').forEach(b => io.observe(b));
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', attach);
+  else attach();
+})();
+
 Object.assign(window, { useScrollReveal, useScrolledFlag, useCustomCursor, useParallax });

@@ -15,7 +15,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import puppeteer from 'puppeteer-core';
 
 const dir = path.dirname(fileURLToPath(import.meta.url));
-const indexPath = path.join(dir, '..', 'index.html');
+const indexPath = path.join(dir, '..', 'public', 'index.html'); // servido em public/ (CF Pages output)
 const chrome = process.env.CHROME_PATH;
 if (!chrome) throw new Error('Defina CHROME_PATH com o caminho do Chrome/Edge.');
 

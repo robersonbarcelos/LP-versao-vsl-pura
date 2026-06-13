@@ -20,9 +20,9 @@ if (-not $chrome) { throw "Chrome/Edge não encontrado. Instale ou ajuste o cami
 $env:CHROME_PATH = $chrome
 Write-Host "Usando navegador: $chrome"
 
-# Sobe um servidor http local (file:// bloqueia o acesso a cssRules)
+# Sobe um servidor http local (file:// bloqueia o acesso a cssRules) servindo public/ (o root web).
 $port = 8137
-$srv = Start-Process python -ArgumentList "-m", "http.server", "$port" -WorkingDirectory $root -PassThru -WindowStyle Hidden
+$srv = Start-Process python -ArgumentList "-m", "http.server", "$port" -WorkingDirectory (Join-Path $root "public") -PassThru -WindowStyle Hidden
 $env:BASE_URL = "http://127.0.0.1:$port/"
 Write-Host "Servidor local em $env:BASE_URL (PID $($srv.Id))"
 

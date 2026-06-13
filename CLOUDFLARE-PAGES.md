@@ -6,7 +6,12 @@
 > outage e roda no plano free com **uso comercial permitido + banda ilimitada**.
 
 A página é **100% estática** (HTML pré-renderizado + `js/*.min.js` + assets, tudo commitado).
-**Não há build no servidor** — o CF Pages só serve a raiz do repo.
+**Não há build no servidor** — o CF Pages serve a pasta **`public/`** do repo.
+
+> **Estrutura:** os arquivos **servidos** vivem em **`public/`** (`index.html`, `styles.css`,
+> `js/`, `img/`, `fonts/`, `vendor/react*.js`, `_headers`). Fonte/build/docs ficam na **raiz**
+> (`*.jsx`, `*.ps1`, `scripts/`, `*.md`, `vercel.json`, `vendor/react-dom-server-legacy*`) e
+> **não são servidos**. Por isso o **Build output directory = `public`** (ver setup).
 
 > **Plataforma:** o projeto está no **Cloudflare Pages** (chegamos a testar um *Worker* com
 > Static Assets, mas voltamos pro Pages). Por isso o repo **não tem** `wrangler.jsonc` nem
@@ -19,23 +24,23 @@ A página é **100% estática** (HTML pré-renderizado + `js/*.min.js` + assets,
 - ✅ `vercel.json` **mantido** apenas para rollback (CF Pages o ignora).
 - ✅ Clean URLs: o CF Pages faz por padrão (serve `/` → `index.html`). Sem `_redirects` necessário.
 
-## ⚠️ Exposição de arquivos no Pages (diferença vs Worker)
-O CF Pages serve **todos** os arquivos não-dotfile do output (a raiz). Logo, fonte e docs ficam
-**públicos** (ex.: `/sections.jsx`, `/build.ps1`, `/PLAYBOOK-LP-VENDAS.md`, `/vercel.json` → 200).
-Não é vazamento de segredo (não há segredos nesses arquivos — já era assim na Vercel), mas é
-*information disclosure*. O `.assetsignore` (que escondia isso no Worker) **não vale no Pages**.
-- **Dotfiles** (`.git`, `.env`, `.gitignore`) o Pages já **não serve** por padrão.
-- **Para esconder fonte/docs no Pages** seria preciso servir de uma **subpasta** (ex.: mover os
-  arquivos de runtime pra `public/` e setar *Build output directory* = `public`) — exige ajustar
-  `build.ps1`/`prerender.ps1`/`critical-css.ps1` pra escrever lá. Trabalho à parte, opcional
-  (arquivos não-secretos).
+## Exposição de arquivos — RESOLVIDO (output = `public/`)
+O CF Pages serve **só** o `Build output directory`. Como ele agora é **`public/`**, e fonte/build/
+docs ficam na **raiz** (fora de `public/`), eles **não são mais servidos** (`/sections.jsx`,
+`/build.ps1`, `/PLAYBOOK-LP-VENDAS.md`, `/vercel.json` → caem no fallback do Pages, sem expor
+conteúdo). O `.assetsignore` (Worker-only) não era respeitado no Pages; a subpasta resolve de vez.
+
+**Pipeline de build (atualizado p/ `public/`):** `build.ps1` compila os `.jsx` da raiz →
+`public/js/*.min.js`; `prerender.ps1`/`critical-css.ps1` editam `public/index.html`;
+`serve.ps1` serve `public/`. Os `.jsx`-fonte e o `react-dom-server-legacy` (build-only) ficam
+na raiz.
 
 ## Setup no dashboard da Cloudflare (passo único — precisa de você)
 1. **Workers & Pages → Create → Pages → Connect to Git** → repo `INTUS-AI/LP-Crie-um-Super-Agente-de-IA`, branch `main`.
 2. **Build settings:**
    - Framework preset: **None**
    - Build command: **(vazio)**
-   - Build output directory: **`/`** (raiz)
+   - **Build output directory: `public`**  ← (esconde fonte/docs da raiz)
    - Root directory: **`/`**
 3. **Save and Deploy.** O CF builda um preview em `https://<projeto>.pages.dev`.
 4. **Validar o `.pages.dev`** antes de mexer no domínio (ver checklist abaixo).

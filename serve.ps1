@@ -3,7 +3,7 @@ $listener.Prefixes.Add("http://localhost:3000/")
 $listener.Start()
 Write-Host "Servidor no ar: http://localhost:3000"
 
-$root = $PSScriptRoot
+$root = Join-Path $PSScriptRoot "public"   # serve o root web (public/), nao a raiz do repo
 $mimes = @{
     ".html" = "text/html; charset=utf-8"
     ".css"  = "text/css"

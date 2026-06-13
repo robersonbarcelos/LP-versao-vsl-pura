@@ -13,7 +13,9 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import puppeteer from 'puppeteer-core';
 
 const dir = path.dirname(fileURLToPath(import.meta.url));
-const indexPath = path.join(dir, '..', 'index.html');
+// index.html servido vive em public/ (output do CF Pages). O server-legacy fica na raiz
+// (vendor/, build-only — nao servido).
+const indexPath = path.join(dir, '..', 'public', 'index.html');
 const chrome = process.env.CHROME_PATH;
 if (!chrome) throw new Error('Defina CHROME_PATH com o caminho do Chrome/Edge.');
 

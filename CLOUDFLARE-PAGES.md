@@ -43,8 +43,11 @@ A página é **100% estática** (HTML pré-renderizado + `js/*.min.js` + assets,
 - Repontar o DNS de `superagente` de volta para **`A → 76.76.21.21`** (Vercel, DNS-only/nuvem
   cinza, TTL mínimo). O `vercel.json` continua no repo, então a Vercel volta a servir igual.
 
-## Analytics (substituto do Speed Insights, opcional)
+## Analytics (substituto do Speed Insights) — ATIVO
 - **Cloudflare Web Analytics** — free, ilimitado, cookieless, traz Core Web Vitals (RUM).
-  Com o domínio proxied (nuvem laranja) dá pra **auto-injetar o beacon** (zero código) em
-  *Analytics & Logs → Web Analytics*. Se preferir o beacon manual, precisa liberar no CSP
-  (`script-src https://static.cloudflareinsights.com`, `connect-src https://cloudflareinsights.com`).
+  Com o domínio proxied a Cloudflare **auto-injeta o beacon** `beacon.min.js` (zero código).
+- O CSP (`_headers` e `vercel.json`) já libera: `script-src https://static.cloudflareinsights.com`
+  e `connect-src https://cloudflareinsights.com`. Sem isso o beacon é **bloqueado pelo CSP**
+  (foi o que apareceu no console na primeira validação pós-migração).
+- Dados aparecem em *Cloudflare → Analytics & Logs → Web Analytics*. Pra desligar, é só
+  desabilitar o auto-injection lá (não precisa mexer no CSP).

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://superagente.intushub.com.br/sitemap.xml

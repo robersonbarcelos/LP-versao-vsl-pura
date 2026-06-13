@@ -11,6 +11,7 @@ function useScrollReveal(enabled = true){
       return;
     }
     let remaining = document.querySelectorAll('.reveal').length;
+    let mo;
 
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => {
@@ -18,16 +19,36 @@ function useScrollReveal(enabled = true){
           remaining--;
           e.target.classList.add('in');
           io.unobserve(e.target);
-          if (remaining <= 0) io.disconnect();
+          if (remaining <= 0 && mo) mo.disconnect();
         }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-    // Puro IO sem getBoundingClientRect — elimina forced reflow.
-    // IO dispara em 1-2 frames (~16ms) para elementos já no viewport.
-    document.querySelectorAll('.reveal:not(.in)').forEach(el => io.observe(el));
+    const inView = (el) => {
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      return r.top < vh && r.bottom > 0;
+    };
+    const observe = () => {
+      const els = Array.from(document.querySelectorAll('.reveal:not(.in)'));
+      const results = els.map(el => ({ el, visible: inView(el) }));
+      results.forEach(({ el, visible }) => {
+        if (visible) { remaining--; el.classList.add('in'); }
+        else io.observe(el);
+      });
+      if (remaining <= 0 && mo) mo.disconnect();
+    };
 
-    return () => io.disconnect();
+    observe();
+
+    let scheduled = false;
+    mo = new MutationObserver(() => {
+      if (scheduled || remaining <= 0) { if (remaining <= 0) mo.disconnect(); return; }
+      scheduled = true;
+      requestAnimationFrame(() => { scheduled = false; observe(); });
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+    return () => { io.disconnect(); mo.disconnect(); };
   }, [enabled]);
 }
 

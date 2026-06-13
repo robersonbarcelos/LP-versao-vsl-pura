@@ -21,3 +21,11 @@ foreach ($f in $files) {
 }
 
 Write-Host "Build concluído. Bundles em public/js/*.min.js"
+
+# Minifica styles.css (salva original em styles.src.css)
+$cssSrc = Join-Path $root "public\styles.src.css"
+$cssDst = Join-Path $root "public\styles.css"
+if (-not (Test-Path $cssSrc)) { Copy-Item $cssDst $cssSrc }
+Write-Host "Minificando public/styles.css"
+npx --yes esbuild@0.24.0 $cssSrc --minify --outfile=$cssDst
+Write-Host "CSS minificado."

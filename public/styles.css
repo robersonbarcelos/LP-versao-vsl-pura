@@ -2045,7 +2045,8 @@ button{ font: inherit; cursor: pointer; }
 body.cursor-on #cursor-ring{ opacity: .8; }
 @media (pointer: fine){ body.cursor-on{ cursor: none; } }
 body.cursor-on a, body.cursor-on button{ cursor: none; }
-#cursor-ring.hover{ width: 56px; height: 56px; background: color-mix(in oklab, var(--accent) 20%, transparent); }
+/* scale(1.75) = 56px/32px — sem mudar width/height (GPU-composited) */
+#cursor-ring.hover{ transform: translate(-50%, -50%) scale(1.75); background: color-mix(in oklab, var(--accent) 20%, transparent); }
 
 /* ──────────────────────────────────────────────────────────────────────────
    AGITATION — "O mercado de IA virou um camelô"

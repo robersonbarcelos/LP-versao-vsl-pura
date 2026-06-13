@@ -12,7 +12,10 @@
   font-family: "Inter Tight";
   font-style: normal;
   font-weight: 400 800;
-  font-display: swap;
+  /* optional: o texto pinta de imediato com o fallback e NAO troca tarde — evita o repaint
+     do swap que inflava o LCP do titulo (LCP de texto). Com a fonte em preload, conexoes
+     boas ainda recebem a Inter Tight no 1o paint; so o 1o acesso lento cai no fallback. */
+  font-display: optional;
   src: url("fonts/inter-tight-latin.woff2") format("woff2");
 }
 

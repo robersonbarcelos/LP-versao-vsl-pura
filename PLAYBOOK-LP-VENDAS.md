@@ -134,6 +134,16 @@
 - **Deploy na Vercel pode demorar** (vimos de 3 a ~20 min). Valide **depois** de propagar:
   cheque um asset novo (ex.: a fonte) retornando **200** antes de declarar concluído. Use
   cache-buster (`?v=…`) ao medir; o edge serve HTML em cache (`X-Vercel-Cache: HIT`, `Age` alto).
+- **Merge de PR via `gh`/API pode NÃO disparar o deploy da Vercel.** Ao mergear o PR do
+  Speed Insights via `gh pr merge --squash`, o commit do merge **nunca chegou** ao deployment
+  da Vercel (o webhook do GitHub App não pegou o push). Sintoma: produção fica no commit
+  anterior, e `gh api repos/<r>/deployments` **não lista** o SHA do merge.
+  - **Diagnóstico:** `gh api "repos/<owner>/<repo>/deployments?per_page=5" --jq '.[]|{sha:.sha[0:7],created:.created_at}'`
+    — se o SHA novo não aparece, o deploy não foi acionado (≠ falhou no build).
+  - **Fix:** force um novo push na `main` (qualquer commit — ex.: o próprio commit de doc/memória
+    serve de retrigger; não precisa commit vazio) **ou** "Redeploy" no dashboard da Vercel.
+  - **Preferir:** quando o objetivo é deployar, fazer `git push` direto (sempre dispara o webhook)
+    em vez de merge via API; ou checar a lista de deployments após qualquer merge via `gh`.
 - **DNS na Vercel — cluster de edge pode ficar inalcançável; escape com A record fixo.**
   A página caiu "do nada" (deploy **"Ready"**, mas **TCP 443 em timeout intermitente**): o
   CNAME (mesmo o padrão `cname.vercel-dns.com`) roteava o domínio para o cluster

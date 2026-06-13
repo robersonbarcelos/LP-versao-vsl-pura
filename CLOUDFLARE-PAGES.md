@@ -8,11 +8,27 @@
 A página é **100% estática** (HTML pré-renderizado + `js/*.min.js` + assets, tudo commitado).
 **Não há build no servidor** — o CF Pages só serve a raiz do repo.
 
+> **Plataforma:** o projeto está no **Cloudflare Pages** (chegamos a testar um *Worker* com
+> Static Assets, mas voltamos pro Pages). Por isso o repo **não tem** `wrangler.jsonc` nem
+> `.assetsignore` — eram config de Worker e o Pages os ignora.
+
 ## Estado do repo (já preparado)
-- ✅ `_headers` — CSP + headers de segurança (paridade com o `vercel.json`). **Fonte da verdade** no CF Pages.
+- ✅ `_headers` — CSP + headers de segurança (paridade com o `vercel.json`). **Fonte da verdade**.
+  Suportado nativamente pelo CF Pages (confirmado em prod: CSP + X-Frame-Options aplicados).
 - ✅ Speed Insights da Vercel **removido** (era Vercel-only; não funciona no CF Pages).
 - ✅ `vercel.json` **mantido** apenas para rollback (CF Pages o ignora).
 - ✅ Clean URLs: o CF Pages faz por padrão (serve `/` → `index.html`). Sem `_redirects` necessário.
+
+## ⚠️ Exposição de arquivos no Pages (diferença vs Worker)
+O CF Pages serve **todos** os arquivos não-dotfile do output (a raiz). Logo, fonte e docs ficam
+**públicos** (ex.: `/sections.jsx`, `/build.ps1`, `/PLAYBOOK-LP-VENDAS.md`, `/vercel.json` → 200).
+Não é vazamento de segredo (não há segredos nesses arquivos — já era assim na Vercel), mas é
+*information disclosure*. O `.assetsignore` (que escondia isso no Worker) **não vale no Pages**.
+- **Dotfiles** (`.git`, `.env`, `.gitignore`) o Pages já **não serve** por padrão.
+- **Para esconder fonte/docs no Pages** seria preciso servir de uma **subpasta** (ex.: mover os
+  arquivos de runtime pra `public/` e setar *Build output directory* = `public`) — exige ajustar
+  `build.ps1`/`prerender.ps1`/`critical-css.ps1` pra escrever lá. Trabalho à parte, opcional
+  (arquivos não-secretos).
 
 ## Setup no dashboard da Cloudflare (passo único — precisa de você)
 1. **Workers & Pages → Create → Pages → Connect to Git** → repo `INTUS-AI/LP-Crie-um-Super-Agente-de-IA`, branch `main`.

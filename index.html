@@ -84,6 +84,11 @@ src="https://www.facebook.com/tr?id=1245755299773926&ev=PageView&noscript=1"
   0% { transform: translateX(0px); }
   100% { transform: translateX(-50%); }
 }@media (max-width: 540px){.nav-inner { height: 60px; }.nav-right .btn.btn-primary { font-size: 0px; padding: 11px 15px; min-width: 42px; border-radius: 10px; letter-spacing: 0px; }.nav-right .btn.btn-primary .btn-arrow { font-size: 18px; line-height: 1; }.hero-actions { flex-direction: column; align-items: stretch; gap: 12px; }.hero-actions .btn.btn-big { width: 100%; justify-content: center; text-align: center; }}@media (max-width: 400px){.container { padding: 0px 14px; }}@media (max-width: 540px){:root { --pad-section: clamp(44px, 7vw, 64px); }.wa-float { bottom: 16px; right: 16px; width: 50px; height: 50px; }}/*CRITICAL-CSS-END*/</style>
+<!-- Render-perf: o DOM tem ~1200 elementos (17 secoes). content-visibility:auto faz o browser
+     PULAR layout/paint das secoes abaixo da dobra ate serem roladas — derruba o trabalho de
+     render no 1o paint (FCP/LCP/TBT) sem tocar no DOM, hidratacao, scripts ou visual. Inline
+     p/ valer ja no 1o paint. contain-intrinsic-size (auto) evita salto de scroll/CLS. -->
+<style id="cv-defer">.problem,.comparison-section,.challenges,.modules,.results,.proof-sec,.marquee,.roadmap,.offer,.guarantee,.faq,.support,.cta,.footer{content-visibility:auto;contain-intrinsic-size:auto 640px}</style>
 <link rel="preload" as="style" href="styles.css" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="styles.css"></noscript>
 

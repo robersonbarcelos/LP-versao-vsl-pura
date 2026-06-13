@@ -11,7 +11,11 @@
   font-family: "Inter Tight";
   font-style: normal;
   font-weight: 400 800;
-  font-display: optional;
+  /* swap: texto pinta imediatamente com fallback; troca quando Inter Tight chega.
+     Com a fonte self-hosted + preload fetchpriority=high, a troca é rápida (mesma
+     origem) e o LCP é registrado no primeiro paint do fallback, não na espera da
+     fonte — corrige o render delay de 2,4s que optional causava na CPU throttled. */
+  font-display: swap;
   src: url("fonts/inter-tight-latin.woff2") format("woff2");
 }
 

@@ -28,10 +28,16 @@ function useScrollReveal(enabled = true){
       const vh = window.innerHeight || document.documentElement.clientHeight;
       return r.top < vh && r.bottom > 0;
     };
-    const observe = () => document.querySelectorAll('.reveal:not(.in)').forEach(el => {
-      if (inView(el)) el.classList.add('in');
-      else io.observe(el);
-    });
+    const observe = () => {
+      // Batch: todas as leituras de layout primeiro, depois todas as escritas.
+      // Evita o ciclo leitura→escrita→leitura que causa forced reflow.
+      const els = Array.from(document.querySelectorAll('.reveal:not(.in)'));
+      const results = els.map(el => ({ el, visible: inView(el) }));
+      results.forEach(({ el, visible }) => {
+        if (visible) el.classList.add('in');
+        else io.observe(el);
+      });
+    };
     observe();
     // Re-observe when DOM changes (e.g. tabs switch). Coalesce bursts num único
     // rAF — sem isso, o countdown (que muda o DOM a cada segundo) força um

@@ -6,3 +6,10 @@ package-lock.json
 *.bak
 psi.json
 lh.json
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example

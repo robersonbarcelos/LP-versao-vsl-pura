@@ -45,6 +45,10 @@ function useScrollReveal(enabled = true){
     let scheduled = false;
     const mo = new MutationObserver(() => {
       if (scheduled) return;
+      // Desconecta quando não há mais elementos para revelar — evita
+      // que o countdown (que muda o DOM a cada segundo) continue disparando
+      // getBoundingClientRect() desnecessariamente.
+      if (!document.querySelector('.reveal:not(.in)')) { mo.disconnect(); return; }
       scheduled = true;
       requestAnimationFrame(() => { scheduled = false; observe(); });
     });

@@ -10,40 +10,41 @@ function useScrollReveal(enabled = true){
       document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
       return;
     }
-    let remaining = document.querySelectorAll('.reveal').length;
-    let mo;
-
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
-          remaining--;
           e.target.classList.add('in');
           io.unobserve(e.target);
-          if (remaining <= 0 && mo) mo.disconnect();
         }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
+    // Elementos já visíveis no mount são revelados de forma síncrona (sem esperar
+    // o callback assíncrono do IntersectionObserver). Isso evita um flicker quando
+    // o React reassume o conteúdo pré-renderizado: o que está acima da dobra já
+    // aparece imediatamente. O resto continua observado para revelar no scroll.
     const inView = (el) => {
       const r = el.getBoundingClientRect();
       const vh = window.innerHeight || document.documentElement.clientHeight;
       return r.top < vh && r.bottom > 0;
     };
     const observe = () => {
+      // Batch: todas as leituras de layout primeiro, depois todas as escritas.
+      // Evita o ciclo leitura→escrita→leitura que causa forced reflow.
       const els = Array.from(document.querySelectorAll('.reveal:not(.in)'));
       const results = els.map(el => ({ el, visible: inView(el) }));
       results.forEach(({ el, visible }) => {
-        if (visible) { remaining--; el.classList.add('in'); }
+        if (visible) el.classList.add('in');
         else io.observe(el);
       });
-      if (remaining <= 0 && mo) mo.disconnect();
     };
-
     observe();
-
+    // Re-observe when DOM changes (e.g. tabs switch). Coalesce bursts num único
+    // rAF — sem isso, o countdown (que muda o DOM a cada segundo) força um
+    // querySelectorAll na página inteira a cada tick.
     let scheduled = false;
-    mo = new MutationObserver(() => {
-      if (scheduled || remaining <= 0) { if (remaining <= 0) mo.disconnect(); return; }
+    const mo = new MutationObserver(() => {
+      if (scheduled) return;
       scheduled = true;
       requestAnimationFrame(() => { scheduled = false; observe(); });
     });
@@ -125,19 +126,5 @@ function useParallax(enabled){
     return () => { window.removeEventListener('scroll', on); cancelAnimationFrame(raf); };
   }, [enabled]);
 }
-
-/* Sweep animation pausada por padrão no CSS. Ativa só nos botões visíveis
-   para evitar paint contínuo em todos os CTAs fora da tela. */
-(function initBtnSweep(){
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      e.target.classList.toggle('btn-sweep-on', e.isIntersecting);
-    });
-  }, { threshold: 0.1 });
-  const attach = () =>
-    document.querySelectorAll('.btn-primary').forEach(b => io.observe(b));
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', attach);
-  else attach();
-})();
 
 Object.assign(window, { useScrollReveal, useScrolledFlag, useCustomCursor, useParallax });

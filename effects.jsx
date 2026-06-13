@@ -42,10 +42,9 @@ function useScrollReveal(enabled = true){
       if (remaining <= 0 && mo) mo.disconnect();
     };
 
-    // Adia a verificação inicial para depois do commit do React — evita
-    // forced reflow por leitura de getBoundingClientRect durante a hidratação.
-    if ('requestIdleCallback' in window) requestIdleCallback(observe, { timeout: 200 });
-    else setTimeout(observe, 0);
+    // Executa imediatamente — elementos .reveal ficam opacity:0 até o .in ser
+    // adicionado. Adiar via requestIdleCallback causava LCP delay de 2.3s.
+    observe();
 
     // MO roda só enquanto há elementos não revelados — para automaticamente.
     let scheduled = false;

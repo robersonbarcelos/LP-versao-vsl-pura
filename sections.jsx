@@ -328,7 +328,7 @@ function Vsl({ t }){
           <video
             ref={videoRef}
             className="vsl-video"
-            src="https://pub-9abb748d5da742e2b2dff885f8870d25.r2.dev/Agent%20Lab%20%E2%80%94%20Workshop%20de%20Agentes%20Criativos%20_%20Human%20Academy%20-%20Google%20Chrome%202026-06-15%2014-53-47.mp4"
+            src="https://pub-9abb748d5da742e2b2dff885f8870d25.r2.dev/vslteste.mp4"
             poster="img/heeerochat01.webp"
             playsInline
             preload="metadata"

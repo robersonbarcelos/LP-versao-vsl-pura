@@ -27,6 +27,7 @@ function App(){
       {t.showAnnouncement && <Announcement t={t}/>}
       {t.showNav && <Nav t={t}/>}
       {t.showHero && <Hero t={t}/>}
+      {t.showVsl && <Vsl t={t}/>}
       <StatsBar/>
       {t.showProblem && <Problem t={t}/>}
       {t.showChallenges && <Challenges t={t}/>}
@@ -89,6 +90,10 @@ function App(){
         <TweakToggle label="Anúncio topo" value={t.showAnnouncement} onChange={v => setTweak('showAnnouncement', v)}/>
         <TweakToggle label="Nav" value={t.showNav} onChange={v => setTweak('showNav', v)}/>
         <TweakToggle label="Hero" value={t.showHero} onChange={v => setTweak('showHero', v)}/>
+        <TweakToggle label="VSL (vídeo)" value={t.showVsl} onChange={v => setTweak('showVsl', v)}/>
+        <TweakToggle label="VSL: travar oferta" value={t.vslLockOffer} onChange={v => setTweak('vslLockOffer', v)}/>
+        <TweakSlider label="VSL: liberar em (seg)" value={t.vslUnlockSeconds} min={10} max={600} step={10}
+          onChange={v => setTweak('vslUnlockSeconds', v)}/>
         <TweakToggle label="Problema" value={t.showProblem} onChange={v => setTweak('showProblem', v)}/>
         <TweakToggle label="Agitação" value={t.showAgitation} onChange={v => setTweak('showAgitation', v)}/>
         <TweakToggle label="Desafios" value={t.showChallenges} onChange={v => setTweak('showChallenges', v)}/>

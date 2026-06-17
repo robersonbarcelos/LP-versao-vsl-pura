@@ -617,6 +617,129 @@ button{ font: inherit; cursor: pointer; }
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
+   VSL (vídeo de vendas)
+   ─────────────────────────────────────────────────────────────────────── */
+.vsl{ padding: calc(var(--pad-section) / 1.4) 0; }
+.vsl-hd{ text-align: center; max-width: 720px; margin: 0 auto 32px; }
+.vsl-hd .h2{ margin-top: 10px; }
+
+.vsl-player{
+  position: relative;
+  max-width: 920px;
+  margin: 0 auto;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: #000;
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 60px -20px rgba(0,0,0,0.5);
+  aspect-ratio: 16/9;
+}
+.vsl-video{
+  width: 100%; height: 100%;
+  display: block;
+  object-fit: cover;
+  background: #000;
+}
+/* Esconde o menu nativo de "Salvar vídeo como" / "Abrir em nova guia" no Chromium */
+.vsl-video::-webkit-media-controls-enclosure{ display: none !important; }
+
+.vsl-play-btn{
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 14px;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.35);
+  border: none; cursor: pointer;
+  color: #fff;
+}
+.vsl-play-icon{
+  display: flex; align-items: center; justify-content: center;
+  width: 76px; height: 76px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 26px;
+  box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 50%, transparent);
+  animation: vsl-pulse 2.2s infinite;
+}
+@keyframes vsl-pulse{
+  0%{ box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 45%, transparent); }
+  70%{ box-shadow: 0 0 0 18px color-mix(in oklab, var(--accent) 0%, transparent); }
+  100%{ box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 0%, transparent); }
+}
+.vsl-play-label{
+  font-family: var(--f-mono);
+  font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+}
+
+.vsl-controls{
+  position: absolute; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
+}
+.vsl-toggle{
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(0,0,0,0.4);
+  color: #fff; cursor: pointer; font-size: 13px;
+}
+.vsl-progress-track{
+  position: relative;
+  flex: 1;
+  height: 5px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.22);
+}
+.vsl-progress-fill{
+  position: absolute; inset: 0 auto 0 0;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--accent);
+  transition: width 0.2s linear;
+}
+.vsl-chapter-dot{
+  position: absolute; top: 50%; transform: translate(-50%, -50%);
+  width: 9px; height: 9px; border-radius: 50%;
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(0,0,0,0.3);
+  cursor: pointer; padding: 0;
+}
+.vsl-chapter-dot:hover{ background: #fff; }
+.vsl-speed{
+  flex-shrink: 0;
+  min-width: 38px; height: 30px; padding: 0 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(0,0,0,0.4);
+  color: #fff; cursor: pointer;
+  font-family: var(--f-mono); font-size: 12px; font-weight: 700;
+}
+
+.vsl-unlock{
+  max-width: 640px; margin: 28px auto 0;
+  text-align: center;
+}
+.vsl-unlock-msg{
+  font-family: var(--f-mono);
+  font-size: 14px;
+  color: var(--muted);
+  background: rgba(0,0,0,0.35);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+.vsl-unlock-msg.is-open{ color: var(--accent); border-color: color-mix(in oklab, var(--accent) 40%, var(--line)); }
+.vsl-unlock-cta{ display: flex; flex-direction: column; align-items: center; gap: 18px; }
+
+@media (max-width: 720px){
+  .vsl-play-icon{ width: 60px; height: 60px; font-size: 20px; }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
    PROBLEM
    ─────────────────────────────────────────────────────────────────────── */
 .problem{ padding: var(--pad-section) 0 calc(var(--pad-section) / 2); }

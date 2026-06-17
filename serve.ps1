@@ -14,6 +14,8 @@ $mimes = @{
     ".svg"  = "image/svg+xml"
     ".ico"  = "image/x-icon"
     ".webp" = "image/webp"
+    ".mp4"  = "video/mp4"
+    ".webm" = "video/webm"
 }
 
 while ($listener.IsListening) {

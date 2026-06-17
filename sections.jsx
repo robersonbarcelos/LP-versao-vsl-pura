@@ -265,10 +265,18 @@ function Vsl({ t }){
   function startPlayback(){
     const v = videoRef.current;
     if(!v) return;
-    if(resumeAt > 0) v.currentTime = resumeAt;
-    v.play();
     setStarted(true);
-    setPlaying(true);
+    v.load();
+    const doPlay = () => {
+      if(resumeAt > 0) v.currentTime = resumeAt;
+      v.play().catch(() => {});
+      setPlaying(true);
+    };
+    if(v.readyState >= 1) {
+      doPlay();
+    } else {
+      v.addEventListener('loadedmetadata', doPlay, { once: true });
+    }
   }
   function togglePlay(){
     const v = videoRef.current;
@@ -331,7 +339,7 @@ function Vsl({ t }){
             src="https://pub-9abb748d5da742e2b2dff885f8870d25.r2.dev/vslteste.mp4"
             poster="img/heeerochat01.webp"
             playsInline
-            preload="metadata"
+            preload="none"
             controlsList="nodownload noremoteplayback nofullscreen"
             disablePictureInPicture
             onContextMenu={blockContextMenu}

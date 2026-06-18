@@ -3,7 +3,7 @@
 # Fonte da verdade dos headers no Cloudflare Pages. O vercel.json fica so para rollback.
 
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://connect.facebook.net https://cdn.utmify.com.br https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.facebook.com; connect-src 'self' https://www.facebook.com https://connect.facebook.net https://api.utmify.com.br https://cdn.utmify.com.br https://cloudflareinsights.com; media-src 'self' https://pub-9abb748d5da742e2b2dff885f8870d25.r2.dev; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://connect.facebook.net https://cdn.utmify.com.br https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.facebook.com; connect-src 'self' https://www.facebook.com https://connect.facebook.net https://api.utmify.com.br https://cdn.utmify.com.br https://cloudflareinsights.com; media-src 'self' https://pub-9abb748d5da742e2b2dff885f8870d25.r2.dev https://pub-3d6f0373435d4e6286d54d6fb1209375.r2.dev; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin

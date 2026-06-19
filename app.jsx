@@ -34,7 +34,7 @@ function App(){
       {t.showAgitation && <Agitation t={t}/>}
       {t.showModules && <Modules t={t}/>}
       {t.showResults && <Results t={t}/>}
-      {t.showResults && t.showTestimonials && <ProofBridge/>}
+
       {t.showTestimonials && <Testimonials t={t}/>}
       {t.showMarquee && <Marquee t={t}/>}
       {t.showRoadmap && <Roadmap t={t}/>}

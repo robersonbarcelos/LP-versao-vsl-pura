@@ -708,6 +708,10 @@ function Results({ t }){
           ))}
         </div>
         <div className="results-footer reveal">
+          <div className="results-quote">
+            <p className="results-quote-text"><em>Não é demonstração. É o que roda minha empresa todo dia.</em></p>
+            <span className="results-quote-attr">Diego Spanevello · Fundador, INTUS HUB</span>
+          </div>
           <a className="btn btn-primary btn-big" href="#oferta">{t.ctaPrimary} <span className="btn-arrow">→</span></a>
         </div>
       </div>

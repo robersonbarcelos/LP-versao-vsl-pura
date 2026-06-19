@@ -2246,14 +2246,14 @@ body.cursor-on a, body.cursor-on button{ cursor: none; }
   line-height: 1;
 }
 .result-check{
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
-  color: #1B6B2F;
+  color: #fff;
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: rgba(27,107,47,.15);
-  border: 1px solid rgba(27,107,47,.3);
+  background: #16a34a;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2272,6 +2272,9 @@ body.cursor-on a, body.cursor-on button{ cursor: none; }
   line-height: 1.55;
   color: var(--ink-2);
 }
+.results-quote{ display: flex; flex-direction: column; gap: 4px; }
+.results-quote-text{ font-size: clamp(14px, 1.4vw, 17px); color: var(--ink-2); font-style: italic; margin: 0; }
+.results-quote-attr{ font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
 .results-footer{
   margin-top: 32px;
   padding-top: 0;

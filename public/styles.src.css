@@ -939,11 +939,10 @@ button{ font: inherit; cursor: pointer; }
 .noise-arrow-label{
   font-family: var(--f-mono);
   font-size: 10px;
-  color: #C62828 !important;
+  color: #C62828;
   font-weight: 600;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: rgba(250,250,250,.5);
 }
 
 /* ── Result — tipografia grande riscada ── */

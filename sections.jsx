@@ -474,20 +474,25 @@ function Agitation({ t }){
           <h2 className="h-display h2 reveal">O que muda quando o agente <em>é construído do jeito certo.</em></h2>
         </div>
 
-        <div className="contrast-list reveal">
-          {contrasts.map((c, i) => (
-            <div key={i} className="contrast-item">
-              <div className="contrast-before">
-                <span className="before-label">O que vendem por aí</span>
+        <div className="contrast-lists reveal">
+          <div className="contrast-col contrast-col-bad">
+            <span className="before-label">O que vendem por aí</span>
+            {contrasts.map((c, i) => (
+              <div key={i} className="contrast-col-item">
+                <span className="col-x">✕</span>
                 <p className="before-text">{c.bad}</p>
               </div>
-              <div className="contrast-after">
-                <span className="after-label">O que você vai ter</span>
+            ))}
+          </div>
+          <div className="contrast-col contrast-col-good">
+            <span className="after-label">O que você vai ter</span>
+            {contrasts.map((c, i) => (
+              <div key={i} className="contrast-col-item">
+                <span className="col-check">✓</span>
                 <p className="after-text">{c.good}</p>
-                {c.desc && <p className="after-desc">{c.desc}</p>}
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         <div className="comp-close reveal">

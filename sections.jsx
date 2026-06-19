@@ -328,7 +328,7 @@ function Vsl({ t }){
           <video
             ref={videoRef}
             className="vsl-video"
-            src="https://pub-3d6f0373435d4e6286d54d6fb1209375.r2.dev/VSLSUPERAGENTEFINAL.mp4"
+            src="https://pub-3d6f0373435d4e6286d54d6fb1209375.r2.dev/VSLSUPERAGENTEFINAL.mp4?v=2"
             poster="img/heeerochat01.webp"
             playsInline
             preload="none"

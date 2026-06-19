@@ -243,79 +243,6 @@ const VSL_PROGRESS_KEY = 'sa_vsl_progress';
 const VSL_SPEEDS = [1, 1.25, 1.5, 2];
 
 function Vsl({ t }){
-  const videoRef = React.useRef(null);
-  const [playing, setPlaying] = React.useState(false);
-  const [started, setStarted] = React.useState(false);
-  const [displayProgress, setDisplayProgress] = React.useState(0); // 0–100, fictícia
-  const [unlocked, setUnlocked] = React.useState(!(t.vslLockOffer ?? true));
-  const [duration, setDuration] = React.useState(0);
-  const [speedIdx, setSpeedIdx] = React.useState(0);
-  const [resumeAt, setResumeAt] = React.useState(0);
-  const maxSeenTime = React.useRef(0);
-
-  const LOCK_OFFER = t.vslLockOffer ?? true;
-  const UNLOCK_AT  = t.vslUnlockSeconds ?? 120;
-
-  // Recupera ponto onde a pessoa parou, da última visita
-  React.useEffect(() => {
-    const saved = parseFloat(sessionStorage.getItem(VSL_PROGRESS_KEY) || '0');
-    if(saved > 3) setResumeAt(saved);
-  }, []);
-
-  function startPlayback(){
-    const v = videoRef.current;
-    if(!v) return;
-    setStarted(true);
-    v.load();
-    if(resumeAt > 0) v.currentTime = resumeAt;
-    v.play().then(() => { setPlaying(true); }).catch(() => {});
-  }
-  function togglePlay(){
-    const v = videoRef.current;
-    if(!v) return;
-    if(v.paused){ v.play(); setPlaying(true); } else { v.pause(); setPlaying(false); }
-  }
-  function cycleSpeed(){
-    const v = videoRef.current;
-    const next = (speedIdx + 1) % VSL_SPEEDS.length;
-    setSpeedIdx(next);
-    if(v) v.playbackRate = VSL_SPEEDS[next];
-  }
-  function jumpToChapter(pct){
-    const v = videoRef.current;
-    if(!v || !duration) return;
-    const target = pct * duration;
-    // só permite saltar pra capítulos já alcançados (mantém a trava de avanço)
-    if(target <= maxSeenTime.current + 1) v.currentTime = target;
-  }
-
-  function onTimeUpdate(){
-    const v = videoRef.current;
-    if(!v) return;
-    // Trava avanço por arrasto da barra: só permite seguir até o ponto mais assistido + folga mínima
-    if(v.currentTime > maxSeenTime.current + v.playbackRate * 1.5) v.currentTime = maxSeenTime.current;
-    maxSeenTime.current = Math.max(maxSeenTime.current, v.currentTime);
-
-    const real = v.duration ? v.currentTime / v.duration : 0;
-    // Barra fictícia: curva que avança mais rápido no início e desacelera no fim
-    // (sensação de "quase lá" por mais tempo — técnica clássica de VSL).
-    setDisplayProgress(Math.min(100, 100 * (1 - Math.pow(1 - real, 1.6))));
-
-    sessionStorage.setItem(VSL_PROGRESS_KEY, String(v.currentTime));
-    if(LOCK_OFFER && !unlocked && v.currentTime >= UNLOCK_AT) setUnlocked(true);
-  }
-
-  function onLoadedMeta(){
-    const v = videoRef.current;
-    if(v) setDuration(v.duration || 0);
-  }
-
-  // Bloqueia abrir o vídeo em nova guia / salvar como
-  function blockContextMenu(e){ e.preventDefault(); }
-
-  const m = String(Math.floor(UNLOCK_AT / 60)).padStart(2, '0');
-  const s = String(UNLOCK_AT % 60).padStart(2, '0');
-
   return (
     <section className="vsl" id="vsl">
       <div className="container">
@@ -324,55 +251,11 @@ function Vsl({ t }){
           <h2 className="h-display h2">Veja como o Super Agente funciona <em>na prática</em></h2>
         </div>
 
-        <div className="vsl-player reveal" style={{'--reveal-delay':'80ms'}} onContextMenu={blockContextMenu}>
-          <video
-            ref={videoRef}
-            className="vsl-video"
-            src="https://pub-3d6f0373435d4e6286d54d6fb1209375.r2.dev/VSLSUPERAGENTEFINAL.mp4?v=2"
-            poster="img/heeerochat01.webp"
-            playsInline
-            preload="none"
-            controlsList="nodownload noremoteplayback nofullscreen"
-            disablePictureInPicture
-            onContextMenu={blockContextMenu}
-            onTimeUpdate={onTimeUpdate}
-            onLoadedMetadata={onLoadedMeta}
-            onPlay={() => setPlaying(true)}
-            onPause={() => setPlaying(false)}
-            onEnded={() => { setPlaying(false); setUnlocked(true); }}
-          />
-
-          {!started && (
-            <button className="vsl-play-btn" onClick={startPlayback} aria-label="Assistir vídeo">
-              <span className="vsl-play-icon">▶</span>
-              <span className="vsl-play-label">{resumeAt > 0 ? 'Continuar de onde parei' : 'Assistir agora'}</span>
-            </button>
-          )}
-
-          {started && (
-            <div className="vsl-controls">
-              <button className="vsl-toggle" onClick={togglePlay} aria-label={playing ? 'Pausar' : 'Continuar'}>
-                {playing ? '❙❙' : '▶'}
-              </button>
-              <div className="vsl-progress-track">
-                <div className="vsl-progress-fill" style={{ width: `${displayProgress}%` }}/>
-              </div>
-              <button className="vsl-speed" onClick={cycleSpeed} aria-label="Velocidade de reprodução">
-                {VSL_SPEEDS[speedIdx]}x
-              </button>
-            </div>
-          )}
-        </div>
-
-        <div className={`vsl-unlock reveal${unlocked ? ' is-unlocked' : ''}`}>
-          {!unlocked ? (
-            <p className="vsl-unlock-msg">🔒 A oferta especial libera assim que você assistir <strong>{m}:{s}</strong> do vídeo.</p>
-          ) : (
-            <div className="vsl-unlock-cta">
-              <p className="vsl-unlock-msg is-open">✅ Oferta liberada! Aproveite as condições especiais abaixo.</p>
-              <a className="btn btn-primary btn-big" href="#oferta">{t.ctaPrimary} <span className="btn-arrow">→</span></a>
-            </div>
-          )}
+        <div className="vsl-player vsl-player--vturb reveal" style={{'--reveal-delay':'80ms'}}>
+          <vturb-smartplayer
+            id="vid-6a357e8356040260db51da8e"
+            style={{display:'block', margin:'0 auto', width:'100%'}}
+          ></vturb-smartplayer>
         </div>
       </div>
     </section>

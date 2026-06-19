@@ -243,11 +243,22 @@ const VSL_PROGRESS_KEY = 'sa_vsl_progress';
 const VSL_SPEEDS = [1, 1.25, 1.5, 2];
 
 function Vsl({ t }){
+  const sectionRef = React.useRef(null);
+
   React.useEffect(() => {
-    const s = document.createElement('script');
-    s.src = 'https://scripts.converteai.net/f97abc9e-45e1-4dac-8da4-c30d174c11bd/players/6a357e8356040260db51da8e/v4/player.js';
-    s.async = true;
-    document.head.appendChild(s);
+    let loaded = false;
+    const io = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !loaded) {
+        loaded = true;
+        io.disconnect();
+        const s = document.createElement('script');
+        s.src = 'https://scripts.converteai.net/f97abc9e-45e1-4dac-8da4-c30d174c11bd/players/6a357e8356040260db51da8e/v4/player.js';
+        s.async = true;
+        document.head.appendChild(s);
+      }
+    }, { rootMargin: '200px' });
+    if (sectionRef.current) io.observe(sectionRef.current);
+    return () => io.disconnect();
   }, []);
 
   return (
@@ -258,7 +269,7 @@ function Vsl({ t }){
           <h2 className="h-display h2">Veja <em>na prática</em> como é fácil criar um <em>Super Agente IA</em></h2>
         </div>
 
-        <div className="vsl-player vsl-player--vturb reveal" style={{'--reveal-delay':'80ms'}}>
+        <div ref={sectionRef} className="vsl-player vsl-player--vturb reveal" style={{'--reveal-delay':'80ms'}}>
           <vturb-smartplayer
             id="vid-6a357e8356040260db51da8e"
             style={{display:'block', margin:'0 auto', width:'100%'}}

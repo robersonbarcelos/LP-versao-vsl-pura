@@ -2332,7 +2332,7 @@ body.cursor-on a, body.cursor-on button{ cursor: none; }
   font-size: clamp(15px, 1.5vw, 17px);
   line-height: 1.65;
   color: var(--ink-2);
-  text-align: left;
+  text-align: center;
 }
 .cta-narrative strong{ color: var(--ink); }
 .cta-offer-recap{

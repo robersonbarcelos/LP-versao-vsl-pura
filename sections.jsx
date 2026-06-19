@@ -356,10 +356,6 @@ function Vsl({ t }){
               </button>
               <div className="vsl-progress-track">
                 <div className="vsl-progress-fill" style={{ width: `${displayProgress}%` }}/>
-                {duration > 0 && VSL_CHAPTERS.map((c, i) => (
-                  <button key={i} className="vsl-chapter-dot" style={{ left: `${c.pct * 100}%` }}
-                    onClick={() => jumpToChapter(c.pct)} aria-label={c.label} title={c.label}/>
-                ))}
               </div>
               <button className="vsl-speed" onClick={cycleSpeed} aria-label="Velocidade de reprodução">
                 {VSL_SPEEDS[speedIdx]}x

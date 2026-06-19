@@ -841,7 +841,7 @@ function Offer({ t }){
     { name: 'Atualizações do produto e novas aulas futuras',                    price: 'incluso'  },
     { name: 'Garantia incondicional · 7 dias',                                  price: 'incluso'  },
     { name: 'Mais cases reais de aplicação',                                    price: 'bônus'    },
-    { name: 'Integrações avançadas (agenda, CRM, planilhas)',                   price: 'bônus'    },
+    { name: 'Integrações e atualizações constantes',                            price: 'bônus'    },
     { name: 'Novos arquivos-base e templates',                                  price: 'bônus'    },
   ];
   const inst = parseInstallment(t.priceInstallments, t.currency);

@@ -344,6 +344,7 @@ button{ font: inherit; cursor: pointer; }
 /* backdrop-filter (blur) recalcula a cada frame de scroll e é caro no mobile.
    Em telas pequenas troca por um fundo sólido translúcido (sem blur). */
 @media (max-width: 768px){
+  .hero-bullets-below{ display: none; }
   .nav.scrolled{
     -webkit-backdrop-filter: none;
     backdrop-filter: none;

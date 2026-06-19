@@ -272,12 +272,12 @@ function Vsl({ t }){
 /* ───────────── PROBLEM ───────────── */
 function Problem({ t }){
   const noiseCards = [
-    { icon: '📦', label: '50 agentes prontos',         price: 'R$197'      },
-    { icon: '▶',  label: 'Tutorial no YouTube',        price: '3h'         },
-    { icon: '🧵', label: 'Thread com 12 GPTs',         price: null         },
-    { icon: '✨', label: 'App que vai mudar tudo',     price: 'essa semana'},
-    { icon: '📋', label: 'Curso completo de IA',       price: 'R$397'      },
-    { icon: '🗂️', label: 'Dezenas de skills bagunçadas', price: null       },
+    { icon: '👎', label: '50 agentes prontos',         price: 'R$197'      },
+    { icon: '👎',  label: 'Tutorial no YouTube',        price: '3h'         },
+    { icon: '👎', label: 'Thread com 12 GPTs',         price: null         },
+    { icon: '👎', label: 'App que vai mudar tudo',     price: 'essa semana'},
+    { icon: '👎', label: 'Curso completo de IA',       price: 'R$397'      },
+    { icon: '👎', label: 'Dezenas de skills bagunçadas', price: null       },
   ];
   const resultLines = [
     'Uma pasta com arquivos que você nunca mais abriu',

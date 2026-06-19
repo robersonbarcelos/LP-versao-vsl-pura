@@ -757,7 +757,7 @@ button{ font: inherit; cursor: pointer; }
   content: '';
   position: absolute;
   left: 0; right: 0;
-  height: 80px;
+  height: 40px;
   pointer-events: none;
   z-index: 1;
 }

@@ -1978,25 +1978,23 @@ button{ font: inherit; cursor: pointer; }
 /* ──────────────────────────────────────────────────────────────────────────
    SUPPORT
    ─────────────────────────────────────────────────────────────────────── */
-.support{ padding: var(--pad-section) 0; }
+.support{ padding: var(--pad-section) 0; background: #F2F2F4; }
 .support-card{
-  background: var(--bg-2);
-  border: 1px solid var(--line);
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.10);
   border-radius: var(--r-xl);
   padding: clamp(40px, 5vw, 64px);
   text-align: center;
   position: relative;
   overflow: hidden;
 }
-.support-card::before{
-  content:""; position: absolute; inset: 0;
-  background: radial-gradient(600px 300px at 50% 100%, color-mix(in oklab, var(--accent) 14%, transparent), transparent);
-}
+.support-card::before{ display: none; }
 .support-card > *{ position: relative; }
-.support-card .h2{ margin: 16px 0 16px; max-width: 22ch; margin-inline: auto; }
-.support-card p{ color: var(--ink-2); max-width: 56ch; margin: 0 auto 32px; }
+.support-card .h2{ margin: 16px 0 16px; max-width: 22ch; margin-inline: auto; color: #0a0a0a; }
+.support-card .h2 em{ color: var(--accent); }
+.support-card p{ color: rgba(10,10,10,.6); max-width: 56ch; margin: 0 auto 32px; }
 .support-card-meta{
-  font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3);
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(10,10,10,.4);
   margin-top: 16px;
 }
 

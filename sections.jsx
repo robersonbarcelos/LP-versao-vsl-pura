@@ -434,7 +434,7 @@ function Problem({ t }){
           <div className="result-items">
             {resultLines.map((line, i) => (
               <div key={i} className="result-line">
-                <div className="result-dot"/>
+                <span className="result-x">✕</span>
                 <span className={`result-text${i === resultLines.length - 1 ? ' last' : ''}`}>{line}</span>
               </div>
             ))}

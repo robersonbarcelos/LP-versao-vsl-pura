@@ -977,7 +977,7 @@ button{ font: inherit; cursor: pointer; }
 }
 
 /* ── Punchline ── */
-.problem-punch-block{ margin-bottom: 48px; }
+.problem-punch-block{ margin-bottom: 8px; }
 .punch-1{
   display: block;
   font-size: clamp(26px, 4vw, 58px);
@@ -1002,9 +1002,9 @@ button{ font: inherit; cursor: pointer; }
   display: flex;
   align-items: center;
   gap: 16px;
-  padding-top: 20px;
-  margin-top: -8px;
-  border-top: 1px solid rgba(0,0,0,.1);
+  padding-top: 12px;
+  margin-top: 0;
+  border-top: none;
 }
 .bridge-dot{
   width: 8px; height: 8px; border-radius: 50%;

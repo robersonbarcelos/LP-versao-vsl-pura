@@ -913,7 +913,7 @@ button{ font: inherit; cursor: pointer; }
   font-weight: 600;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: rgba(10,10,10,.45);
+  color: #C62828;
   margin-bottom: 16px;
 }
 .noise-strip-label::before{

@@ -699,7 +699,7 @@ function Results({ t }){
         <div className="results-grid">
           {items.map((item, i) => (
             <div key={i} className="result-item reveal" style={{'--reveal-delay': `${(i%4)*50}ms`}}>
-              <div className="result-icon">{item.icon}</div>
+              <div className="result-icon result-check">✓</div>
               <div className="result-body">
                 <div className="result-title">{item.title}</div>
                 <div className="result-desc">{item.desc}</div>

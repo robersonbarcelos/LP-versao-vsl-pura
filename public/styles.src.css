@@ -2245,6 +2245,20 @@ body.cursor-on a, body.cursor-on button{ cursor: none; }
   margin-top: 2px;
   line-height: 1;
 }
+.result-check{
+  font-size: 18px;
+  font-weight: 700;
+  color: #1B6B2F;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(27,107,47,.15);
+  border: 1px solid rgba(27,107,47,.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
 .result-body{ display: flex; flex-direction: column; gap: 4px; }
 .result-title{
   font-family: var(--f-display);

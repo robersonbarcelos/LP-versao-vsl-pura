@@ -2273,8 +2273,8 @@ body.cursor-on a, body.cursor-on button{ cursor: none; }
   color: var(--ink-2);
 }
 .results-quote{ display: flex; flex-direction: column; gap: 4px; }
-.results-quote-text{ font-size: clamp(14px, 1.4vw, 17px); color: var(--ink-2); font-style: italic; margin: 0; }
-.results-quote-attr{ font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
+.results-quote-text{ font-size: clamp(14px, 1.4vw, 17px); color: var(--ink); font-style: italic; margin: 0; }
+.results-quote-attr{ font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
 .results-footer{
   margin-top: 32px;
   padding-top: 0;

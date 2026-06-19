@@ -266,6 +266,7 @@ function Vsl({ t }){
     const v = videoRef.current;
     if(!v) return;
     setStarted(true);
+    v.load();
     if(resumeAt > 0) v.currentTime = resumeAt;
     v.play().catch(() => {});
     setPlaying(true);

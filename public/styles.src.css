@@ -1032,14 +1032,15 @@ button{ font: inherit; cursor: pointer; }
   font-weight: 600;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: var(--ink-3);
+  color: #C62828;
 }
+.before-label::before{ content: "✕  "; }
 .before-text{
   font-size: clamp(12px, 1.5vw, 17px);
   color: var(--ink-3);
   line-height: 1.4;
   text-decoration: line-through;
-  text-decoration-color: rgba(255,255,255,.18);
+  text-decoration-color: rgba(198,40,40,.4);
   text-decoration-thickness: 1px;
 }
 .contrast-after{ display: flex; flex-direction: column; gap: 6px; }
@@ -1049,9 +1050,10 @@ button{ font: inherit; cursor: pointer; }
   font-weight: 600;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: var(--accent);
-  opacity: .85;
+  color: #1B6B2F;
+  opacity: 1;
 }
+.after-label::before{ content: "✓  "; }
 .after-text{
   font-size: clamp(14px, 2vw, 21px);
   font-weight: 700;

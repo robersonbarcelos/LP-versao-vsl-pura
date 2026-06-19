@@ -754,11 +754,13 @@ button{ font: inherit; cursor: pointer; }
 .problem .h2{ color: #0a0a0a; }
 .problem .h2 em{ color: #C62828; font-style: normal; }
 .accent-word{
-  color: var(--accent);
-  text-decoration: underline;
-  text-underline-offset: 6px;
-  text-decoration-thickness: 3px;
+  background: var(--accent);
+  color: #fff;
+  padding: 0 10px 4px;
+  border-radius: 5px;
   font-style: normal;
+  display: inline-block;
+  line-height: 1;
 }
 .problem-hd{ margin-bottom: 56px; max-width: 920px; }
 

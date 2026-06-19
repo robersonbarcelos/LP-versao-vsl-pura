@@ -251,7 +251,6 @@ function Vsl({ t }){
   const [duration, setDuration] = React.useState(0);
   const [speedIdx, setSpeedIdx] = React.useState(0);
   const [resumeAt, setResumeAt] = React.useState(0);
-  const [playError, setPlayError] = React.useState('');
   const maxSeenTime = React.useRef(0);
 
   const LOCK_OFFER = t.vslLockOffer ?? true;
@@ -269,9 +268,7 @@ function Vsl({ t }){
     setStarted(true);
     v.load();
     if(resumeAt > 0) v.currentTime = resumeAt;
-    v.play().then(() => { setPlaying(true); }).catch(e => {
-      setPlayError('Erro: ' + (e && e.message ? e.message : String(e)));
-    });
+    v.play().then(() => { setPlaying(true); }).catch(() => {});
   }
   function togglePlay(){
     const v = videoRef.current;
@@ -350,12 +347,6 @@ function Vsl({ t }){
               <span className="vsl-play-icon">▶</span>
               <span className="vsl-play-label">{resumeAt > 0 ? 'Continuar de onde parei' : 'Assistir agora'}</span>
             </button>
-          )}
-
-          {playError && (
-            <div style={{position:'absolute',top:8,left:8,right:8,background:'rgba(200,0,0,.85)',color:'#fff',padding:'8px 12px',borderRadius:8,fontSize:13,zIndex:99,wordBreak:'break-all'}}>
-              {playError}
-            </div>
           )}
 
           {started && (

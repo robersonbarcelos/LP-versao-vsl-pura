@@ -3,8 +3,8 @@
 **Produto:** Curso low-ticket · INTUS HUB  
 **Responsável:** Diego Spanevello  
 **Status:** Em produção — v2 ativa  
-**URL:** https://super-agente-v2.vercel.app  
-**Data:** 2026-05-15
+**URL:** https://superagente.intushub.com.br  
+**Data:** 2026-05-15 (rev. 2026-06-19)
 
 ---
 
@@ -210,15 +210,16 @@ DESCONHECIDO → IDENTIFICAÇÃO → DESEJO → CONFIANÇA → COMPRA
 ### Stack atual
 
 ```
-React 18.3.1 (UMD, sem build)
-Babel Standalone 7.29.0
-Vercel (deploy via CLI)
-Google Fonts (Inter Tight, JetBrains Mono, Instrument Serif)
+React 18 (produção, self-hosted em public/vendor/)
+esbuild — .jsx pré-compilados em public/js/*.min.js (sem Babel-no-browser)
+Player de vídeo Vturb/ConverteAI (VSL)
+Cloudflare Pages (deploy por push na main; serve public/)
+Fontes self-hosted .woff2 (Inter Tight, JetBrains Mono, Instrument Serif)
 ```
 
 ### Requisitos de performance
 
-- Sem bundler — carrega via CDN (Vercel edge)
+- Bundles pré-compilados (esbuild) servidos pelo edge do Cloudflare Pages
 - `overflow-x: clip` no html/body (não `hidden` — preserva `position: sticky`)
 - Scroll reveal via IntersectionObserver (não layout thrashing)
 - GPU para botão: `backface-visibility: hidden` + `will-change: left`

@@ -1468,13 +1468,16 @@ button{ font: inherit; cursor: pointer; }
 /* ──────────────────────────────────────────────────────────────────────────
    ROADMAP
    ─────────────────────────────────────────────────────────────────────── */
-.roadmap{ padding: var(--pad-section) 0; }
+.roadmap{ padding: var(--pad-section) 0; background: #F2F2F4; color: #0a0a0a; }
+.roadmap .section-eyebrow{ color: var(--accent); }
+.roadmap .h2{ color: #0a0a0a; }
+.roadmap .h2 em{ color: var(--accent); }
 .roadmap-hd{ text-align: center; margin-bottom: 56px; }
 .roadmap-grid{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 @media (max-width: 820px){ .roadmap-grid{ grid-template-columns: 1fr; } }
 .roadmap-card{
-  background: var(--bg-2);
-  border: 1px solid var(--line);
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.10);
   border-radius: var(--r-lg);
   padding: 32px;
   display: flex; flex-direction: column; gap: 14px;
@@ -1494,15 +1497,15 @@ button{ font: inherit; cursor: pointer; }
   font-family: var(--f-display); font-weight: 900;
   font-size: 64px; line-height: 1;
   letter-spacing: -.04em;
-  color: var(--ink-3);
+  color: rgba(10,10,10,.18);
 }
 .roadmap-num.last{ color: var(--accent); }
 .roadmap-when{
   font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
   color: var(--accent);
 }
-.roadmap-card h4{ margin: 0; }
-.roadmap-card p{ color: var(--ink-2); font-size: 14.5px; line-height: 1.5; margin: 0; }
+.roadmap-card h4{ margin: 0; color: #0a0a0a; }
+.roadmap-card p{ color: rgba(10,10,10,.6); font-size: 14.5px; line-height: 1.5; margin: 0; }
 
 /* ──────────────────────────────────────────────────────────────────────────
    FOUNDERS — Aspira/Clóvis/Diego

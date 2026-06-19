@@ -124,16 +124,25 @@
 - **"Properly size images"** pode apontar imagens **abaixo da dobra** (não o LCP) — não confunda.
 
 ### 3.6 Build & deploy (este projeto)
-- **`.jsx` são pré-compilados** por `build.ps1` → `js/*.min.js`. Editar `.jsx` exige rebuild.
+- **`.jsx` são pré-compilados** por `build.ps1` → `public/js/*.min.js`. Editar `.jsx` exige rebuild.
   Mudou estrutura de seção → **`prerender.ps1`** (build + snapshot). Mudou CSS **above-the-fold**
   → **`critical-css.ps1`**. Ordem: `prerender.ps1` depois `critical-css.ps1`.
 - **`prerender.mjs` depende de `vendor/react-dom-server-legacy.browser.production.min.js`**
   (build de DEV/prerender, commitado; não referenciado em produção).
 - **Arquivos binários** (`.woff2`) commitam normalmente — o git **não** os corrompe com
   CRLF (confirme com `cmp` / `git cat-file -s` se desconfiar). Não precisa `.gitattributes`.
-- **Deploy na Vercel pode demorar** (vimos de 3 a ~20 min). Valide **depois** de propagar:
-  cheque um asset novo (ex.: a fonte) retornando **200** antes de declarar concluído. Use
-  cache-buster (`?v=…`) ao medir; o edge serve HTML em cache (`X-Vercel-Cache: HIT`, `Age` alto).
+- **Deploy (Cloudflare Pages):** push na `main` → CF Pages serve `public/` (sem build no servidor),
+  propaga em ~30s–1min. O **`public/_headers`** é a **fonte da verdade ÚNICA** de CSP/headers;
+  **não há mais `vercel.json`**. Valide **depois** de propagar: asset/HTML novo retornando **200**
+  (cache-buster `?v=…` ao medir). **Rollback** nativo: Deployments → *Rollback to this deployment*,
+  ou `git revert` + push.
+- **CSP da VSL precisa liberar o player Vturb/ConverteAI** — senão o vídeo/telemetria quebram no CF
+  Pages (onde só o `_headers` vale). Mínimo no `connect-src`: `*.converteai.net`, `license.vturb.com`,
+  `a.vturb.com` (analytics), `*.b-cdn.net` (heatmap via BunnyCDN), `sentry.io`/`*.sentry.io`; mais
+  `media-src 'self' blob: <buckets R2> cdn.converteai.net` e `worker-src blob:`. Sem `a.vturb.com`/
+  `*.b-cdn.net` o **vídeo toca mas a telemetria do player é bloqueada** (perde retenção/heatmap).
+
+**Lições históricas da Vercel** (motivos que levaram à migração p/ Cloudflare — hoje **fora do fluxo**):
 - **Merge de PR via `gh`/API pode NÃO disparar o deploy da Vercel.** Ao mergear o PR do
   Speed Insights via `gh pr merge --squash`, o commit do merge **nunca chegou** ao deployment
   da Vercel (o webhook do GitHub App não pegou o push). Sintoma: produção fica no commit

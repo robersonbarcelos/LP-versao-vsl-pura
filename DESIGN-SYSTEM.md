@@ -1,9 +1,9 @@
 # DESIGN SYSTEM — Crie um Super Agente de IA
 **Produto:** Curso low-ticket · INTUS HUB  
 **URL produção:** https://superagente.intushub.com.br  
-**Stack:** React 18 (produção, self-hosted) · JSX pré-compilado com esbuild · shell pré-renderizado · CSS custom properties · Vercel  
+**Stack:** React 18 (produção, self-hosted) · JSX pré-compilado com esbuild · shell pré-renderizado · CSS custom properties · **Cloudflare Pages** (serve `public/`)  
 **Build:** `build.ps1` (esbuild) e `prerender.ps1` — ver `ALTERACOES.md` (Guia para desenvolvedores)  
-**Última atualização:** 2026-05-29
+**Última atualização:** 2026-06-19
 
 ---
 
@@ -427,15 +427,17 @@ LP-Crie-um-Super-Agente-de-IA/
 ├── build.ps1           ← esbuild: .jsx → js/*.min.js
 ├── prerender.ps1       ← build + snapshot do #root (shell estático)
 ├── scripts/            ← optimize-images.js (WebP) · prerender.mjs (snapshot headless)
-├── serve.ps1           ← Servidor local (PowerShell HttpListener, porta 3000)
-├── vercel.json         ← Config de deploy (cleanUrls; serve estático, sem build no Vercel)
+├── serve.ps1           ← Servidor local (PowerShell HttpListener, porta 3000; serve public/)
+├── public/             ← SERVIDO pelo Cloudflare Pages (index.html, styles.css, _headers, js/, vendor/, fonts/, img/)
+│   └── _headers        ← CSP + headers de segurança (fonte da verdade ÚNICA; sem vercel.json)
+├── CLOUDFLARE-PAGES.md ← Hospedagem, headers/CSP e rollback (CF Pages)
 ├── ALTERACOES.md      ← Otimizações + Guia para desenvolvedores
 ├── DESIGN-SYSTEM.md   ← Este arquivo
 └── PRD.md              ← Product Requirements Document
 ```
 
-> O build roda **localmente** (`build.ps1` / `prerender.ps1`) e o resultado é commitado;
-> o Vercel só serve os arquivos estáticos. Detalhes e regras em `ALTERACOES.md`.
+> O build roda **localmente** (`build.ps1` / `prerender.ps1`) e o resultado é commitado em `public/`;
+> o **Cloudflare Pages** só serve os arquivos estáticos dessa pasta. Detalhes e regras em `ALTERACOES.md`.
 
 ### TWEAK_DEFAULTS (editáveis no HTML)
 
@@ -461,7 +463,7 @@ LP-Crie-um-Super-Agente-de-IA/
 ```powershell
 # 1. Se mudou .jsx/estrutura, compile e regenere o shell antes de commitar:
 powershell -ExecutionPolicy Bypass -File prerender.ps1
-# 2. Push na main dispara deploy automático no Vercel (serve estático):
+# 2. Push na main dispara deploy automático no Cloudflare Pages (serve public/):
 git push origin main
-# → https://superagente.intushub.com.br  (e https://super-agente-v2.vercel.app)
+# → https://superagente.intushub.com.br
 ```

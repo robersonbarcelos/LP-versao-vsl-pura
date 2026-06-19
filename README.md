@@ -9,11 +9,12 @@ Landing page de vendas do curso **Crie um Super Agente de IA**, desenvolvida pel
 | Tecnologia | Detalhe |
 |---|---|
 | HTML5 | Entry point único (`index.html`) |
-| React 18 | `react.production.min.js` via CDN, com `defer` (não bloqueia render) |
-| esbuild | Pré-compila os `.jsx` → `js/*.min.js` (via `build.ps1`, sem Babel-no-browser) |
+| React 18 | `react.production.min.js` **self-hosted** (`public/vendor/`), com `defer` (não bloqueia render) |
+| esbuild | Pré-compila os `.jsx` → `public/js/*.min.js` (via `build.ps1`, sem Babel-no-browser) |
 | CSS puro | Design tokens via variáveis CSS |
-| Servidor local | PowerShell HttpListener (`serve.ps1`) |
-| Deploy | Vercel — push na `main` dispara deploy automático |
+| Vídeo (VSL) | Player **Vturb/ConverteAI** (script lazy via IntersectionObserver) |
+| Servidor local | PowerShell HttpListener (`serve.ps1`, serve `public/`) |
+| Deploy | **Cloudflare Pages** — push na `main` dispara deploy automático (output `public/`) |
 
 O código-fonte são os arquivos `.jsx`; o navegador carrega os bundles compilados em `js/`.
 **Sempre que alterar um `.jsx`, rode `build.ps1` antes de commitar.** Edições só no bloco
@@ -23,34 +24,37 @@ O código-fonte são os arquivos `.jsx`; o navegador carrega os bundles compilad
 
 ## Estrutura de arquivos
 
+> **O Cloudflare Pages serve a pasta `public/`** (Build output directory = `public`). Tudo que é
+> servido vive em `public/`; o código-fonte (`.jsx`), build scripts e docs ficam na **raiz** e
+> **não são servidos** (caem no fallback do Pages).
+
 ```
 /
-├── index.html            # Entry point — carrega scripts, define TWEAK_DEFAULTS
+├── index.html            # (FONTE) editado pelo pipeline; o servido fica em public/index.html
 ├── app.jsx               # Componente raiz — monta todas as seções
-├── sections.jsx          # Todos os componentes de seção da LP
+├── sections.jsx          # Componentes de seção da LP (inclui o embed do player Vturb)
 ├── effects.jsx           # Hooks compartilhados: scroll reveal, parallax, cursor
 ├── tweaks-panel.jsx      # Painel lateral de customização visual (dev only)
-├── js/                   # Bundles compilados (gerados por build.ps1) — carregados pelo index.html
-├── vendor/               # React de produção self-hosted (react / react-dom .min.js)
-├── build.ps1             # Pré-compila os .jsx → js/*.min.js (esbuild via npx)
+├── build.ps1             # Pré-compila os .jsx → public/js/*.min.js (esbuild via npx)
 ├── prerender.ps1         # build + gera o shell estático no #root (LCP/SEO)
+├── critical-css.ps1      # Inline do CSS above-the-fold no public/index.html
 ├── scripts/
 │   ├── optimize-images.js # Redimensiona + converte imagens em uso para WebP (sharp)
-│   └── prerender.mjs      # Snapshot do #root via Chrome headless (puppeteer-core)
-├── styles.css            # Estilos globais + design tokens CSS
-├── serve.ps1             # Servidor local PowerShell
-├── vercel.json           # Configuração de deploy Vercel
+│   ├── prerender.mjs      # Snapshot do #root via Chrome headless (puppeteer-core)
+│   └── critical-css.mjs   # Extrai/inline o critical CSS
+├── serve.ps1             # Servidor local PowerShell (serve public/)
+├── vendor/               # react-dom-server-legacy (build-only; não servido)
 ├── PRD.md                # Product Requirements Document
 ├── DESIGN-SYSTEM.md      # Guia de design tokens e componentes
-└── img/
-    ├── heeerochat01.png  # Imagem principal da hero (celular + Diego)
-    ├── diego.png         # Foto do professor Diego Spanevello
-    ├── aspira.png        # Avatar do agente Aspira
-    ├── clovis.png        # Avatar do agente Clóvis
-    ├── denys.jpg         # Depoimento — Denys Buso
-    ├── arcanjo.jpg       # Depoimento — Arcanjo
-    ├── natanael.jpg      # Depoimento — Natanael
-    └── ...               # Variações de foto do Diego usadas em testes
+├── CLOUDFLARE-PAGES.md   # Hospedagem, headers/CSP e rollback (CF Pages)
+└── public/               # ← SERVIDO pelo Cloudflare Pages (Build output directory)
+    ├── index.html        # Entry point — carrega scripts, define TWEAK_DEFAULTS
+    ├── styles.css        # Estilos globais + design tokens CSS
+    ├── _headers          # CSP + headers de segurança (fonte da verdade ÚNICA)
+    ├── js/               # Bundles compilados (gerados por build.ps1)
+    ├── vendor/           # React de produção self-hosted (react / react-dom .min.js)
+    ├── fonts/            # Fontes self-hosted (.woff2)
+    └── img/              # Imagens (.webp em uso; hero, professor, avatares, depoimentos)
 ```
 
 ---
@@ -200,17 +204,19 @@ sessionStorage.setItem('sa_offer_end', Date.now() + 59 * 60 * 1000);
 
 ## Deploy
 
-Conectado ao Vercel via repositório GitHub:
-**[github.com/INTUS-AI/LP-Crie-um-Super-Agente-de-IA](https://github.com/INTUS-AI/LP-Crie-um-Super-Agente-de-IA)**
+Hospedado no **Cloudflare Pages**, conectado ao repositório GitHub:
+**[github.com/INTUS-AI/LP-SUPER-AGENTE-IA-VSL](https://github.com/INTUS-AI/LP-SUPER-AGENTE-IA-VSL)**
 
-Push na branch `main` dispara deploy automático. Não precisa de build command — o Vercel serve os arquivos estáticos diretamente.
+Push na branch `main` dispara deploy automático. Não há build no servidor — o Cloudflare Pages
+serve a pasta **`public/`** (estático) e faz clean URLs por padrão.
 
-**Configuração (`vercel.json`):**
-```json
-{ "buildCommand": null, "outputDirectory": ".", "framework": null, "cleanUrls": true }
-```
+**Configuração (dashboard CF Pages):** Framework preset **None** · Build command **vazio** ·
+**Build output directory `public`** · Root `/`. Headers e CSP ficam em `public/_headers`
+(fonte da verdade — não há mais `vercel.json`).
 
-`cleanUrls` remove a extensão `.html` das URLs; sem build step, o Vercel serve os arquivos estáticos direto da raiz.
+> **Vercel descontinuada (19/06/2026).** Rollback agora é nativo do CF Pages
+> (Deployments → *Rollback to this deployment*) ou `git revert` + push. Detalhes em
+> `CLOUDFLARE-PAGES.md`.
 
 ---
 

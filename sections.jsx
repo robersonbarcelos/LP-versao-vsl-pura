@@ -255,7 +255,7 @@ function Vsl({ t }){
       <div className="container">
         <div className="vsl-hd reveal">
           <span className="section-eyebrow">Antes de continuar</span>
-          <h2 className="h-display h2">Veja <em>na prática</em> como é fácil criar um Super Agente IA</h2>
+          <h2 className="h-display h2">Veja <em>na prática</em> como é fácil criar um <em>Super Agente IA</em></h2>
         </div>
 
         <div className="vsl-player vsl-player--vturb reveal" style={{'--reveal-delay':'80ms'}}>

@@ -115,7 +115,7 @@
 [data-density="comfy"]{ --pad-section: clamp(96px, 12vw, 180px); }
 
 *,*::before,*::after{ box-sizing: border-box; }
-html{ scroll-behavior: smooth; overflow-x: clip; }
+html{ scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
 body{
   margin: 0;
   background: var(--bg);

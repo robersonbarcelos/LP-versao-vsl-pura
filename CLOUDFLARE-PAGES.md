@@ -1,6 +1,6 @@
 # Migração para Cloudflare Pages
 
-> Última atualização: 13/06/2026
+> Última atualização: 19/06/2026
 > Motivo: o webhook de deploy da Vercel é instável (merge via API não disparava deploy) e o
 > domínio já está na Cloudflare — o CF Pages elimina o registro DNS externo que causou o
 > outage e roda no plano free com **uso comercial permitido + banda ilimitada**.
@@ -10,7 +10,7 @@ A página é **100% estática** (HTML pré-renderizado + `js/*.min.js` + assets,
 
 > **Estrutura:** os arquivos **servidos** vivem em **`public/`** (`index.html`, `styles.css`,
 > `js/`, `img/`, `fonts/`, `vendor/react*.js`, `_headers`). Fonte/build/docs ficam na **raiz**
-> (`*.jsx`, `*.ps1`, `scripts/`, `*.md`, `vercel.json`, `vendor/react-dom-server-legacy*`) e
+> (`*.jsx`, `*.ps1`, `scripts/`, `*.md`, `vendor/react-dom-server-legacy*`) e
 > **não são servidos**. Por isso o **Build output directory = `public`** (ver setup).
 
 > **Plataforma:** o projeto está no **Cloudflare Pages** (chegamos a testar um *Worker* com
@@ -18,16 +18,17 @@ A página é **100% estática** (HTML pré-renderizado + `js/*.min.js` + assets,
 > `.assetsignore` — eram config de Worker e o Pages os ignora.
 
 ## Estado do repo (já preparado)
-- ✅ `_headers` — CSP + headers de segurança (paridade com o `vercel.json`). **Fonte da verdade**.
+- ✅ `_headers` — CSP + headers de segurança. **Fonte da verdade única** dos headers.
   Suportado nativamente pelo CF Pages (confirmado em prod: CSP + X-Frame-Options aplicados).
 - ✅ Speed Insights da Vercel **removido** (era Vercel-only; não funciona no CF Pages).
-- ✅ `vercel.json` **mantido** apenas para rollback (CF Pages o ignora).
+- ✅ `vercel.json` **removido** — a Vercel foi descontinuada de vez (19/06/2026). Rollback agora
+  é nativo do CF Pages (ver seção Rollback).
 - ✅ Clean URLs: o CF Pages faz por padrão (serve `/` → `index.html`). Sem `_redirects` necessário.
 
 ## Exposição de arquivos — RESOLVIDO (output = `public/`)
 O CF Pages serve **só** o `Build output directory`. Como ele agora é **`public/`**, e fonte/build/
 docs ficam na **raiz** (fora de `public/`), eles **não são mais servidos** (`/sections.jsx`,
-`/build.ps1`, `/PLAYBOOK-LP-VENDAS.md`, `/vercel.json` → caem no fallback do Pages, sem expor
+`/build.ps1`, `/PLAYBOOK-LP-VENDAS.md`, `/DESIGN-SYSTEM.md` → caem no fallback do Pages, sem expor
 conteúdo). O `.assetsignore` (Worker-only) não era respeitado no Pages; a subpasta resolve de vez.
 
 **Pipeline de build (atualizado p/ `public/`):** `build.ps1` compila os `.jsx` da raiz →
@@ -36,7 +37,7 @@ conteúdo). O `.assetsignore` (Worker-only) não era respeitado no Pages; a subp
 na raiz.
 
 ## Setup no dashboard da Cloudflare (passo único — precisa de você)
-1. **Workers & Pages → Create → Pages → Connect to Git** → repo `INTUS-AI/LP-Crie-um-Super-Agente-de-IA`, branch `main`.
+1. **Workers & Pages → Create → Pages → Connect to Git** → repo `INTUS-AI/LP-SUPER-AGENTE-IA-VSL`, branch `main`.
 2. **Build settings:**
    - Framework preset: **None**
    - Build command: **(vazio)**
@@ -60,14 +61,17 @@ na raiz.
 - [ ] Checkout/CTAs apontam pro destino certo (Lastlink).
 - [ ] PageSpeed mobile (medir depois de propagar).
 
-## Rollback (se algo der errado)
-- Repontar o DNS de `superagente` de volta para **`A → 76.76.21.21`** (Vercel, DNS-only/nuvem
-  cinza, TTL mínimo). O `vercel.json` continua no repo, então a Vercel volta a servir igual.
+## Rollback (se algo der errado) — nativo do CF Pages
+- O CF Pages guarda o **histórico de deployments**. Para reverter: projeto Pages →
+  **Deployments** → escolher o último deploy bom → **⋯ → Rollback to this deployment**.
+  Volta em segundos, sem mexer em DNS. (A Vercel foi descontinuada; não há mais fallback externo.)
+- Como cada deploy = um commit, dá pra reverter também por Git: `git revert <sha>` + push na `main`
+  dispara um novo deploy com o estado anterior.
 
 ## Analytics (substituto do Speed Insights) — ATIVO
 - **Cloudflare Web Analytics** — free, ilimitado, cookieless, traz Core Web Vitals (RUM).
   Com o domínio proxied a Cloudflare **auto-injeta o beacon** `beacon.min.js` (zero código).
-- O CSP (`_headers` e `vercel.json`) já libera: `script-src https://static.cloudflareinsights.com`
+- O CSP (`_headers`) já libera: `script-src https://static.cloudflareinsights.com`
   e `connect-src https://cloudflareinsights.com`. Sem isso o beacon é **bloqueado pelo CSP**
   (foi o que apareceu no console na primeira validação pós-migração).
 - Dados aparecem em *Cloudflare → Analytics & Logs → Web Analytics*. Pra desligar, é só

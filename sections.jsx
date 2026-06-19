@@ -925,7 +925,7 @@ function Roadmap({ t }){
             <div key={i} className="roadmap-card reveal" style={{'--reveal-delay': `${i*80}ms`}}>
               <div className={`roadmap-num ${i === items.length-1 ? 'last' : ''}`}>{it.num}</div>
               <div className="roadmap-when">{it.when}</div>
-              <h4 className="h4">{it.title}</h4>
+              <h3 className="h4">{it.title}</h3>
               <p>{it.desc}</p>
             </div>
           ))}

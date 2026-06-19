@@ -883,7 +883,7 @@ button{ font: inherit; cursor: pointer; }
   font-weight: 600;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: rgba(250,250,250,.5);
+  color: rgba(10,10,10,.45);
   margin-bottom: 16px;
 }
 .noise-strip-label::before{
@@ -891,7 +891,7 @@ button{ font: inherit; cursor: pointer; }
   display: block;
   height: 1px;
   width: 110px;
-  background: linear-gradient(to right, var(--accent), transparent);
+  background: linear-gradient(to right, #C62828, transparent);
   flex-shrink: 0;
 }
 .noise-strip{
@@ -995,8 +995,9 @@ button{ font: inherit; cursor: pointer; }
   display: flex;
   align-items: center;
   gap: 16px;
-  padding-top: 36px;
-  border-top: 1px solid var(--line);
+  padding-top: 20px;
+  margin-top: -8px;
+  border-top: 1px solid rgba(0,0,0,.1);
 }
 .bridge-dot{
   width: 8px; height: 8px; border-radius: 50%;
@@ -1006,7 +1007,7 @@ button{ font: inherit; cursor: pointer; }
 }
 @keyframes bridge-pulse{ 50%{ box-shadow: 0 0 0 8px transparent; } }
 .bridge-text{ font-size: clamp(15px, 1.5vw, 19px); color: rgba(10,10,10,.6); line-height: 1.4; }
-.bridge-text strong{ color: #0a0a0a; }
+.bridge-text strong{ color: #1B6B2F; }
 
 /* ── Comparison — contraste tipográfico ── */
 .comparison-section{

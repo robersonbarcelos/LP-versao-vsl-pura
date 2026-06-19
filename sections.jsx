@@ -708,7 +708,6 @@ function Results({ t }){
           ))}
         </div>
         <div className="results-footer reveal">
-          <p>Não é um agente de demonstração. <strong>É o seu agente funcionando de verdade.</strong></p>
           <a className="btn btn-primary btn-big" href="#oferta">{t.ctaPrimary} <span className="btn-arrow">→</span></a>
         </div>
       </div>

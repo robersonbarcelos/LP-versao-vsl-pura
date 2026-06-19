@@ -2252,9 +2252,9 @@ body.cursor-on a, body.cursor-on button{ cursor: none; }
   color: var(--ink-2);
 }
 .results-footer{
-  margin-top: 48px;
-  padding-top: 40px;
-  border-top: 1px solid var(--line);
+  margin-top: 32px;
+  padding-top: 0;
+  border-top: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2273,7 +2273,7 @@ body.cursor-on a, body.cursor-on button{ cursor: none; }
 /* ── Proof bridge quote — linha seca ── */
 .proof-bridge{
   background: transparent;
-  padding: clamp(64px, 9vw, 112px) var(--container-pad, 24px);
+  padding: clamp(32px, 5vw, 56px) var(--container-pad, 24px);
   text-align: center;
 }
 .proof-bridge-rule{

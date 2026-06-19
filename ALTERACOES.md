@@ -1,8 +1,9 @@
 # ALTERAÇÕES & GUIA DE OTIMIZAÇÃO — LP "Crie um Super Agente de IA"
 
-**Última atualização:** 2026-06-11
+**Última atualização:** 2026-06-19
 **Resumo:** Auditoria completa (bugs, inconsistências, redundâncias) + otimização de
-performance. **PageSpeed: 31 → 96 desktop / 87 mobile.**
+performance. **PageSpeed: 31 → 96 desktop / 87 mobile.** Hospedagem no **Cloudflare Pages**
+(Vercel descontinuada); esta é a **VSL** com player Vturb/ConverteAI.
 
 > Este documento tem duas partes:
 > 1. **O que foi feito** — histórico das correções e otimizações.
@@ -11,6 +12,19 @@ performance. **PageSpeed: 31 → 96 desktop / 87 mobile.**
 ---
 
 # PARTE 1 — O QUE FOI FEITO
+
+## 0. Hospedagem & VSL (2026-06-19)
+
+- **Produção migrada para o Cloudflare Pages**, servindo a pasta **`public/`** (Build output
+  directory = `public`). Deploy por push na `main`; sem build no servidor. Fonte/build/docs ficam
+  na raiz e **não são servidos**.
+- **Vercel descontinuada de vez** — `vercel.json` **removido**. Headers/CSP agora vivem só em
+  **`public/_headers`** (fonte da verdade única). Rollback é nativo do CF Pages
+  (Deployments → *Rollback to this deployment*) ou `git revert` + push.
+- **Esta é a VSL** (player de vídeo **Vturb/ConverteAI**, lazy via IntersectionObserver). O CSP do
+  `_headers` libera os domínios do player: `*.converteai.net`, `license.vturb.com`, `a.vturb.com`
+  (analytics), `*.b-cdn.net` (heatmap), `sentry.io`/`*.sentry.io`, `media-src ... blob: cdn.converteai.net`,
+  `worker-src blob:`. Validado em prod: vídeo HLS 720p streama, console limpo de CSP, Pixel + Utmify OK.
 
 ## 1. Bugs corrigidos
 

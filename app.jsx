@@ -26,24 +26,26 @@ function App(){
     <React.Fragment>
       {t.showAnnouncement && <Announcement t={t}/>}
       {t.showNav && <Nav t={t}/>}
-      {t.showHero && <Hero t={t}/>}
-      {t.showVsl && <Vsl t={t}/>}
-      <StatsBar/>
-      {t.showProblem && <Problem t={t}/>}
-      {t.showChallenges && <Challenges t={t}/>}
-      {t.showAgitation && <Agitation t={t}/>}
-      {t.showModules && <Modules t={t}/>}
-      {t.showResults && <Results t={t}/>}
+      <main>
+        {t.showHero && <Hero t={t}/>}
+        {t.showVsl && <Vsl t={t}/>}
+        <StatsBar/>
+        {t.showProblem && <Problem t={t}/>}
+        {t.showChallenges && <Challenges t={t}/>}
+        {t.showAgitation && <Agitation t={t}/>}
+        {t.showModules && <Modules t={t}/>}
+        {t.showResults && <Results t={t}/>}
 
-      {t.showTestimonials && <Testimonials t={t}/>}
-      {t.showMarquee && <Marquee t={t}/>}
-      {t.showRoadmap && <Roadmap t={t}/>}
-      {t.showOffer && <Offer t={t}/>}
-      {t.showGuarantee && <Guarantee t={t}/>}
-      {t.showFaq && <Faq t={t}/>}
-      {t.showCta && <Cta t={t}/>}
-      {t.showSupport && <Support t={t}/>}
-      {t.showFooter && <Footer t={t}/>}
+        {t.showTestimonials && <Testimonials t={t}/>}
+        {t.showMarquee && <Marquee t={t}/>}
+        {t.showRoadmap && <Roadmap t={t}/>}
+        {t.showOffer && <Offer t={t}/>}
+        {t.showGuarantee && <Guarantee t={t}/>}
+        {t.showFaq && <Faq t={t}/>}
+        {t.showCta && <Cta t={t}/>}
+        {t.showSupport && <Support t={t}/>}
+        {t.showFooter && <Footer t={t}/>}
+      </main>
       <WhatsappFloat/>
       <CheckoutRedirect t={t}/>
 

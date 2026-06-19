@@ -449,7 +449,6 @@ function Problem({ t }){
 
         {/* Bridge */}
         <div className="problem-bridge reveal">
-          <div className="bridge-dot"/>
           <p className="bridge-text">O problema não é você. <strong>É que ninguém te ensinou a estrutura.</strong></p>
         </div>
 

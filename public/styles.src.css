@@ -999,22 +999,8 @@ button{ font: inherit; cursor: pointer; }
 }
 
 /* ── Bridge ── */
-.problem-bridge{
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding-top: 12px;
-  margin-top: 0;
-  border-top: none;
-}
-.bridge-dot{
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--accent); flex-shrink: 0;
-  box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 20%, transparent);
-  animation: bridge-pulse 2.2s infinite;
-}
-@keyframes bridge-pulse{ 50%{ box-shadow: 0 0 0 8px transparent; } }
-.bridge-text{ font-size: clamp(15px, 1.5vw, 19px); color: rgba(10,10,10,.6); line-height: 1.4; }
+.problem-bridge{ padding-top: 10px; }
+.bridge-text{ font-size: clamp(15px, 1.5vw, 19px); color: rgba(10,10,10,.55); line-height: 1.4; }
 .bridge-text strong{ color: #1B6B2F; }
 
 /* ── Comparison — contraste tipográfico ── */
@@ -1086,8 +1072,8 @@ button{ font: inherit; cursor: pointer; }
 .comp-close{
   margin-top: 56px;
   padding: clamp(28px, 4vw, 44px) clamp(24px, 4.5vw, 52px);
-  background: color-mix(in oklab, var(--accent) 7%, var(--bg-2));
-  border: 1px solid color-mix(in oklab, var(--accent) 22%, transparent);
+  background: #F2F2F4;
+  border: 1px solid rgba(0,0,0,.10);
   border-radius: var(--r-xl);
   display: flex;
   align-items: center;
@@ -1099,6 +1085,7 @@ button{ font: inherit; cursor: pointer; }
   font-size: 10px;
   font-weight: 600;
   letter-spacing: .14em;
+  color: rgba(10,10,10,.5);
   text-transform: uppercase;
   color: var(--accent);
   display: block;
@@ -1112,12 +1099,13 @@ button{ font: inherit; cursor: pointer; }
   letter-spacing: -.03em;
   line-height: 1.15;
   margin: 0 0 10px;
+  color: #0a0a0a;
 }
 .comp-close-title em{ color: var(--accent); font-style: italic; }
 .comp-close-sub{
   font-size: clamp(16px, 1.6vw, 20px);
   font-weight: 500;
-  color: var(--ink-2);
+  color: rgba(10,10,10,.6);
   line-height: 1.55;
 }
 @media(max-width:700px){

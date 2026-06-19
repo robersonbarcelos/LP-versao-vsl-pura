@@ -266,17 +266,9 @@ function Vsl({ t }){
     const v = videoRef.current;
     if(!v) return;
     setStarted(true);
-    v.load();
-    const doPlay = () => {
-      if(resumeAt > 0) v.currentTime = resumeAt;
-      v.play().catch(() => {});
-      setPlaying(true);
-    };
-    if(v.readyState >= 1) {
-      doPlay();
-    } else {
-      v.addEventListener('loadedmetadata', doPlay, { once: true });
-    }
+    if(resumeAt > 0) v.currentTime = resumeAt;
+    v.play().catch(() => {});
+    setPlaying(true);
   }
   function togglePlay(){
     const v = videoRef.current;

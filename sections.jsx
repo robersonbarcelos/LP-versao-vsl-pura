@@ -243,6 +243,13 @@ const VSL_PROGRESS_KEY = 'sa_vsl_progress';
 const VSL_SPEEDS = [1, 1.25, 1.5, 2];
 
 function Vsl({ t }){
+  React.useEffect(() => {
+    const s = document.createElement('script');
+    s.src = 'https://scripts.converteai.net/f97abc9e-45e1-4dac-8da4-c30d174c11bd/players/6a357e8356040260db51da8e/v4/player.js';
+    s.async = true;
+    document.head.appendChild(s);
+  }, []);
+
   return (
     <section className="vsl" id="vsl">
       <div className="container">

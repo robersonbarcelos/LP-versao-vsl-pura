@@ -380,7 +380,6 @@ function Faq({ t }){
     <section id="faq" className="faq">
       <div className="container faq-grid">
         <div>
-          <span className="section-eyebrow">Dúvidas</span>
           <h2 className="h-display h2 reveal" style={{marginTop:'8px'}}><em>Perguntas</em> frequentes</h2>
         </div>
         <div className="faq-list reveal">

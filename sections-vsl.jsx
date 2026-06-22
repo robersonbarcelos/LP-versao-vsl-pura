@@ -198,27 +198,10 @@ function CountdownTimer(){
   );
 }
 
-function Offer({ t }){
-  const valueStack = [
-    { name: 'Curso completo · 4 módulos, 16 aulas base e atualizações futuras', price: 'R$ 497'  },
-    { name: 'Kit de Ignição · configuração guiada de identidade e memória',     price: 'R$ 197'  },
-    { name: 'Materiais visuais de cada aula',                                   price: 'R$ 97'   },
-    { name: 'Comunidade de suporte no WhatsApp · 12 meses',                     price: 'R$ 197'  },
-    { name: 'Atualizações do produto e novas aulas futuras',                    price: 'incluso' },
-    { name: 'Garantia incondicional · 7 dias',                                  price: 'incluso' },
-    { name: 'Mais cases reais de aplicação',                                    price: 'bônus'   },
-    { name: 'Integrações e atualizações constantes',                            price: 'bônus'   },
-    { name: 'Novos arquivos-base e templates',                                  price: 'bônus'   },
-  ];
-
-  /* prova social — imagem do celular com WhatsApp */
-  const inst = parseInstallment(t.priceInstallments, t.currency);
-
+function Proof(){
   return (
-    <section id="oferta" className="offer">
+    <section className="proof-section">
       <div className="container">
-
-        {/* prova — mesma estrutura full-bleed da hero */}
         <div className="proof-hero reveal">
           <div className="proof-hero-text">
             <span className="eyebrow">É isso que o seu agente vai fazer</span>
@@ -239,6 +222,30 @@ function Offer({ t }){
             />
           </div>
         </div>
+      </div>
+    </section>
+  );
+}
+
+function Offer({ t }){
+  const valueStack = [
+    { name: 'Curso completo · 4 módulos, 16 aulas base e atualizações futuras', price: 'R$ 497'  },
+    { name: 'Kit de Ignição · configuração guiada de identidade e memória',     price: 'R$ 197'  },
+    { name: 'Materiais visuais de cada aula',                                   price: 'R$ 97'   },
+    { name: 'Comunidade de suporte no WhatsApp · 12 meses',                     price: 'R$ 197'  },
+    { name: 'Atualizações do produto e novas aulas futuras',                    price: 'incluso' },
+    { name: 'Garantia incondicional · 7 dias',                                  price: 'incluso' },
+    { name: 'Mais cases reais de aplicação',                                    price: 'bônus'   },
+    { name: 'Integrações e atualizações constantes',                            price: 'bônus'   },
+    { name: 'Novos arquivos-base e templates',                                  price: 'bônus'   },
+  ];
+
+  /* prova social — imagem do celular com WhatsApp */
+  const inst = parseInstallment(t.priceInstallments, t.currency);
+
+  return (
+    <section id="oferta" className="offer">
+      <div className="container">
 
         <div className="offer-card reveal">
           <span className="section-eyebrow">Oferta especial · Válida por tempo limitado</span>
@@ -516,5 +523,5 @@ function Footer({ t }){
 }
 
 Object.assign(window, {
-  Nav, Hero, Vsl, Offer, Guarantee, Faq, Cta, WhatsappFloat, CheckoutRedirect, Footer
+  Nav, Hero, Vsl, Proof, Offer, Guarantee, Faq, Cta, WhatsappFloat, CheckoutRedirect, Footer
 });

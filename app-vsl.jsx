@@ -27,6 +27,7 @@ function AppVsl(){
       <main>
         <Hero t={t}/>
         <Vsl t={t}/>
+        <Proof/>
         <Offer t={t}/>
         <Guarantee t={t}/>
         <Faq t={t}/>

@@ -143,7 +143,7 @@ function Vsl({ t }){
         s.async = true;
         document.head.appendChild(s);
       }
-    }, { rootMargin: '200px' });
+    }, { rootMargin: '0px' });
     if (sectionRef.current) io.observe(sectionRef.current);
     return () => io.disconnect();
   }, []);

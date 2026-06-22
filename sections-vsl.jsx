@@ -218,19 +218,24 @@ function Offer({ t }){
     <section id="oferta" className="offer">
       <div className="container">
 
-        {/* prova acima da oferta */}
-        <div className="offer-proof reveal">
-          <img
-            src="img/heeerochat01.webp"
-            srcSet="img/heeerochat01-720.webp 720w, img/heeerochat01.webp 1000w"
-            sizes="(max-width: 640px) 100vw, 480px"
-            alt="Super Agente respondendo no WhatsApp em tempo real"
-            width="480" height="480"
-            loading="lazy" decoding="async"
-          />
-          <div className="offer-proof-caption">
-            <span className="section-eyebrow">É isso que o seu agente vai fazer</span>
-            <p>Responde, analisa, executa e reporta — enquanto você lidera.</p>
+        {/* prova — split layout igual à hero original */}
+        <div className="proof-hero reveal">
+          <div className="proof-hero-content">
+            <span className="eyebrow">É isso que o seu agente vai fazer</span>
+            <h2 className="h-display proof-hero-title">
+              Responde, analisa, executa e reporta<br/>
+              <em>enquanto você lidera.</em>
+            </h2>
+          </div>
+          <div className="hero-foto-c proof-hero-foto">
+            <img
+              src="img/heeerochat01.webp"
+              srcSet="img/heeerochat01-720.webp 720w, img/heeerochat01-900.webp 900w, img/heeerochat01.webp 1000w"
+              sizes="(max-width: 920px) 100vw, 50vw"
+              alt="Super Agente respondendo no WhatsApp em tempo real"
+              width="1000" height="1000"
+              loading="lazy" decoding="async"
+            />
           </div>
         </div>
 

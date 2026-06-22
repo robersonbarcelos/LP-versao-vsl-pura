@@ -91,35 +91,49 @@ src="https://www.facebook.com/tr?id=1245755299773926&ev=PageView&noscript=1"
   .vsl--pura { padding: clamp(40px, 6vw, 80px) 0; }
   .vsl--pura .vsl-hd { display: none; }
 
-  /* Oferta: bloco de prova acima do card */
-  .offer-proof {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-    margin-bottom: 56px;
-    padding: 40px;
+  /* Proof hero — split layout igual à hero original */
+  .proof-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 520px;
+    margin-bottom: 64px;
+    overflow: hidden;
+    border-radius: var(--r-lg);
     background: var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: var(--r-lg);
   }
-  .offer-proof img {
-    width: 240px;
-    height: 240px;
-    object-fit: cover;
-    border-radius: var(--r);
-    flex-shrink: 0;
+  .proof-hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+    padding: clamp(40px, 6vw, 72px);
   }
-  .offer-proof-caption { display: flex; flex-direction: column; gap: 12px; }
-  .offer-proof-caption p {
-    font-size: clamp(18px, 1.8vw, 24px);
-    font-weight: 700;
-    color: var(--ink);
+  .proof-hero-title {
+    font-size: clamp(28px, 3vw, 48px);
+    margin: 16px 0 0;
+  }
+  .proof-hero-foto {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0;
     margin: 0;
-    line-height: 1.3;
+    min-height: 400px;
   }
-  @media (max-width: 640px) {
-    .offer-proof { flex-direction: column; gap: 24px; padding: 24px; }
-    .offer-proof img { width: 100%; height: auto; max-height: 280px; }
+  .proof-hero-foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: left center;
+    display: block;
+    mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.2) 12%, black 35%, black 80%, transparent 100%),
+                linear-gradient(transparent 0%, black 8%, black 92%, transparent 100%);
+    mask-composite: intersect;
+  }
+  @media (max-width: 920px) {
+    .proof-hero { grid-template-columns: 1fr; }
+    .proof-hero-foto { min-height: 300px; }
+    .proof-hero-foto img { mask-image: linear-gradient(black 60%, transparent 100%); }
   }
 </style>
 </head>

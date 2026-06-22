@@ -218,16 +218,17 @@ function Offer({ t }){
     <section id="oferta" className="offer">
       <div className="container">
 
-        {/* prova — split layout igual à hero original */}
+        {/* prova — mesma estrutura full-bleed da hero */}
         <div className="proof-hero reveal">
-          <div className="proof-hero-content">
+          <div className="proof-hero-text">
             <span className="eyebrow">É isso que o seu agente vai fazer</span>
             <h2 className="h-display proof-hero-title">
-              Responde, analisa, executa e reporta<br/>
+              Responde, analisa,<br/>
+              executa e reporta<br/>
               <em>enquanto você lidera.</em>
             </h2>
           </div>
-          <div className="hero-foto-c proof-hero-foto">
+          <div className="proof-hero-img">
             <img
               src="img/heeerochat01.webp"
               srcSet="img/heeerochat01-720.webp 720w, img/heeerochat01-900.webp 900w, img/heeerochat01.webp 1000w"

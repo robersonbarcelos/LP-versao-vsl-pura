@@ -18,6 +18,9 @@ function AppVsl(){
     root.style.setProperty('--accent', t.accent);
   }, []);
 
+  useScrollReveal(true);
+  useParallax(false);
+
   return (
     <React.Fragment>
       <Nav t={t}/>

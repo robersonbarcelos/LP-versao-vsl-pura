@@ -114,15 +114,13 @@ function Hero({ t }){
       <div className="hero-orb b"/>
       <div className="container">
         <div className="hero-vsl-content">
-          <span className="eyebrow">Para quem quer parar de improvisar com IA</span>
           <h1 className="h-display hero-title">
-            Chega de IA genérica.<br/>
-            <em>Crie um Super Agente</em><br/>
+            Pare de perder dinheiro com IA genérica.<br/>
+            <em>Crie hoje mesmo um Super Agente IA</em><br/>
             que trabalha por você.
           </h1>
-          <p className="lead hero-vsl-lead">Assista na prática como é fácil criar um Super Agente IA</p>
           <a className="btn btn-primary btn-big hero-vsl-cta" href="#vsl">
-            Ver o vídeo agora <span className="btn-arrow">↓</span>
+            Assista na prática como é fácil criar um Super Agente IA <span className="btn-arrow">↓</span>
           </a>
         </div>
       </div>

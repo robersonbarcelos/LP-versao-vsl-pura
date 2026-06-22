@@ -53,12 +53,14 @@ src="https://www.facebook.com/tr?id=1245755299773926&ev=PageView&noscript=1"
 <style>
   /* Hero VSL — centralizado, sem split layout */
   .hero--vsl {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    padding: 12px 0 40px !important;
+    min-height: unset !important;
+    display: block !important;
     text-align: center;
-    padding: 12px 0 32px;
   }
+  .hero--vsl .hero-bleed-grid { display: none; }
+  .hero--vsl .hero-bullets-below { display: none; }
+  .hero--vsl .hero-pillars { display: none; }
   .hero--vsl .container { position: relative; z-index: 2; }
   .hero-vsl-content {
     max-width: 800px;

@@ -349,6 +349,22 @@ function Faq({ t }){
       a: 'Porque o problema não era a ferramenta. Era a falta de estrutura. Um agente sem identidade, sem contexto e sem memória vai parecer ChatGPT com nome diferente. O que muda aqui é a fundação: identidade clara, arquivos-base com seu contexto real, memória persistente e estrutura de evolução.'
     },
     {
+      q: 'Quanto tempo leva pra ter o agente no ar?',
+      a: 'A primeira versão pode ir ao ar em poucos minutos quando a rota está pronta. O que leva mais tempo, e é o que realmente diferencia o curso, é configurar identidade, contexto, memória, segurança e capacidades. A ideia é sair com um agente funcional e uma base para evoluir.'
+    },
+    {
+      q: 'Qual o custo mensal pra rodar o agente?',
+      a: 'O custo depende da rota escolhida, do provider de IA e da infraestrutura. No curso você entende as opções antes de instalar, para escolher uma configuração compatível com seu orçamento e seu nível de controle.'
+    },
+    {
+      q: 'O que é o Kit de Ignição?',
+      a: 'É o guia prático que conduz a configuração do seu agente depois que ele está no ar. Ele ajuda a definir identidade, contexto do usuário, regras, limites, memória e registros úteis, para o agente deixar de ser genérico e começar a operar com base própria.'
+    },
+    {
+      q: 'O acesso ao curso e ao grupo do WhatsApp é vitalício?',
+      a: 'Não. O acesso ao curso e à comunidade WhatsApp é por 12 meses: tempo mais que suficiente para aplicar tudo e evoluir. No checkout, você pode optar pelo upgrade de acesso vitalício por apenas R$ 67,90 uma única vez.'
+    },
+    {
       q: 'Tem garantia?',
       a: '7 dias incondicionais. Não gostou, pede reembolso, recebe 100%. Sem perguntas, sem burocracia.'
     },

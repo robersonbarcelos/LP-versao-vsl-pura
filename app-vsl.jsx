@@ -30,6 +30,7 @@ function AppVsl(){
         <Offer t={t}/>
         <Guarantee t={t}/>
         <Faq t={t}/>
+        <Cta t={t}/>
         <Footer t={t}/>
       </main>
       <WhatsappFloat/>

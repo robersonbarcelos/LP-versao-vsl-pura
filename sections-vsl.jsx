@@ -392,6 +392,31 @@ function Faq({ t }){
   );
 }
 
+/* ─── CTA FINAL ─── */
+function Cta({ t }){
+  return (
+    <section className="cta">
+      <div className="container cta-inner">
+        <span className="eyebrow" style={{marginBottom:'24px'}}>Comece hoje</span>
+        <h2 className="h-display h2 reveal" style={{marginTop:'16px'}}>Você já perdeu tempo suficiente <em>com agentes que não prestam.</em></h2>
+        <div className="cta-narrative reveal" style={{'--reveal-delay':'60ms'}}>
+          <p>Enquanto você estava testando workflow atrás de workflow, acumulando pastas de automações que nunca usou de verdade. Eu estava construindo uma operação inteira com dois agentes funcionando 24 horas por dia.</p>
+          <p>Não porque sou mais técnico. <strong>Porque aprendi a estruturar.</strong></p>
+          <p>Agora é a sua vez. A primeira versão do seu agente pode ir ao ar rápido. No curso, você aprende o que realmente importa: transformar esse agente em uma base operacional com contexto, memória, identidade, segurança e rotina real.</p>
+        </div>
+        <div className="cta-offer-recap reveal" style={{'--reveal-delay':'100ms'}}>
+          <span>✓ 4 módulos, 16 aulas base + atualizações</span>
+          <span>✓ Kit de Ignição incluso</span>
+          <span>✓ WhatsApp 12 meses</span>
+          <span>✓ Garantia 7 dias</span>
+        </div>
+        <a className="btn btn-primary btn-big reveal" href="#oferta" style={{'--reveal-delay':'140ms'}}>{t.ctaPrimary} <span className="btn-arrow">→</span></a>
+        <div className="cta-meta">{t.priceInstallments} · ou {t.currency}{t.priceNow} à vista · acesso imediato</div>
+      </div>
+    </section>
+  );
+}
+
 /* ─── WHATSAPP FLOAT ─── */
 function WhatsappFloat(){
   return (
@@ -491,5 +516,5 @@ function Footer({ t }){
 }
 
 Object.assign(window, {
-  Nav, Hero, Vsl, Offer, Guarantee, Faq, WhatsappFloat, CheckoutRedirect, Footer
+  Nav, Hero, Vsl, Offer, Guarantee, Faq, Cta, WhatsappFloat, CheckoutRedirect, Footer
 });

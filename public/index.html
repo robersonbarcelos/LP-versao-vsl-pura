@@ -1,11 +1,11 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
 
-<!-- Meta Pixel Code (carregamento IMEDIATO — fbevents.js injetado async no parse,
-     PageView dispara de cara, sem esperar interação/idle). -->
+<!-- Meta Pixel Code -->
 <link rel="preconnect" href="https://connect.facebook.net" crossorigin>
 <script>
 !function(f,b,e,v,n,t,s)
@@ -24,136 +24,108 @@ src="https://www.facebook.com/tr?id=1245755299773926&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 
-<!-- Vturb — dns-prefetch apenas (script carrega lazy via IntersectionObserver) -->
+<!-- Vturb — dns-prefetch apenas (lazy via IntersectionObserver) -->
 <link rel="dns-prefetch" href="https://cdn.converteai.net">
 <link rel="dns-prefetch" href="https://scripts.converteai.net">
 <link rel="dns-prefetch" href="https://images.converteai.net">
 <link rel="dns-prefetch" href="https://license.vturb.com">
-<!-- End Vturb -->
 
-<!-- Utmify — rastreio de UTMs/origem do tráfego (async, carrega imediato sem bloquear o render). -->
+<!-- Utmify -->
 <link rel="preconnect" href="https://cdn.utmify.com.br" crossorigin>
-<script
-  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
-  data-utmify-prevent-xcod-sck
-  data-utmify-prevent-subids
-  async
-></script>
-<!-- End Utmify -->
+<script src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-xcod-sck data-utmify-prevent-subids async></script>
 
 <title>Crie um Super Agente de IA · INTUS HUB</title>
 <meta name="description" content="Curso prático da INTUS HUB: crie um Super Agente de IA com identidade, memória e contexto reais — no ar rápido, sem saber programar. 7 dias de garantia.">
 <meta property="og:title" content="Crie um Super Agente de IA · INTUS HUB">
 <meta property="og:description" content="Seu Super Agente de IA no ar rápido, com identidade, memória e contexto reais. Sem saber programar.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://superagente.intushub.com.br/">
-<meta name="theme-color" content="#050D1F">
-<meta name="color-scheme" content="light">
-<link rel="preload" as="image" href="img/heeerochat01.webp" imagesrcset="img/heeerochat01-500.webp 500w, img/heeerochat01-720.webp 720w, img/heeerochat01-900.webp 900w, img/heeerochat01.webp 1000w" imagesizes="(max-width: 920px) 100vw, 50vw" fetchpriority="high">
-<!-- Inter Tight self-hosted (fonte do título = LCP): preload p/ a fonte ficar pronta antes
-     do 1º paint, sem esperar o Google Fonts (2 origens de terceiros). @font-face no styles.css. -->
+<meta property="og:url" content="https://superagente.intushub.com.br/vsl">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="robots" content="noindex">
+
 <link rel="preload" as="font" type="font/woff2" href="fonts/inter-tight-latin.woff2" crossorigin fetchpriority="high">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23050D1F'/><polygon points='16,2 28,9 28,23 16,30 4,23 4,9' fill='none' stroke='%23E84000' stroke-width='2'/><line x1='16' y1='16' x2='16' y2='2' stroke='%230055FF' stroke-width='1'/><line x1='16' y1='16' x2='28' y2='9' stroke='%230055FF' stroke-width='1'/><line x1='16' y1='16' x2='28' y2='23' stroke='%230055FF' stroke-width='1'/><line x1='16' y1='16' x2='16' y2='30' stroke='%23F0B429' stroke-width='1.5'/><line x1='16' y1='16' x2='4' y2='23' stroke='%230055FF' stroke-width='1'/><line x1='16' y1='16' x2='4' y2='9' stroke='%230055FF' stroke-width='1'/><circle cx='16' cy='16' r='3.5' fill='%23F0B429'/></svg>">
-<!-- JetBrains Mono + Instrument Serif agora self-hosted em fonts/ — Google Fonts removido. -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230a0a0a'/><polygon points='16,2 28,9 28,23 16,30 4,23 4,9' fill='none' stroke='%23E84000' stroke-width='2'/><circle cx='16' cy='16' r='3.5' fill='%23FE5000'/></svg>">
 
-<!-- Critical CSS inline (above-the-fold) — gerado por critical-css.ps1, NÃO editar à mão.
-     O styles.css completo carrega de forma não-bloqueante logo abaixo. -->
-<style id="critical-css">/*CRITICAL-CSS-START*/@font-face { font-family: "Inter Tight"; font-style: normal; font-weight: 400 800; font-display: swap; src: url("fonts/inter-tight-latin.woff2") format("woff2"); }@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 400 700; font-display: swap; src: url("fonts/jetbrains-mono-latin-ext.woff2") format("woff2"); unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 400 700; font-display: swap; src: url("fonts/jetbrains-mono-latin.woff2") format("woff2"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }@font-face { font-family: "Instrument Serif"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/instrument-serif-normal-latin-ext.woff2") format("woff2"); unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }@font-face { font-family: "Instrument Serif"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/instrument-serif-normal-latin.woff2") format("woff2"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }@font-face { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-display: swap; src: url("fonts/instrument-serif-italic-latin-ext.woff2") format("woff2"); unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }@font-face { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-display: swap; src: url("fonts/instrument-serif-italic-latin.woff2") format("woff2"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }:root { --accent: #FE5000; --accent-2: #FF7A33; --accent-ink: #ffffff; --bg: #0a0a0a; --bg-2: #131313; --bg-3: #1c1c1c; --ink: #fafafa; --ink-2: rgba(250,250,250,.72); --ink-3: rgba(250,250,250,.48); --line: rgba(250,250,250,.10); --line-2: rgba(250,250,250,.06); --f-display: "Inter Tight", ui-sans-serif, system-ui, sans-serif; --f-body: "Inter Tight", ui-sans-serif, system-ui, sans-serif; --f-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace; --f-serif: "Instrument Serif", "Times New Roman", serif; --brand-gold: #FE5000; --r-sm: 8px; --r: 14px; --r-lg: 22px; --r-xl: 28px; --pad-section: clamp(80px, 10vw, 144px); --container: 1240px; }[data-palette="black"] { --bg: #0a0a0a; --bg-2: #131313; --bg-3: #1c1c1c; }*, ::before, ::after { box-sizing: border-box; }html { scroll-behavior: smooth; overflow-x: clip; }body { margin: 0px; background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; text-rendering: optimizelegibility; overflow-x: clip; }img { max-width: 100%; display: block; }a { color: inherit; text-decoration: none; }.container { max-width: var(--container); margin: 0px auto; padding: 0px clamp(20px, 4vw, 40px); }.eyebrow { font-family: var(--f-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid color-mix(in oklab, var(--accent) 40%, transparent); border-radius: 999px; background: color-mix(in oklab, var(--accent) 8%, transparent); }.eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 22%, transparent); animation: 2.2s ease 0s infinite normal none running pulse; }@keyframes pulse { 
-  50% { box-shadow: 0 0 0 8px color-mix(in oklab, var(--accent) 0%, transparent); }
-}.h-display { font-family: var(--f-display); font-weight: 800; letter-spacing: -0.03em; line-height: 1; text-wrap: balance; margin: 0px; }.h-display em { font-style: italic; font-weight: inherit; color: var(--accent); }.lead { font-size: clamp(16px, 1.45vw, 19px); color: var(--ink-2); max-width: 60ch; text-wrap: pretty; line-height: 1.55; }.btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 26px; border-radius: 999px; border: 1px solid transparent; font-weight: 600; font-size: 15px; letter-spacing: -0.005em; font-family: var(--f-body); transition: transform 0.2s, box-shadow 0.2s, padding 0.45s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; position: relative; overflow: hidden; }.btn:hover { transform: translateY(-1px); }.btn-primary { background: radial-gradient(67.54% 100.03% at 50% 0%, rgb(255, 96, 32) 0%, rgb(232, 64, 0) 25%, rgb(192, 48, 0) 62%, rgb(140, 32, 0) 100%); color: rgb(255, 255, 255); border: 1.2px solid rgba(232, 64, 0, 0.22); box-shadow: rgba(232, 64, 0, 0.22) 0px 6px 23px, rgba(232, 64, 0, 0.45) 0px 14px 54px; backface-visibility: hidden; }.btn-primary::before { content: ""; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; background: linear-gradient(100deg, transparent 38%, rgba(255, 255, 255, 0.85) 50%, transparent 62%); transform: translateX(-100%); mix-blend-mode: plus-lighter; opacity: 0; pointer-events: none; animation: 2.6s linear 0s infinite normal none running btn-sweep; }@keyframes btn-sweep { 
-  0% { opacity: 0; transform: translateX(-100%); }
-  20% { opacity: 0.55; }
-  50% { opacity: 0.95; transform: translateX(0%); }
-  80% { opacity: 0.55; }
-  100% { opacity: 0; transform: translateX(100%); }
-}.btn-primary:hover { filter: brightness(1.15); box-shadow: rgba(232, 64, 0, 0.3) 0px 8px 28px, rgba(232, 64, 0, 0.55) 0px 18px 60px; }.btn-primary.btn-big { padding: 20px 44px 20px 58px; }.btn-primary.btn-big::after { content: "→"; position: absolute; top: 50%; left: 16px; transform: translateY(-50%) translateZ(0px); width: 28px; height: 28px; line-height: 28px; text-align: center; background: rgba(255, 255, 255, 0.92); border-radius: 50%; color: rgb(192, 48, 0); font-size: 14px; font-weight: 700; box-shadow: rgba(0, 0, 0, 0.18) 0px 1px 4px; transition: left 0.45s cubic-bezier(0.4, 0, 0.2, 1), width 0.35s, height 0.35s, line-height 0.35s; will-change: left; }.btn-primary.btn-big:hover { padding: 20px 58px 20px 44px; filter: brightness(1.15); }.btn-primary.btn-big:hover::after { left: calc(100% - 44px); width: 32px; height: 32px; line-height: 32px; }.btn-primary.btn-big .btn-arrow { display: none; }.btn-arrow { font-size: 12px; transition: transform 0.25s; display: inline-block; }.btn:not(.btn-big):hover .btn-arrow { transform: translateX(3px); }.btn-big { font-size: 16px; font-weight: 700; }.announce { background: var(--accent); color: var(--accent-ink); padding: 10px 16px; text-align: center; font-size: 13.5px; font-weight: 600; position: relative; z-index: 60; }.announce a { font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }.nav { position: sticky; top: 0px; z-index: 50; transition: background 0.3s, backdrop-filter 0.3s, border-color 0.3s; border-bottom: 1px solid transparent; }.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; }.brand { font-family: var(--f-display); font-weight: 700; font-size: 20px; letter-spacing: -0.03em; display: inline-flex; align-items: center; gap: 10px; text-transform: uppercase; }.brand-hex { flex-shrink: 0; filter: drop-shadow(rgba(232, 64, 0, 0.22) 0px 0px 10px); }.brand-name { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; line-height: 1; }.brand-wordmark { font-family: var(--f-display); font-weight: 700; font-size: 18px; letter-spacing: -0.03em; text-transform: uppercase; line-height: 1; }.brand-hub { color: var(--accent); }.brand-sub { font-family: var(--f-mono); font-size: 9px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); white-space: nowrap; line-height: 1; }.nav-right { display: flex; align-items: center; gap: 12px; }.nav-price { display: flex; align-items: center; gap: 6px; }.nav-price-old { font-family: var(--f-mono); font-size: 11px; color: var(--ink-3); text-decoration: line-through; }.nav-price-sep { font-size: 11px; color: var(--ink-3); }.nav-price-inst { display: flex; align-items: baseline; gap: 3px; }.nav-price-times { font-family: var(--f-mono); font-size: 10px; color: var(--ink-3); font-weight: 400; }.nav-price-value { font-family: var(--f-display); font-size: 20px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; line-height: 1; }@media (max-width: 720px){.nav-price { display: none; }}.hero { position: relative; overflow: hidden; padding-bottom: var(--pad-section); }.hero-bleed-grid { display: grid; grid-template-columns: 1fr 1fr; min-height: 640px; position: relative; z-index: 2; }.hero-content-col { display: flex; flex-direction: column; justify-content: center; gap: 28px; padding: 64px 48px 64px clamp(20px, 4vw, 48px); position: relative; z-index: 3; }.hero-content { max-width: 560px; width: 100%; display: flex; flex-direction: column; gap: 20px; }.hero-title { font-size: clamp(44px, 4.5vw, 72px); line-height: 1.04; margin: 28px 0px; text-wrap: balance; }.hero-bullets { list-style: none; padding: 0px; margin: 32px 0px; display: flex; flex-direction: column; gap: 14px; }.hero-bullets-below { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 40px; margin: 0px 0px 40px; }.hero-bullets li { display: flex; align-items: flex-start; gap: 14px; font-size: 16px; color: var(--ink-2); }.hero-bullets li::before { content: ""; flex: 0 0 18px; height: 18px; background: var(--accent); mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='black' d='M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/></svg>") center center / contain no-repeat; margin-top: 4px; }.hero-bullets strong { color: var(--ink); font-weight: 600; }.hero-actions { display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap; align-items: center; }.hero-actions-wrap { display: inline-flex; flex-direction: column; align-items: center; gap: 10px; }.hero-actions-meta { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }.hero-orb { position: absolute; border-radius: 50%; pointer-events: none; will-change: transform; }.hero-orb.a { width: 720px; height: 720px; background: radial-gradient(circle closest-side, var(--accent), transparent); top: -230px; right: -260px; opacity: 0.26; }.hero-orb.b { width: 580px; height: 580px; background: radial-gradient(circle closest-side, color-mix(in oklab, var(--accent) 50%, #5b21b6), transparent); bottom: -210px; left: -210px; opacity: 0.24; }.hero-foto-c { position: relative; overflow: hidden; border-radius: 0px; margin: 0px; }.hero-foto-c::before { content: ""; position: absolute; inset: 0px; z-index: 2; pointer-events: none; background: radial-gradient(circle, rgba(232, 64, 0, 0.12) 0%, transparent 70%); }.hero-foto-c img { width: 100%; height: 100%; object-fit: cover; object-position: left center; display: block; mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.2) 12%, black 35%, black 80%, transparent 100%), linear-gradient(transparent 0%, black 8%, black 92%, transparent 100%); mask-composite: intersect; }.hero-foto-c::after { display: none; }@media (max-width: 920px){.hero-bleed-grid { grid-template-columns: 1fr; grid-template-rows: auto auto; min-height: unset; }.hero-content-col { grid-row: 1; width: 100%; justify-content: flex-start; padding: clamp(48px, 8vw, 80px) clamp(20px, 5vw, 40px) 24px; }.hero-content { max-width: 100%; }.hero-foto-c { grid-row: 2; position: relative; right: auto; top: auto; bottom: auto; width: 100%; height: 72vw; min-height: 280px; max-height: 440px; }.hero-foto-c img { object-position: center 20%; mask-image: linear-gradient(black 60%, transparent 100%); }}@keyframes bridge-pulse { 
-  50% { box-shadow: transparent 0px 0px 0px 8px; }
-}@keyframes panel-in { 
-  0% { opacity: 0; transform: translateY(8px); }
-  100% { opacity: 1; transform: translateY(0px); }
-}@keyframes marquee { 
-  100% { transform: translateX(-50%); }
-}@keyframes guar-pulse { 
-  0% { opacity: 0.9; transform: scale(1); }
-  70% { opacity: 0; transform: scale(1.16); }
-  100% { opacity: 0; transform: scale(1.16); }
-}@keyframes guar-spin { 
-  100% { transform: rotate(360deg); }
-}.wa-float { position: fixed; bottom: 28px; right: 28px; z-index: 9000; width: 58px; height: 58px; border-radius: 50%; background: rgb(37, 211, 102); display: flex; align-items: center; justify-content: center; color: rgb(255, 255, 255); box-shadow: rgba(37, 211, 102, 0.45) 0px 4px 20px; transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; }.wa-float:hover { transform: scale(1.08); box-shadow: rgba(37, 211, 102, 0.6) 0px 6px 28px; }.wa-float-icon { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; }.wa-float-pulse { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: rgba(37, 211, 102, 0.4); animation: 2.5s ease-out 0s infinite normal none running wa-pulse; }@keyframes wa-pulse { 
-  0% { transform: scale(1); opacity: 0.6; }
-  100% { transform: scale(1.7); opacity: 0; }
-}.reveal { opacity: 0; transform: translateY(24px); transition-behavior: normal, normal; transition-duration: 0.8s, 0.8s; transition-timing-function: cubic-bezier(0.2, 0.6, 0.2, 1), cubic-bezier(0.2, 0.6, 0.2, 1); transition-property: opacity, transform; transition-delay: var(--reveal-delay, 0ms); }#cursor-ring { position: fixed; top: 0px; left: 0px; width: 32px; height: 32px; border: 1px solid var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.25s, height 0.25s, background 0.25s, opacity 0.25s; opacity: 0; mix-blend-mode: difference; }body.cursor-on #cursor-ring { opacity: 0.8; }@media (pointer: fine){body.cursor-on { cursor: none; }}body.cursor-on a, body.cursor-on button { cursor: none; }:root { --brand-gold: #FE5000; --brand-gold-ink: #ffffff; }@keyframes marquee-scroll { 
-  0% { transform: translateX(0px); }
-  100% { transform: translateX(-50%); }
-}@media (max-width: 540px){.nav-inner { height: 60px; }.nav-right .btn.btn-primary { font-size: 0px; padding: 11px 15px; min-width: 42px; border-radius: 10px; letter-spacing: 0px; }.nav-right .btn.btn-primary .btn-arrow { font-size: 18px; line-height: 1; }.hero-actions { flex-direction: column; align-items: stretch; gap: 12px; }.hero-actions .btn.btn-big { width: 100%; justify-content: center; text-align: center; }}@media (max-width: 400px){.container { padding: 0px 14px; }}@media (max-width: 540px){:root { --pad-section: clamp(44px, 7vw, 64px); }.wa-float { bottom: 16px; right: 16px; width: 50px; height: 50px; }}/*CRITICAL-CSS-END*/</style>
-<!-- Render-perf: o DOM tem ~1200 elementos (17 secoes). content-visibility:auto faz o browser
-     PULAR layout/paint das secoes abaixo da dobra ate serem roladas — derruba o trabalho de
-     render no 1o paint (FCP/LCP/TBT) sem tocar no DOM, hidratacao, scripts ou visual. Inline
-     p/ valer ja no 1o paint. contain-intrinsic-size (auto) evita salto de scroll/CLS. -->
-<style id="cv-defer">.problem,.comparison-section,.challenges,.modules,.results,.proof-sec,.marquee,.roadmap,.offer,.guarantee,.faq,.support,.cta,.footer{content-visibility:auto;contain-intrinsic-size:auto 640px}</style>
-<link rel="preload" as="style" href="styles.css" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="styles.css"></noscript>
+<link rel="stylesheet" href="styles.css">
 
-<!-- React de produção self-hosted (servido pelo edge do Vercel, mesma origem) com defer.
-     Babel-no-browser foi removido: o JSX é pré-compilado por build.ps1 para js/*.min.js. -->
-<script defer src="vendor/react.production.min.js"></script>
-<script defer src="vendor/react-dom.production.min.js"></script>
+<!-- CSS extra só pra versão VSL pura -->
+<style>
+  /* Hero VSL — centralizado, sem split layout */
+  .hero--vsl {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 72vh;
+    text-align: center;
+    padding: var(--pad-section) 0 clamp(48px, 6vw, 80px);
+  }
+  .hero--vsl .container { position: relative; z-index: 2; }
+  .hero-vsl-content {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  .hero-vsl-content .hero-title {
+    font-size: clamp(40px, 5.5vw, 80px);
+    text-align: center;
+  }
+  .hero-vsl-lead {
+    font-size: clamp(16px, 1.5vw, 20px);
+    color: var(--ink-2);
+    text-align: center;
+    max-width: 54ch;
+  }
+  .hero-vsl-cta { margin-top: 8px; }
+
+  /* VSL pura — sem título acima */
+  .vsl--pura { padding: clamp(40px, 6vw, 80px) 0; }
+  .vsl--pura .vsl-hd { display: none; }
+
+  /* Oferta: bloco de prova acima do card */
+  .offer-proof {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 56px;
+    padding: 40px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+  }
+  .offer-proof img {
+    width: 240px;
+    height: 240px;
+    object-fit: cover;
+    border-radius: var(--r);
+    flex-shrink: 0;
+  }
+  .offer-proof-caption { display: flex; flex-direction: column; gap: 12px; }
+  .offer-proof-caption p {
+    font-size: clamp(18px, 1.8vw, 24px);
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.3;
+  }
+  @media (max-width: 640px) {
+    .offer-proof { flex-direction: column; gap: 24px; padding: 24px; }
+    .offer-proof img { width: 100%; height: auto; max-height: 280px; }
+  }
+</style>
 </head>
 <body>
-<div id="cursor-ring"></div>
-<!-- O conteúdo entre os marcadores é gerado por prerender.ps1 (shell estático para
-     pintar antes do JS). O createRoot substitui o #root inteiro ao montar — não há
-     hidratação, então o shell é só para o first paint / LCP / SEO. -->
 <div id="root"></div>
 
-<script>
-window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "brandName": "INTUS HUB",
-  "brandTag": "Curso · Crie um Super Agente de IA",
-  "accent": "#E84000",
-  "palette": "black",
-  "fontDisplay": "Inter Tight",
-  "radius": 14,
-  "density": "regular",
-  "scrollReveal": true,
-  "customCursor": false,
-  "parallax": true,
-  "marqueeSpeed": 40,
-  "priceNow": "87,95",
-  "priceFull": "997",
-  "priceInstallments": "6x R$16,50",
-  "currency": "R$",
-  "checkoutUrl": "https://lastlink.com/p/C5C385BB1/checkout-payment",
-  "heroTitle": "Chega de IA genérica. *Crie um Super Agente de verdade.*",
-  "heroSub": "A primeira versão do seu agente pode ir ao ar rápido. Nesse curso rápido, você aprende o que realmente importa: transformar esse agente em uma base operacional com contexto, memória, identidade, segurança e rotina real.",
-  "ctaPrimary": "Quero meu Super Agente",
-  "showAnnouncement": true,
-  "showNav": true,
-  "showHero": true,
-  "showVsl": true,
-  "vslLockOffer": false,
-  "vslUnlockSeconds": 120,
-  "showProblem": true,
-  "showAgitation": true,
-  "showChallenges": true,
-  "showModules": true,
-  "showResults": true,
-  "showTestimonials": true,
-  "showMarquee": true,
-  "showRoadmap": true,
-  "showOffer": true,
-  "showGuarantee": true,
-  "showFaq": true,
-  "showSupport": true,
-  "showCta": true,
-  "showFooter": true
-}/*EDITMODE-END*/;
-</script>
+<!-- React + Babel (produção: trocar por build compilado) -->
+<script src="vendor/react.production.min.js"></script>
+<script src="vendor/react-dom.production.min.js"></script>
 
-<!-- Bundles pré-compilados (build.ps1). defer preserva a ordem e não bloqueia o parse. -->
-<script defer src="js/tweaks-panel.min.js"></script>
-<script defer src="js/effects.v2.min.js"></script>
-<script defer src="js/sections.v4.min.js"></script>
-<script defer src="js/app.v2.min.js"></script>
+<script src="js/effects.v2.min.js"></script>
+<script src="js/sections-vsl.min.js"></script>
+<script src="js/app-vsl.min.js"></script>
 </body>
 </html>

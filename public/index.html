@@ -53,33 +53,39 @@ src="https://www.facebook.com/tr?id=1245755299773926&ev=PageView&noscript=1"
 <style>
   /* Hero VSL — centralizado, sem split layout */
   .hero--vsl {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 72vh;
+    padding: 12px 0 40px !important;
+    min-height: unset !important;
+    display: block !important;
     text-align: center;
-    padding: var(--pad-section) 0 clamp(48px, 6vw, 80px);
   }
+  .hero--vsl .hero-bleed-grid { display: none; }
+  .hero--vsl .hero-bullets-below { display: none; }
+  .hero--vsl .hero-pillars { display: none; }
   .hero--vsl .container { position: relative; z-index: 2; }
   .hero-vsl-content {
-    max-width: 720px;
+    max-width: 800px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 24px;
+    gap: 32px;
   }
   .hero-vsl-content .hero-title {
-    font-size: clamp(40px, 5.5vw, 80px);
+    font-size: clamp(36px, 4.8vw, 72px);
     text-align: center;
+    margin: 0;
   }
-  .hero-vsl-lead {
-    font-size: clamp(16px, 1.5vw, 20px);
-    color: var(--ink-2);
+  /* Botão grande com texto longo */
+  .hero-vsl-cta {
+    margin-top: 0;
+    padding: 22px 48px;
+    font-size: clamp(15px, 1.4vw, 18px);
+    white-space: normal;
     text-align: center;
-    max-width: 54ch;
+    max-width: 560px;
+    line-height: 1.4;
+    border-radius: 999px;
   }
-  .hero-vsl-cta { margin-top: 8px; }
 
   /* VSL pura — sem título acima */
   .vsl--pura { padding: clamp(40px, 6vw, 80px) 0; }
